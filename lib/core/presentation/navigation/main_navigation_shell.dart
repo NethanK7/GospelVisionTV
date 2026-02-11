@@ -48,40 +48,43 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
       extendBody: true,
       body: GradientBackground(child: widget.child),
       bottomNavigationBar: SafeArea(
+        bottom: false, // Allow it to sit lower
         child: Container(
-          margin: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-          height: 72,
+          margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+          height: 82,
           decoration: BoxDecoration(
             color: (isDark ? Colors.black : Colors.white).withValues(
-              alpha: 0.8,
+              alpha: 0.85,
             ),
-            borderRadius: BorderRadius.circular(35),
+            borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.1),
-              width: 1,
+              color: (isDark ? Colors.white : Colors.black).withValues(
+                alpha: 0.1,
+              ),
+              width: 1.2,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 20,
+                color: Colors.black.withValues(alpha: 0.25),
+                blurRadius: 25,
                 offset: const Offset(0, 10),
               ),
             ],
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(35),
+            borderRadius: BorderRadius.circular(24),
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildNavItem(0, Icons.home_rounded, 'Home'),
-                    _buildNavItem(1, Icons.live_tv_rounded, 'Live'),
-                    _buildNavItem(2, Icons.movie_rounded, 'Movies'),
-                    _buildNavItem(3, Icons.newspaper_rounded, 'News'),
-                    _buildNavItem(4, Icons.person_rounded, 'Profile'),
+                    _buildNavItem(0, Icons.grid_view_rounded, 'Home'),
+                    _buildNavItem(1, Icons.sensors_rounded, 'Live'),
+                    _buildNavItem(2, Icons.movie_filter_rounded, 'Productions'),
+                    _buildNavItem(3, Icons.article_rounded, 'News'),
+                    _buildNavItem(4, Icons.account_circle_rounded, 'Account'),
                   ],
                 ),
               ),
@@ -94,37 +97,36 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
 
   Widget _buildNavItem(int index, IconData icon, String label) {
     final isSelected = _selectedIndex == index;
-    return GestureDetector(
-      onTap: () => _onItemTapped(index, context),
-      behavior: HitTestBehavior.opaque,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: isSelected
-                  ? AppColors.brandOrange.withValues(alpha: 0.1)
-                  : Colors.transparent,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Icon(
-              icon,
-              color: isSelected ? AppColors.brandOrange : Colors.white38,
-              size: 26,
-            ),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => _onItemTapped(index, context),
+        borderRadius: BorderRadius.circular(20),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeOutBack,
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                color: isSelected ? AppColors.brandOrange : Colors.white24,
+                size: 28,
+              ),
+              const SizedBox(height: 6),
+              Text(
+                label,
+                style: TextStyle(
+                  color: isSelected ? AppColors.brandOrange : Colors.white24,
+                  fontSize: 10,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                  letterSpacing: 0.2,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              color: isSelected ? AppColors.brandOrange : Colors.white38,
-              fontSize: 10,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

@@ -17,14 +17,14 @@ class GradientBackground extends StatelessWidget {
 
     final List<Color> darkColors = [
       Colors.black,
-      Colors.black,
-      AppColors.brandOrange.withValues(alpha: 0.15),
+      Colors.black87,
+      AppColors.brandOrange.withValues(alpha: 0.08),
     ];
 
     final List<Color> lightColors = [
       Colors.white,
-      Colors.white,
-      AppColors.premiumGold.withValues(alpha: 0.15),
+      const Color(0xFFFDFCFB),
+      AppColors.premiumGold.withValues(alpha: 0.08),
     ];
 
     return Container(
@@ -33,7 +33,7 @@ class GradientBackground extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: isDark ? darkColors : lightColors,
-          stops: const [0.0, 0.7, 1.0],
+          stops: const [0.0, 0.6, 1.0],
         ),
       ),
       child: child,

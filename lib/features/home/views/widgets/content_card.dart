@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gv_tv/core/theme/app_colors.dart';
 
 class ContentCard extends StatelessWidget {
@@ -6,6 +7,7 @@ class ContentCard extends StatelessWidget {
   final String imageUrl;
   final bool isLive;
   final double progress;
+  final VoidCallback? onTap;
 
   const ContentCard({
     super.key,
@@ -13,52 +15,96 @@ class ContentCard extends StatelessWidget {
     required this.imageUrl,
     this.isLive = false,
     this.progress = 0,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 140,
-      margin: const EdgeInsets.only(right: 12),
+      width: 154,
+      margin: const EdgeInsets.only(right: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: AspectRatio(
-                  aspectRatio: 2 / 3,
-                  child: Image.network(
-                    imageUrl,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      color: AppColors.darkSurface,
-                      child: const Icon(Icons.broken_image, color: Colors.grey),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.3),
+                      blurRadius: 15,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(20),
+                  clipBehavior: Clip.antiAlias,
+                  child: InkWell(
+                    onTap: onTap,
+                    child: AspectRatio(
+                      aspectRatio: 2 / 3,
+                      child: Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          color: AppColors.darkSurface,
+                          child: const Icon(
+                            Icons.broken_image,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
               if (isLive)
                 Positioned(
-                  top: 8,
-                  left: 8,
+                  top: 12,
+                  left: 12,
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 6,
-                      vertical: 2,
+                      horizontal: 8,
+                      vertical: 4,
                     ),
                     decoration: BoxDecoration(
                       color: AppColors.brandOrange,
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.brandOrange.withValues(alpha: 0.4),
+                          blurRadius: 10,
+                        ),
+                      ],
                     ),
-                    child: const Text(
-                      'LIVE',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                              width: 6,
+                              height: 6,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                              ),
+                            )
+                            .animate(onPlay: (c) => c.repeat())
+                            .fade(duration: 800.ms),
+                        const SizedBox(width: 6),
+                        const Text(
+                          'LIVE',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 9,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 0.8,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -68,11 +114,11 @@ class ContentCard extends StatelessWidget {
                   left: 0,
                   right: 0,
                   child: Container(
-                    height: 3,
+                    height: 4,
                     decoration: BoxDecoration(
-                      color: Colors.grey[800],
+                      color: Colors.black26,
                       borderRadius: const BorderRadius.vertical(
-                        bottom: Radius.circular(8),
+                        bottom: Radius.circular(20),
                       ),
                     ),
                     child: FractionallySizedBox(
@@ -82,7 +128,7 @@ class ContentCard extends StatelessWidget {
                         decoration: const BoxDecoration(
                           color: AppColors.brandOrange,
                           borderRadius: BorderRadius.vertical(
-                            bottom: Radius.circular(8),
+                            bottom: Radius.circular(20),
                           ),
                         ),
                       ),
@@ -91,12 +137,17 @@ class ContentCard extends StatelessWidget {
                 ),
             ],
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 12),
           Text(
             title,
-            maxLines: 2,
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: Colors.white, fontSize: 12),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.3,
+            ),
           ),
         ],
       ),

@@ -155,34 +155,33 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildHeroSection(BuildContext context) {
-    final theme = Theme.of(context);
     return Stack(
       children: [
         Container(
-          height: 520,
+          height: 600,
           width: double.infinity,
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: NetworkImage(
-                'https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=2070',
+                'https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=2070', // More cinematic lens
               ),
               fit: BoxFit.cover,
             ),
           ),
         ),
         Container(
-          height: 520,
+          height: 600,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
               colors: [
-                theme.scaffoldBackgroundColor,
-                theme.scaffoldBackgroundColor.withValues(alpha: 0.8),
+                Colors.black.withValues(alpha: 0.95),
+                Colors.black.withValues(alpha: 0.7),
+                Colors.black.withValues(alpha: 0.2),
                 Colors.transparent,
-                Colors.black.withValues(alpha: 0.1),
               ],
-              stops: const [0.0, 0.2, 0.6, 1.0],
+              stops: const [0.0, 0.3, 0.6, 1.0],
             ),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
@@ -455,39 +454,44 @@ class HomeScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                title,
+                title.toUpperCase(),
                 style: TextStyle(
-                  color: isDark ? Colors.white : Colors.black,
-                  fontSize: 22,
+                  color: (isDark ? Colors.white : Colors.black).withValues(
+                    alpha: 0.9,
+                  ),
+                  fontSize: 13,
                   fontWeight: FontWeight.w900,
-                  letterSpacing: -0.5,
+                  letterSpacing: 1.5,
                 ),
               ),
-              const Icon(
+              Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: Colors.white24,
-                size: 16,
+                color: (isDark ? Colors.white : Colors.black).withValues(
+                  alpha: 0.2,
+                ),
+                size: 14,
               ),
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 20),
         SizedBox(
-          height: 250,
+          height: 260,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             itemCount: children.length,
             itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: children[index],
-              );
+              return children[index]
+                  .animate()
+                  .fadeIn(delay: (index * 80).ms, duration: 500.ms)
+                  .slideX(begin: 0.1, end: 0);
             },
           ),
         ),
