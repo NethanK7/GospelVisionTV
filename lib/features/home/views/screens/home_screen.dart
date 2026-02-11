@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gv_tv/core/theme/app_colors.dart';
 import 'package:gv_tv/features/home/views/widgets/content_card.dart';
 
@@ -96,17 +97,33 @@ class HomeScreen extends StatelessWidget {
               context,
               title: 'Continue Watching',
               children: [
-                const ContentCard(
+                ContentCard(
                   title: 'The Chosen - S1 E1',
                   imageUrl:
                       'https://images.unsplash.com/photo-1512314889357-e157c22f938d?w=500',
                   progress: 0.7,
+                  onTap: () => context.push(
+                    '/movie-detail',
+                    extra: {
+                      'title': 'The Chosen - S1 E1',
+                      'imageUrl':
+                          'https://images.unsplash.com/photo-1512314889357-e157c22f938d?w=500',
+                    },
+                  ),
                 ),
-                const ContentCard(
+                ContentCard(
                   title: 'Worship Night 2024',
                   imageUrl:
                       'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=500',
                   progress: 0.3,
+                  onTap: () => context.push(
+                    '/movie-detail',
+                    extra: {
+                      'title': 'Worship Night 2024',
+                      'imageUrl':
+                          'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=500',
+                    },
+                  ),
                 ),
               ],
             ).animate().fadeIn(delay: 400.ms),
@@ -128,6 +145,14 @@ class HomeScreen extends StatelessWidget {
                   title: 'Production ${i + 1}',
                   imageUrl:
                       'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=500&q=$i',
+                  onTap: () => context.push(
+                    '/movie-detail',
+                    extra: {
+                      'title': 'Production ${i + 1}',
+                      'imageUrl':
+                          'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=500&q=$i',
+                    },
+                  ),
                 ),
               ),
             ).animate().fadeIn(delay: 600.ms),
@@ -143,11 +168,19 @@ class HomeScreen extends StatelessWidget {
                   title: 'Episode ${i + 1}',
                   imageUrl:
                       'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=500&q=$i',
+                  onTap: () => context.push(
+                    '/movie-detail',
+                    extra: {
+                      'title': 'Episode ${i + 1}',
+                      'imageUrl':
+                          'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=500&q=$i',
+                    },
+                  ),
                 ),
               ),
             ).animate().fadeIn(delay: 800.ms),
 
-            const SizedBox(height: 60),
+            const SizedBox(height: 120), // Added bottom space for nav bar
           ],
         ),
       ),
@@ -247,7 +280,14 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () => context.push(
+                        '/movie-detail',
+                        extra: {
+                          'title': 'THE UNKNOWN JOURNEY',
+                          'imageUrl':
+                              'https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=2070',
+                        },
+                      ),
                       icon: const Icon(Icons.play_arrow_rounded, size: 28),
                       label: const Text(
                         'PLAY NOW',
@@ -336,110 +376,116 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildLivePremiumCard(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      width: double.infinity,
-      height: 140,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.brandOrange,
-            AppColors.brandOrange.withValues(alpha: 0.6),
+    return GestureDetector(
+      onTap: () => context.go('/live'),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        width: double.infinity,
+        height: 140,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              AppColors.brandOrange,
+              AppColors.brandOrange.withValues(alpha: 0.6),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.brandOrange.withValues(alpha: 0.4),
+              blurRadius: 20,
+              offset: const Offset(0, 10),
+            ),
           ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.brandOrange.withValues(alpha: 0.4),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            right: -20,
-            top: -20,
-            child: Icon(
-              Icons.live_tv_rounded,
-              size: 160,
-              color: Colors.white.withValues(alpha: 0.1),
+        child: Stack(
+          children: [
+            Positioned(
+              right: -20,
+              top: -20,
+              child: Icon(
+                Icons.live_tv_rounded,
+                size: 160,
+                color: Colors.white.withValues(alpha: 0.1),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                                width: 8,
-                                height: 8,
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                ),
-                              )
-                              .animate(onPlay: (c) => c.repeat())
-                              .fade(duration: 800.ms),
-                          const SizedBox(width: 8),
-                          const Text(
-                            'LIVE NOW',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.5,
-                              fontSize: 12,
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                                  width: 8,
+                                  height: 8,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                )
+                                .animate(onPlay: (c) => c.repeat())
+                                .fade(duration: 800.ms),
+                            const SizedBox(width: 8),
+                            const Text(
+                              'LIVE NOW',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.5,
+                                fontSize: 12,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      const Text(
-                        'Gospel Vision Main',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w900,
+                          ],
                         ),
-                      ),
-                      const Text(
-                        'Morning Glory Service',
-                        style: TextStyle(color: Colors.white70, fontSize: 13),
-                      ),
-                    ],
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: AppColors.brandOrange,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Gospel Vision Main',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        const Text(
+                          'Morning Glory Service',
+                          style: TextStyle(color: Colors.white70, fontSize: 13),
+                        ),
+                      ],
                     ),
                   ),
-                  child: const Text(
-                    'WATCH',
-                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
+                  ElevatedButton(
+                    onPressed: () => context.go('/live'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: AppColors.brandOrange,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text(
+                      'WATCH',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 12,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

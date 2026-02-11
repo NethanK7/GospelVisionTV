@@ -14,6 +14,7 @@ import 'package:gv_tv/features/news/presentation/screens/news_screen.dart';
 import 'package:gv_tv/features/profile/presentation/screens/profile_screen.dart';
 import 'package:gv_tv/core/presentation/navigation/main_navigation_shell.dart';
 import 'package:gv_tv/features/admin/views/screens/admin_dashboard.dart';
+import 'package:gv_tv/features/movies/presentation/screens/movie_detail_screen.dart';
 import 'package:gv_tv/core/utils/database_seeder.dart';
 import 'firebase_options.dart';
 
@@ -112,6 +113,32 @@ final GoRouter _router = GoRouter(
             key: state.pageKey,
             child: const ProfileScreen(),
           ),
+        ),
+        GoRoute(
+          path: '/movie-detail',
+          pageBuilder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>?;
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: MovieDetailScreen(
+                title: extra?['title'],
+                imageUrl: extra?['imageUrl'],
+                description: extra?['description'],
+              ),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                    return SlideTransition(
+                      position: animation.drive(
+                        Tween<Offset>(
+                          begin: const Offset(0, 0.1),
+                          end: Offset.zero,
+                        ).chain(CurveTween(curve: Curves.easeOutCubic)),
+                      ),
+                      child: FadeTransition(opacity: animation, child: child),
+                    );
+                  },
+            );
+          },
         ),
       ],
     ),

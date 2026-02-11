@@ -3,218 +3,277 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gv_tv/core/theme/app_colors.dart';
-import 'package:gv_tv/core/common_widgets/gradient_background.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Scaffold(
-      body: GradientBackground(
-        child: Stack(
-          children: [
-            // Premium Cinematic Background
-            Positioned.fill(
-              child: Opacity(
-                opacity: 0.6,
-                child: Image.network(
-                  'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop',
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              AppColors.brandOrange, // Logo Orange at top
+              Color(0xFFCC5500), // Slightly darker orange
+              Colors.black, // Fade to black
+            ],
+            stops: [0.0, 0.4, 0.9],
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Column(
+              children: [
+                const SizedBox(height: 60),
 
-            // Layered Gradient Overlay for Depth
-            Positioned.fill(
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.black.withValues(alpha: 0.3),
-                      Colors.black.withValues(alpha: 0.5),
-                      Colors.black.withValues(alpha: 0.9),
-                    ],
-                    stops: const [0.0, 0.4, 1.0],
+                // Hero Logo Area - Revolve around this
+                Container(
+                      padding: const EdgeInsets.all(32),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.1),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          width: 2,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.2),
+                            blurRadius: 40,
+                            spreadRadius: 10,
+                          ),
+                        ],
+                      ),
+                      child: Image.asset('assets/images/logo.png', height: 120),
+                    )
+                    .animate()
+                    .scale(duration: 800.ms, curve: Curves.easeOutBack)
+                    .fadeIn(),
+
+                const SizedBox(height: 40),
+
+                Text(
+                  'GospelVision.TV',
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: -1,
                   ),
-                ),
-              ),
-            ),
+                ).animate().fadeIn(delay: 200.ms),
 
-            // Ambient Glow Effect
-            Positioned(
-              bottom: -100,
-              left: -100,
-              child:
-                  Container(
-                        width: 500,
-                        height: 500,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppColors.brandOrange.withValues(alpha: 0.1),
-                        ),
-                      )
-                      .animate(onPlay: (c) => c.repeat(reverse: true))
-                      .scale(
-                        begin: const Offset(1, 1),
-                        end: const Offset(1.3, 1.3),
-                        duration: 8.seconds,
-                      ),
-            ),
+                const SizedBox(height: 8),
 
-            // Main Content (Centered, No Scroll)
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(32),
-                child: Column(
+                Text(
+                  'Your Daily Spiritual Connection',
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.7),
+                    fontSize: 14,
+                    letterSpacing: 0.5,
+                  ),
+                ).animate().fadeIn(delay: 300.ms),
+
+                const SizedBox(height: 48),
+
+                // Email Field
+                _buildTextField(
+                  controller: _emailController,
+                  hint: 'Email Address',
+                  icon: Icons.email_outlined,
+                  keyboardType: TextInputType.emailAddress,
+                ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.2, end: 0),
+
+                const SizedBox(height: 16),
+
+                // Password Field
+                _buildTextField(
+                  controller: _passwordController,
+                  hint: 'Password',
+                  icon: Icons.lock_outline,
+                  isPassword: true,
+                  isPasswordVisible: _isPasswordVisible,
+                  onToggleVisibility: () =>
+                      setState(() => _isPasswordVisible = !_isPasswordVisible),
+                ).animate().fadeIn(delay: 500.ms).slideY(begin: 0.2, end: 0),
+
+                const SizedBox(height: 24),
+
+                // Sign In Button
+                ElevatedButton(
+                  onPressed: () => context.go('/'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: AppColors.brandOrange,
+                    minimumSize: const Size(double.infinity, 56),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: const Text(
+                    'SIGN IN',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                ).animate().fadeIn(delay: 600.ms).scale(),
+
+                const SizedBox(height: 24),
+
+                // Separator
+                Row(
                   children: [
-                    const Spacer(),
-
-                    // Hero Logo Area
-                    Container(
-                          padding: const EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.03),
-                            borderRadius: BorderRadius.circular(40),
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.08),
-                            ),
-                          ),
-                          child: Hero(
-                            tag: 'logo',
-                            child: Image.asset(
-                              'assets/images/logo.png',
-                              height: 100,
-                            ),
-                          ),
-                        )
-                        .animate()
-                        .fadeIn(duration: 1.seconds)
-                        .scale(
-                          begin: const Offset(0.8, 0.8),
-                          curve: Curves.easeOutBack,
-                        ),
-
-                    const SizedBox(height: 48),
-
-                    // Headlines
-                    Text(
-                          'Higher Vision,\nHigher Life',
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.displayMedium?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w900,
-                            height: 1.1,
-                            letterSpacing: -1.5,
-                          ),
-                        )
-                        .animate()
-                        .fadeIn(delay: 400.ms)
-                        .slideY(begin: 0.1, end: 0),
-
-                    const SizedBox(height: 16),
-
-                    Text(
-                      'Experience 24/7 cinematic faith-based broadcasting.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.6),
-                        fontSize: 16,
-                        letterSpacing: 0.5,
+                    Expanded(
+                      child: Divider(
+                        color: Colors.white.withValues(alpha: 0.2),
                       ),
-                    ).animate().fadeIn(delay: 600.ms),
-
-                    const Spacer(),
-
-                    // Login Button Container (Frosted Glass)
-                    ClipRRect(
-                          borderRadius: BorderRadius.circular(28),
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-                            child: Container(
-                              padding: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.05),
-                                borderRadius: BorderRadius.circular(28),
-                                border: Border.all(
-                                  color: Colors.white.withValues(alpha: 0.1),
-                                ),
-                              ),
-                              child: _buildGoogleLoginButton(context),
-                            ),
-                          ),
-                        )
-                        .animate()
-                        .fadeIn(delay: 1.seconds)
-                        .slideY(begin: 0.2, end: 0),
-
-                    const SizedBox(height: 24),
-
-                    // Secondary Action (Skip)
-                    TextButton(
-                      onPressed: () => context.go('/'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
-                        'PREVIEW CONTENT',
+                        'OR',
                         style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.4),
-                          fontWeight: FontWeight.w900,
                           fontSize: 12,
-                          letterSpacing: 1.5,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ).animate().fadeIn(delay: 1.4.seconds),
-
-                    const SizedBox(height: 20),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        color: Colors.white.withValues(alpha: 0.2),
+                      ),
+                    ),
                   ],
-                ),
-              ),
+                ).animate().fadeIn(delay: 700.ms),
+
+                const SizedBox(height: 24),
+
+                // Google Login Button
+                _buildGoogleLoginButton(
+                  context,
+                ).animate().fadeIn(delay: 800.ms),
+
+                const SizedBox(height: 40),
+
+                TextButton(
+                  onPressed: () => context.go('/'),
+                  child: Text(
+                    'CONTINUE AS GUEST',
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.6),
+                      fontWeight: FontWeight.w900,
+                      fontSize: 12,
+                      letterSpacing: 1,
+                    ),
+                  ),
+                ).animate().fadeIn(delay: 900.ms),
+
+                const SizedBox(height: 20),
+              ],
             ),
-          ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String hint,
+    required IconData icon,
+    bool isPassword = false,
+    bool isPasswordVisible = false,
+    VoidCallback? onToggleVisibility,
+    TextInputType? keyboardType,
+  }) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+          ),
+          child: TextField(
+            controller: controller,
+            obscureText: isPassword && !isPasswordVisible,
+            keyboardType: keyboardType,
+            style: const TextStyle(color: Colors.white),
+            decoration: InputDecoration(
+              hintText: hint,
+              hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.4)),
+              prefixIcon: Icon(
+                icon,
+                color: Colors.white.withValues(alpha: 0.6),
+              ),
+              suffixIcon: isPassword
+                  ? IconButton(
+                      icon: Icon(
+                        isPasswordVisible
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                        color: Colors.white.withValues(alpha: 0.6),
+                      ),
+                      onPressed: onToggleVisibility,
+                    )
+                  : null,
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(vertical: 18),
+            ),
+          ),
         ),
       ),
     );
   }
 
   Widget _buildGoogleLoginButton(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () => context.go('/'),
-        borderRadius: BorderRadius.circular(24),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: Image.network(
-                  'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png',
-                  height: 20,
-                  width: 20,
-                ),
+    return InkWell(
+      onTap: () => context.go('/'),
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.network(
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png',
+              height: 20,
+            ),
+            const SizedBox(width: 12),
+            const Text(
+              'Sign in with Google',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
-              const SizedBox(width: 16),
-              const Text(
-                'Sign in with Google',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: -0.2,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gv_tv/core/common_widgets/video_player_widget.dart';
 import 'package:gv_tv/core/theme/app_colors.dart';
+import 'package:gv_tv/core/common_widgets/gradient_background.dart';
 
 class LiveTvScreen extends StatefulWidget {
   const LiveTvScreen({super.key});
@@ -12,283 +13,203 @@ class LiveTvScreen extends StatefulWidget {
 }
 
 class _LiveTvScreenState extends State<LiveTvScreen> {
-  String _selectedChannelUrl =
+  final String _streamUrl =
       'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
-  String _selectedChannelName = 'Gospel Vision Main';
-
-  final List<Map<String, String>> _channels = [
-    {
-      'name': 'Gospel Vision Main',
-      'url':
-          'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      'logo': 'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=400',
-    },
-    {
-      'name': 'Faith Kids TV',
-      'url':
-          'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-      'logo':
-          'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=400',
-    },
-    {
-      'name': 'Worship 24/7',
-      'url':
-          'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-      'logo':
-          'https://images.unsplash.com/photo-1512314889357-e157c22f938d?w=400',
-    },
-    {
-      'name': 'Prophetic Word',
-      'url':
-          'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
-      'logo': 'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=400',
-    },
-  ];
+  final String _channelName = 'Gospel Vision Main';
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Column(
-        children: [
-          // Player Section with Glassy Background
-          Expanded(
-            flex: 4,
-            child: Stack(
-              children: [
-                Container(
-                  color: Colors.black,
-                  child: Center(
-                    child: VideoPlayerWidget(
-                      key: ValueKey(_selectedChannelUrl),
-                      url: _selectedChannelUrl,
-                      isLive: true,
-                    ),
-                  ),
+      body: GradientBackground(
+        child: Column(
+          children: [
+            // Player Section
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Container(
+                margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).padding.top,
                 ),
-                Positioned(
-                  top: MediaQuery.of(context).padding.top + 10,
-                  left: 16,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.5),
+                      blurRadius: 30,
+                    ),
+                  ],
+                ),
+                child: Stack(
+                  children: [
+                    Center(
+                      child: VideoPlayerWidget(
+                        key: ValueKey(_streamUrl),
+                        url: _streamUrl,
+                        isLive: true,
+                      ),
+                    ),
+                    Positioned(
+                      top: 16,
+                      left: 16,
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
+                          horizontal: 10,
+                          vertical: 5,
                         ),
-                        color: Colors.black.withValues(alpha: 0.3),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
                         child: Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            const CircleAvatar(
-                                  radius: 4,
-                                  backgroundColor: Colors.red,
+                            Container(
+                                  width: 6,
+                                  height: 6,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
                                 )
                                 .animate(onPlay: (c) => c.repeat())
-                                .fade(duration: 1000.ms),
-                            const SizedBox(width: 8),
+                                .fade(duration: 800.ms),
+                            const SizedBox(width: 6),
                             const Text(
                               'LIVE',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
-                                letterSpacing: 1,
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Channel Info & Selection
-          Expanded(
-            flex: 6,
-            child: Container(
-              decoration: BoxDecoration(
-                color: theme.scaffoldBackgroundColor,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(30),
-                ),
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      _selectedChannelName,
-                                      style: theme.textTheme.headlineSmall
-                                          ?.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            color: isDark
-                                                ? Colors.white
-                                                : Colors.black,
-                                          ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      'Currently Playing: Global Worship Service',
-                                      style: TextStyle(
-                                        color: isDark
-                                            ? Colors.white54
-                                            : Colors.black54,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.share_outlined),
-                                onPressed: () {},
-                                color: AppColors.brandOrange,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 32),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
-                        'LIVE CHANNELS',
-                        style: TextStyle(
-                          color: AppColors.brandOrange,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          letterSpacing: 2,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 8,
-                      ),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 16,
-                            mainAxisSpacing: 16,
-                            childAspectRatio: 1.4,
-                          ),
-                      itemCount: _channels.length,
-                      itemBuilder: (context, index) {
-                        final channel = _channels[index];
-                        final isSelected =
-                            _selectedChannelName == channel['name'];
-
-                        return GestureDetector(
-                          onTap: () {
-                            if (_selectedChannelUrl != channel['url']) {
-                              setState(() {
-                                _selectedChannelUrl = channel['url']!;
-                                _selectedChannelName = channel['name']!;
-                              });
-                            }
-                          },
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            decoration: BoxDecoration(
-                              color: isDark
-                                  ? AppColors.darkSurface
-                                  : AppColors.lightSurface,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                color: isSelected
-                                    ? AppColors.brandOrange
-                                    : (isDark ? Colors.white : Colors.black)
-                                          .withValues(alpha: 0.05),
-                                width: 2.5,
-                              ),
-                              boxShadow: isSelected
-                                  ? [
-                                      BoxShadow(
-                                        color: AppColors.brandOrange.withValues(
-                                          alpha: 0.3,
-                                        ),
-                                        blurRadius: 12,
-                                        offset: const Offset(0, 4),
-                                      ),
-                                    ]
-                                  : [],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(18),
-                              child: Stack(
-                                children: [
-                                  Image.network(
-                                    channel['logo']!,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        begin: Alignment.bottomCenter,
-                                        end: Alignment.topCenter,
-                                        colors: [
-                                          Colors.black.withValues(alpha: 0.8),
-                                          Colors.transparent,
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    bottom: 12,
-                                    left: 12,
-                                    right: 12,
-                                    child: Text(
-                                      channel['name']!,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ).animate().fadeIn(delay: (index * 100).ms);
-                      },
-                    ),
-                    const SizedBox(height: 32),
                   ],
                 ),
               ),
             ),
-          ),
-        ],
+
+            // Live Info
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _channelName,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                const Text(
+                                  'Morning Glory Service',
+                                  style: TextStyle(
+                                    color: Colors.white60,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.share_outlined,
+                                color: Colors.white70,
+                              ),
+                              onPressed: () {},
+                            ),
+                          ],
+                        )
+                        .animate()
+                        .fadeIn(delay: 200.ms)
+                        .slideY(begin: 0.1, end: 0),
+
+                    const SizedBox(height: 32),
+
+                    const Text(
+                      'PROGRAM DESCRIPTION',
+                      style: TextStyle(
+                        color: AppColors.brandOrange,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 12,
+                        letterSpacing: 1.5,
+                      ),
+                    ).animate().fadeIn(delay: 300.ms),
+
+                    const SizedBox(height: 12),
+
+                    const Text(
+                      'Join us for a powerful morning session of worship and word. Today\'s service focuses on the theme of "Higher Vision, Higher Life" as we explore deep spiritual truths for the modern day.',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 15,
+                        height: 1.6,
+                      ),
+                    ).animate().fadeIn(delay: 400.ms),
+
+                    const Spacer(),
+
+                    // Interaction Buttons
+                    Row(
+                      children: [
+                        _buildActionButton(
+                          Icons.chat_bubble_outline_rounded,
+                          'Live Chat',
+                        ),
+                        const SizedBox(width: 16),
+                        _buildActionButton(
+                          Icons.volunteer_activism_rounded,
+                          'Give',
+                        ),
+                      ],
+                    ).animate().fadeIn(delay: 500.ms),
+
+                    const SizedBox(height: 120), // Bottom space for nav bar
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButton(IconData icon, String label) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: Colors.white),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

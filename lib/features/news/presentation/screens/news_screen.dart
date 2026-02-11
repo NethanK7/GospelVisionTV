@@ -220,7 +220,7 @@ class NewsScreen extends StatelessWidget {
                     .slideY(begin: 0.1, end: 0);
               },
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 120),
           ],
         ),
       ),

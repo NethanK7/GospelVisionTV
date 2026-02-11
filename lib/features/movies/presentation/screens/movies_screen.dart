@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gv_tv/core/theme/app_colors.dart';
 import 'package:gv_tv/features/home/views/widgets/content_card.dart';
 
@@ -68,16 +69,21 @@ class MoviesScreen extends StatelessWidget {
               itemCount: 12,
               itemBuilder: (context, index) {
                 return ContentCard(
-                      title: 'Production $index',
-                      imageUrl:
+                  title: 'Production $index',
+                  imageUrl:
+                      'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=400&q=$index',
+                  onTap: () => context.push(
+                    '/movie-detail',
+                    extra: {
+                      'title': 'Production $index',
+                      'imageUrl':
                           'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=400&q=$index',
-                    )
-                    .animate()
-                    .fadeIn(delay: (index * 50).ms)
-                    .slideY(begin: 0.1, end: 0);
+                    },
+                  ),
+                ).animate().fadeIn(delay: (index * 50).ms).slideY(begin: 0.1, end: 0);
               },
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 120), // Bottom space for nav bar
           ],
         ),
       ),
@@ -156,7 +162,14 @@ class MoviesScreen extends StatelessWidget {
             Row(
               children: [
                 ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () => context.push(
+                    '/movie-detail',
+                    extra: {
+                      'title': 'God\'s Not Dead: We The People',
+                      'imageUrl':
+                          'https://images.unsplash.com/photo-1512314889357-e157c22f938d?w=800',
+                    },
+                  ),
                   icon: const Icon(Icons.play_arrow_rounded),
                   label: const Text('WATCH NOW'),
                   style: ElevatedButton.styleFrom(
