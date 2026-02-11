@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gv_tv/core/theme/app_colors.dart';
+import 'package:gv_tv/core/common_widgets/gradient_background.dart';
+import 'dart:ui';
 
 class MainNavigationShell extends StatefulWidget {
   final Widget child;
@@ -43,62 +45,86 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
     final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      body: widget.child,
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: theme.scaffoldBackgroundColor,
-          border: Border(
-            top: BorderSide(
-              color: (isDark ? Colors.white : Colors.black).withValues(
-                alpha: 0.05,
-              ),
+      extendBody: true,
+      body: GradientBackground(child: widget.child),
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          margin: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+          height: 72,
+          decoration: BoxDecoration(
+            color: (isDark ? Colors.black : Colors.white).withValues(
+              alpha: 0.8,
+            ),
+            borderRadius: BorderRadius.circular(35),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.1),
               width: 1,
             ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.2),
+                blurRadius: 20,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(35),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildNavItem(0, Icons.home_rounded, 'Home'),
+                    _buildNavItem(1, Icons.live_tv_rounded, 'Live'),
+                    _buildNavItem(2, Icons.movie_rounded, 'Movies'),
+                    _buildNavItem(3, Icons.newspaper_rounded, 'News'),
+                    _buildNavItem(4, Icons.person_rounded, 'Profile'),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
-        child: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: (index) => _onItemTapped(index, context),
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.transparent,
-          selectedItemColor: AppColors.brandOrange,
-          unselectedItemColor: isDark ? Colors.white38 : Colors.black38,
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-          elevation: 0,
-          selectedLabelStyle: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  Widget _buildNavItem(int index, IconData icon, String label) {
+    final isSelected = _selectedIndex == index;
+    return GestureDetector(
+      onTap: () => _onItemTapped(index, context),
+      behavior: HitTestBehavior.opaque,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? AppColors.brandOrange.withValues(alpha: 0.1)
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Icon(
+              icon,
+              color: isSelected ? AppColors.brandOrange : Colors.white38,
+              size: 26,
+            ),
           ),
-          unselectedLabelStyle: const TextStyle(fontSize: 12),
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              activeIcon: Icon(Icons.home),
-              label: 'Home',
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? AppColors.brandOrange : Colors.white38,
+              fontSize: 10,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.live_tv_outlined),
-              activeIcon: Icon(Icons.live_tv),
-              label: 'Live TV',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.movie_outlined),
-              activeIcon: Icon(Icons.movie),
-              label: 'Movies',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.newspaper_outlined),
-              activeIcon: Icon(Icons.newspaper),
-              label: 'News',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
-              activeIcon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

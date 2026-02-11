@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gv_tv/core/theme/app_colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -11,7 +13,7 @@ class ProfileScreen extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: Text(
           'PROFILE',
@@ -203,7 +205,12 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 32),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await FirebaseAuth.instance.signOut();
+                      if (context.mounted) {
+                        context.go('/auth');
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red.withValues(alpha: 0.1),
                       foregroundColor: Colors.red,

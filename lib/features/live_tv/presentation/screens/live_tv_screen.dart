@@ -51,7 +51,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
     final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
+      backgroundColor: Colors.transparent,
       body: Column(
         children: [
           // Player Section with Glassy Background

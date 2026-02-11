@@ -13,6 +13,8 @@ import 'package:gv_tv/features/movies/presentation/screens/movies_screen.dart';
 import 'package:gv_tv/features/news/presentation/screens/news_screen.dart';
 import 'package:gv_tv/features/profile/presentation/screens/profile_screen.dart';
 import 'package:gv_tv/core/presentation/navigation/main_navigation_shell.dart';
+import 'package:gv_tv/features/admin/views/screens/admin_dashboard.dart';
+import 'package:gv_tv/core/utils/database_seeder.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -24,6 +26,9 @@ void main() async {
   // 2. Initialize Isar (Local Database)
   final dir = await getApplicationDocumentsDirectory();
   await Isar.open([UserProfileSchema], directory: dir.path);
+
+  // 3. Seed initial data if needed
+  await DatabaseSeeder.seedInitialData();
 
   runApp(const GospelVisionApp());
 }
@@ -109,6 +114,16 @@ final GoRouter _router = GoRouter(
           ),
         ),
       ],
+    ),
+    GoRoute(
+      path: '/admin',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const AdminDashboard(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
     ),
   ],
 );
