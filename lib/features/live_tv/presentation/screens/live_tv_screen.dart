@@ -21,7 +21,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
       'name': 'Gospel Vision Main',
       'url':
           'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      'logo': 'https://images.unsplash.com/photo-1543165796-5426273eaec3?w=400',
+      'logo': 'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=400',
     },
     {
       'name': 'Faith Kids TV',

@@ -55,7 +55,7 @@ class HomeController extends ChangeNotifier {
         id: 'grace_$i',
         title: 'Episode ${i + 1}',
         imageUrl:
-            'https://images.unsplash.com/photo-1543165796-5426273eaec3?w=500&q=$i',
+            'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=500&q=$i',
         category: 'Series',
       ),
     );

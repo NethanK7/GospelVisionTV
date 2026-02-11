@@ -142,7 +142,7 @@ class HomeScreen extends StatelessWidget {
                 (i) => ContentCard(
                   title: 'Episode ${i + 1}',
                   imageUrl:
-                      'https://images.unsplash.com/photo-1543165796-5426273eaec3?w=500&q=$i',
+                      'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=500&q=$i',
                 ),
               ),
             ).animate().fadeIn(delay: 800.ms),

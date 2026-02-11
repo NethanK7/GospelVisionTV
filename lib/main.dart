@@ -23,7 +23,7 @@ void main() async {
 
   // 2. Initialize Isar (Local Database)
   final dir = await getApplicationDocumentsDirectory();
-  final isar = await Isar.open([UserProfileSchema], directory: dir.path);
+  await Isar.open([UserProfileSchema], directory: dir.path);
 
   runApp(const GospelVisionApp());
 }
