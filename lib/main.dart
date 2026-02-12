@@ -14,8 +14,11 @@ import 'package:gv_tv/features/news/presentation/screens/news_screen.dart';
 import 'package:gv_tv/features/profile/presentation/screens/profile_screen.dart';
 import 'package:gv_tv/core/presentation/navigation/main_navigation_shell.dart';
 import 'package:gv_tv/features/admin/views/screens/admin_dashboard.dart';
+import 'package:gv_tv/features/admin/views/screens/user_management_screen.dart';
 import 'package:gv_tv/features/movies/presentation/screens/movie_detail_screen.dart';
-import 'package:gv_tv/core/utils/database_seeder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gv_tv/features/home/providers/home_provider.dart';
+import 'package:gv_tv/core/services/auth_service_riverpod.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -29,9 +32,9 @@ void main() async {
   await Isar.open([UserProfileSchema], directory: dir.path);
 
   // 3. Seed initial data if needed
-  await DatabaseSeeder.seedInitialData();
+  // await DatabaseSeeder.seedInitialData(); // User wants it blank
 
-  runApp(const GospelVisionApp());
+  runApp(const ProviderScope(child: GospelVisionApp()));
 }
 
 class GospelVisionApp extends StatelessWidget {
@@ -151,6 +154,19 @@ final GoRouter _router = GoRouter(
           return FadeTransition(opacity: animation, child: child);
         },
       ),
+      routes: [
+        GoRoute(
+          path: 'users',
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            child: const UserManagementScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+          ),
+        ),
+      ],
     ),
   ],
 );

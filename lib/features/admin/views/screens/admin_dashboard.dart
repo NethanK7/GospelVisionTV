@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gv_tv/core/theme/app_colors.dart';
 import 'package:gv_tv/features/admin/views/screens/add_content_screen.dart';
 
@@ -80,10 +81,10 @@ class AdminDashboard extends StatelessWidget {
                 ),
                 _buildAdminCard(
                   context,
-                  title: 'Live TV Specs',
-                  icon: Icons.live_tv_rounded,
-                  color: Colors.red,
-                  onTap: () {},
+                  title: 'User Roles',
+                  icon: Icons.people_alt_rounded,
+                  color: Colors.orange,
+                  onTap: () => context.push('/admin/users'),
                 ),
                 _buildAdminCard(
                   context,

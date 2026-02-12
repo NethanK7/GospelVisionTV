@@ -111,44 +111,48 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   Widget _buildErrorState(String message) {
     return Container(
       color: Colors.black,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.error_outline, color: Colors.white38, size: 48),
-          const SizedBox(height: 16),
-          Text(
-            'Content Unavailable',
-            style: const TextStyle(
-              color: Colors.white70,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Text(
-              'We had trouble loading this stream. Please try again later.',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white38, fontSize: 13),
-            ),
-          ),
-          const SizedBox(height: 24),
-          TextButton.icon(
-            onPressed: _initializePlayer,
-            icon: const Icon(
-              Icons.refresh_rounded,
-              color: AppColors.brandOrange,
-            ),
-            label: const Text(
-              'RETRY',
-              style: TextStyle(
-                color: AppColors.brandOrange,
-                fontWeight: FontWeight.bold,
+      child: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, color: Colors.white38, size: 48),
+              const SizedBox(height: 16),
+              const Text(
+                'Content Unavailable',
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Text(
+                  'We had trouble loading this stream. Please try again later.',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white38, fontSize: 13),
+                ),
+              ),
+              const SizedBox(height: 24),
+              TextButton.icon(
+                onPressed: _initializePlayer,
+                icon: const Icon(
+                  Icons.refresh_rounded,
+                  color: AppColors.brandOrange,
+                ),
+                label: const Text(
+                  'RETRY',
+                  style: TextStyle(
+                    color: AppColors.brandOrange,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

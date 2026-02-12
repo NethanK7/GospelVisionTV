@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // Dark Theme Colors
+  static const Color backgroundBlack = Color(0xFF0D0D0D);
   static const Color darkBackground = Color(0xFF101010);
   static const Color darkSurface = Color(0xFF1E1E1E);
   static const Color darkTextPrimary = Colors.white;

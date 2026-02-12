@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gv_tv/core/theme/app_colors.dart';
@@ -56,31 +57,78 @@ class MoviesScreen extends StatelessWidget {
             ),
 
             // Poster Grid
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 20,
-                childAspectRatio: 0.65,
-              ),
-              itemCount: 12,
-              itemBuilder: (context, index) {
-                return ContentCard(
-                  title: 'Production $index',
-                  imageUrl:
-                      'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=400&q=$index',
-                  onTap: () => context.push(
-                    '/movie-detail',
-                    extra: {
-                      'title': 'Production $index',
-                      'imageUrl':
-                          'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=400&q=$index',
-                    },
+            StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('movies')
+                  .orderBy('createdAt', descending: true)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return const Center(
+                    child: Text(
+                      'Error loading movies',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  );
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.brandOrange,
+                    ),
+                  );
+                }
+
+                final movies = snapshot.data!.docs;
+
+                if (movies.isEmpty) {
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(40.0),
+                      child: Text(
+                        'No movies available yet.',
+                        style: TextStyle(color: Colors.white54),
+                      ),
+                    ),
+                  );
+                }
+
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 20,
+                    childAspectRatio: 0.65,
                   ),
-                ).animate().fadeIn(delay: (index * 50).ms).slideY(begin: 0.1, end: 0);
+                  itemCount: movies.length,
+                  itemBuilder: (context, index) {
+                    final data = movies[index].data() as Map<String, dynamic>;
+                    final title = data['title'] ?? 'Untitled';
+                    final imageUrl = data['imageUrl'] ?? '';
+
+                    return ContentCard(
+                          title: title,
+                          imageUrl: imageUrl,
+                          onTap: () => context.push(
+                            '/movie-detail',
+                            extra: {
+                              'title': title,
+                              'imageUrl': imageUrl,
+                              'description':
+                                  data['description'] ??
+                                  'No description available.',
+                            },
+                          ),
+                        )
+                        .animate()
+                        .fadeIn(delay: (index * 50).ms)
+                        .slideY(begin: 0.1, end: 0);
+                  },
+                );
               },
             ),
             const SizedBox(height: 120), // Bottom space for nav bar

@@ -6,7 +6,7 @@ class ContentCard extends StatelessWidget {
   final String title;
   final String imageUrl;
   final bool isLive;
-  final double progress;
+  final double? progress;
   final VoidCallback? onTap;
 
   const ContentCard({
@@ -14,7 +14,7 @@ class ContentCard extends StatelessWidget {
     required this.title,
     required this.imageUrl,
     this.isLive = false,
-    this.progress = 0,
+    this.progress,
     this.onTap,
   });
 
@@ -108,7 +108,7 @@ class ContentCard extends StatelessWidget {
                     ),
                   ),
                 ),
-              if (progress > 0)
+              if (progress != null && progress! > 0)
                 Positioned(
                   bottom: 0,
                   left: 0,
@@ -138,15 +138,17 @@ class ContentCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          Text(
-            title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.3,
+          Flexible(
+            child: Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.3,
+              ),
             ),
           ),
         ],

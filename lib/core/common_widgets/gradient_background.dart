@@ -3,37 +3,25 @@ import 'package:gv_tv/core/theme/app_colors.dart';
 
 class GradientBackground extends StatelessWidget {
   final Widget child;
-  final bool showGradient;
 
-  const GradientBackground({
-    super.key,
-    required this.child,
-    this.showGradient = true,
-  });
+  const GradientBackground({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    final List<Color> darkColors = [
-      Colors.black,
-      Colors.black87,
-      AppColors.brandOrange.withValues(alpha: 0.08),
-    ];
-
-    final List<Color> lightColors = [
-      Colors.white,
-      const Color(0xFFFDFCFB),
-      AppColors.premiumGold.withValues(alpha: 0.08),
-    ];
-
     return Container(
-      decoration: BoxDecoration(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: const BoxDecoration(
+        color: AppColors.backgroundBlack,
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: isDark ? darkColors : lightColors,
-          stops: const [0.0, 0.6, 1.0],
+          colors: [
+            AppColors.backgroundBlack,
+            Color(0xFF121212),
+            Color(0xFF000000),
+          ],
+          stops: [0.0, 0.4, 1.0],
         ),
       ),
       child: child,

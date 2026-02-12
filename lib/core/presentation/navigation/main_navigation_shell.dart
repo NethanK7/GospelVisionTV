@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gv_tv/core/theme/app_colors.dart';
 import 'package:gv_tv/core/common_widgets/gradient_background.dart';
+import 'package:gv_tv/core/common_widgets/cozy_fireplace.dart';
 import 'dart:ui';
 
 class MainNavigationShell extends StatefulWidget {
@@ -46,9 +47,22 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
 
     return Scaffold(
       extendBody: true,
-      body: GradientBackground(child: widget.child),
+      body: Stack(
+        children: [
+          GradientBackground(child: widget.child),
+          // Global Fireplace at the bottom
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: IgnorePointer(
+              child: CozyFireplace(height: 50, isLightMode: !isDark),
+            ),
+          ),
+        ],
+      ),
       bottomNavigationBar: SafeArea(
-        bottom: false, // Allow it to sit lower
+        bottom: false,
         child: Container(
           margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
           height: 82,
@@ -111,14 +125,22 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
             children: [
               Icon(
                 icon,
-                color: isSelected ? AppColors.brandOrange : Colors.white24,
+                color: isSelected
+                    ? AppColors.brandOrange
+                    : (Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white24
+                          : Colors.black26),
                 size: 28,
               ),
               const SizedBox(height: 6),
               Text(
                 label,
                 style: TextStyle(
-                  color: isSelected ? AppColors.brandOrange : Colors.white24,
+                  color: isSelected
+                      ? AppColors.brandOrange
+                      : (Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white24
+                            : Colors.black26),
                   fontSize: 10,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                   letterSpacing: 0.2,
