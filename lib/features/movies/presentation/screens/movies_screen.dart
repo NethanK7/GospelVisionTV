@@ -23,78 +23,74 @@ class MoviesScreen extends StatelessWidget {
             letterSpacing: 1.5,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.filter_list_rounded),
-            onPressed: () {},
-          ),
-        ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Featured Movie Banner
-            _buildFeaturedBanner(context),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'LATEST RELEASES',
-                    style: TextStyle(
-                      color: isDark ? Colors.white : Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: -0.5,
-                    ),
-                  ),
-                  TextButton(onPressed: () {}, child: const Text('See All')),
-                ],
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('movies')
+            .orderBy('createdAt', descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text(
+                'Error loading movies',
+                style: TextStyle(color: Colors.white),
               ),
-            ),
+            );
+          }
 
-            // Poster Grid
-            StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('movies')
-                  .orderBy('createdAt', descending: true)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return const Center(
-                    child: Text(
-                      'Error loading movies',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  );
-                }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(color: AppColors.brandOrange),
+            );
+          }
 
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: AppColors.brandOrange,
-                    ),
-                  );
-                }
+          final movies = snapshot.data!.docs;
 
-                final movies = snapshot.data!.docs;
+          if (movies.isEmpty) {
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.all(40.0),
+                child: Text(
+                  'No movies available yet.',
+                  style: TextStyle(color: Colors.white54),
+                ),
+              ),
+            );
+          }
 
-                if (movies.isEmpty) {
-                  return const Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(40.0),
-                      child: Text(
-                        'No movies available yet.',
-                        style: TextStyle(color: Colors.white54),
+          final featuredData = movies.first.data() as Map<String, dynamic>;
+
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Featured Movie Banner (Dynamic from first movie)
+                _buildFeaturedBanner(context, featuredData),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 24,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'LATEST RELEASES',
+                        style: TextStyle(
+                          color: isDark ? Colors.white : Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: -0.5,
+                        ),
                       ),
-                    ),
-                  );
-                }
+                    ],
+                  ),
+                ),
 
-                return GridView.builder(
+                // Poster Grid
+                GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -111,34 +107,34 @@ class MoviesScreen extends StatelessWidget {
                     final imageUrl = data['imageUrl'] ?? '';
 
                     return ContentCard(
-                          title: title,
-                          imageUrl: imageUrl,
-                          onTap: () => context.push(
-                            '/movie-detail',
-                            extra: {
-                              'title': title,
-                              'imageUrl': imageUrl,
-                              'description':
-                                  data['description'] ??
-                                  'No description available.',
-                            },
-                          ),
-                        )
-                        .animate()
-                        .fadeIn(delay: (index * 50).ms)
-                        .slideY(begin: 0.1, end: 0);
+                      title: title,
+                      imageUrl: imageUrl,
+                      onTap: () => context.push(
+                        '/movie-detail',
+                        extra: {
+                          'title': title,
+                          'imageUrl': imageUrl,
+                          'description':
+                              data['description'] ??
+                              'No description available.',
+                        },
+                      ),
+                    );
                   },
-                );
-              },
+                ),
+                const SizedBox(height: 120),
+              ],
             ),
-            const SizedBox(height: 120), // Bottom space for nav bar
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 
-  Widget _buildFeaturedBanner(BuildContext context) {
+  Widget _buildFeaturedBanner(BuildContext context, Map<String, dynamic> data) {
+    final title = data['title'] ?? 'Untitled';
+    final imageUrl = data['imageUrl'] ?? '';
+
     return Container(
       height: 240,
       width: double.infinity,
@@ -152,10 +148,8 @@ class MoviesScreen extends StatelessWidget {
             offset: const Offset(0, 10),
           ),
         ],
-        image: const DecorationImage(
-          image: NetworkImage(
-            'https://images.unsplash.com/photo-1512314889357-e157c22f938d?w=800',
-          ),
+        image: DecorationImage(
+          image: NetworkImage(imageUrl),
           fit: BoxFit.cover,
         ),
       ),
@@ -187,7 +181,7 @@ class MoviesScreen extends StatelessWidget {
                 ),
               ),
               child: const Text(
-                'MUST WATCH',
+                'FEATURED',
                 style: TextStyle(
                   color: AppColors.premiumGold,
                   fontWeight: FontWeight.bold,
@@ -197,9 +191,9 @@ class MoviesScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            const Text(
-              'God\'s Not Dead: We The People',
-              style: TextStyle(
+            Text(
+              title,
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 26,
@@ -207,41 +201,29 @@ class MoviesScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            Row(
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () => context.push(
-                    '/movie-detail',
-                    extra: {
-                      'title': 'God\'s Not Dead: We The People',
-                      'imageUrl':
-                          'https://images.unsplash.com/photo-1512314889357-e157c22f938d?w=800',
-                    },
-                  ),
-                  icon: const Icon(Icons.play_arrow_rounded),
-                  label: const Text('WATCH NOW'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.brandOrange,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
+            ElevatedButton.icon(
+              onPressed: () => context.push(
+                '/movie-detail',
+                extra: {
+                  'title': title,
+                  'imageUrl': imageUrl,
+                  'description':
+                      data['description'] ?? 'No description available.',
+                },
+              ),
+              icon: const Icon(Icons.play_arrow_rounded),
+              label: const Text('WATCH NOW'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.brandOrange,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
                 ),
-                const SizedBox(width: 12),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(Icons.add, color: Colors.white),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-              ],
+              ),
             ),
           ],
         ),
