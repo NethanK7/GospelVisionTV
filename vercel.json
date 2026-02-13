@@ -1,6 +1,8 @@
 {
     "version": 2,
-    "public": true,
+    "installCommand": "chmod +x build.sh && ./build.sh setup",
+    "buildCommand": "./build.sh build",
+    "outputDirectory": "dist",
     "rewrites": [
         {
             "source": "/(.*)",
@@ -18,24 +20,6 @@
                 {
                     "key": "Service-Worker-Allowed",
                     "value": "/"
-                }
-            ]
-        },
-        {
-            "source": "/service-worker.js",
-            "headers": [
-                {
-                    "key": "Cache-Control",
-                    "value": "no-cache, no-store, must-revalidate"
-                }
-            ]
-        },
-        {
-            "source": "/manifest.json",
-            "headers": [
-                {
-                    "key": "Content-Type",
-                    "value": "application/json"
                 }
             ]
         }
