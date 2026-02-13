@@ -1,26 +1,28 @@
 #!/bin/bash
 
-# 1. Download Flutter
-echo "Downloading Flutter SDK..."
-git clone https://github.com/flutter/flutter.git -b stable --depth 1
-
-# 2. Add to PATH
+# 1. Download Flutter (Portable & Fast)
+echo "Setting up Flutter..."
+if [ ! -d "flutter" ]; then
+  git clone https://github.com/flutter/flutter.git -b stable --depth 1
+fi
 export PATH="$PATH:`pwd`/flutter/bin"
 
-# 3. Initialize Flutter
-echo "Initializing Flutter..."
+# 2. Configure for Web
 flutter config --no-analytics
 flutter precache --web
 
-# 4. Build the Web App
-echo "Building Flutter Web App..."
+# 3. Build for Production
+echo "Building Web App..."
 flutter build web --release
 
-# 5. Prepare for Vercel
-# We use a 'public' directory which is Vercel's favorite default
-echo "Preparing output in 'public' directory..."
-mkdir -p public
-cp -r build/web/* public/
-cp vercel.json public/
+# 4. Move output to root (This is what Vercel needs)
+echo "Deploying files to project root..."
+# Move everything from build/web to the root directory
+# We use a temporary folder to avoid conflicts during the move
+mkdir -p temp_deploy
+cp -rv build/web/* temp_deploy/
+cp vercel.json temp_deploy/
+cp -rv temp_deploy/* .
+rm -rf temp_deploy
 
-echo "Build complete."
+echo "Build and pre-deployment complete."
