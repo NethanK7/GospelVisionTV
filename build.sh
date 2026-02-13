@@ -22,11 +22,10 @@ if [ "$1" == "build" ]; then
   flutter config --no-analytics
   flutter precache --web
   
-  # Build with the high-performance renderer
-  flutter build web --release --web-renderer canvaskit
+  # Build web - Removed --web-renderer flag because it is not supported in this Flutter version
+  flutter build web --release
   
   # Prepare Vercel output
-  # Vercel looks for the outputDirectory defined in vercel.json
   mkdir -p dist
   cp -rv build/web/* dist/
   cp vercel.json dist/
