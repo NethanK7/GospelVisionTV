@@ -65,6 +65,8 @@ class DefaultFirebaseOptions {
     projectId: 'gospelvisiontv-5f3eb',
     storageBucket: 'gospelvisiontv-5f3eb.firebasestorage.app',
     iosBundleId: 'com.gospelvision.gvTv',
+    iosClientId:
+        '615825126662-cr9f9fbelcf9ps6q8n4i7pq83gihn57g.apps.googleusercontent.com',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -74,6 +76,8 @@ class DefaultFirebaseOptions {
     projectId: 'gospelvisiontv-5f3eb',
     storageBucket: 'gospelvisiontv-5f3eb.firebasestorage.app',
     iosBundleId: 'com.gospelvision.gvTv',
+    iosClientId:
+        '615825126662-cr9f9fbelcf9ps6q8n4i7pq83gihn57g.apps.googleusercontent.com',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(

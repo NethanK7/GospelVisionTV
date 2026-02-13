@@ -15,7 +15,11 @@ final authStateProvider = StreamProvider<User?>((ref) {
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    clientId: kIsWeb
+        ? '615825126662-cr9f9fbelcf9ps6q8n4i7pq83gihn57g.apps.googleusercontent.com'
+        : null,
+  );
 
   Stream<User?> get user => _auth.authStateChanges();
 

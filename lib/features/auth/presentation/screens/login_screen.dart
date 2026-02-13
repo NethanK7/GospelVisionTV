@@ -74,9 +74,25 @@ class LoginScreen extends ConsumerWidget {
                   icon: Icons.g_mobiledata_rounded,
                   label: 'Sign in with Google',
                   onPressed: () async {
-                    final user = await authService.signInWithGoogle();
-                    if (user != null && context.mounted) {
-                      context.go('/');
+                    try {
+                      final user = await authService.signInWithGoogle();
+                      if (user != null && context.mounted) {
+                        context.go('/');
+                      } else if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Sign in cancelled or failed. Check Firebase config.',
+                            ),
+                          ),
+                        );
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text('Error: $e')));
+                      }
                     }
                   },
                 ).animate().fadeIn(delay: 800.ms).slideY(begin: 0.5, end: 0),

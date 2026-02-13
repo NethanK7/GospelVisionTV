@@ -56,10 +56,7 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
             left: 0,
             right: 0,
             child: IgnorePointer(
-              child: CozyFireplace(
-                height: MediaQuery.of(context).size.height * 0.5,
-                isLightMode: !isDark,
-              ),
+              child: CozyFireplace(height: 120, isLightMode: !isDark),
             ),
           ),
         ],
