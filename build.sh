@@ -22,17 +22,12 @@ if [ "$1" == "build" ]; then
   flutter config --no-analytics
   flutter precache --web
   
-  # Build web - specifying base-href to be safe
+  # Build web
   flutter build web --release --base-href /
   
-  # Prepare Vercel output in the 'dist' folder
-  echo "Organizing files for Vercel..."
-  rm -rf dist
-  mkdir -p dist
-  cp -rv build/web/* dist/
-  # Ensure the .env file is available in the web build if it exists
+  # Ensure .env is in the build output for the app to find it
   if [ -f ".env" ]; then
-    cp .env dist/
+    cp .env build/web/
   fi
   
   echo "Build complete. Deployment starting..."
