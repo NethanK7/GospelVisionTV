@@ -22,13 +22,18 @@ if [ "$1" == "build" ]; then
   flutter config --no-analytics
   flutter precache --web
   
-  # Build web - Removed --web-renderer flag because it is not supported in this Flutter version
-  flutter build web --release
+  # Build web - specifying base-href to be safe
+  flutter build web --release --base-href /
   
-  # Prepare Vercel output
+  # Prepare Vercel output in the 'dist' folder
+  echo "Organizing files for Vercel..."
+  rm -rf dist
   mkdir -p dist
   cp -rv build/web/* dist/
-  cp vercel.json dist/
+  # Ensure the .env file is available in the web build if it exists
+  if [ -f ".env" ]; then
+    cp .env dist/
+  fi
   
   echo "Build complete. Deployment starting..."
   exit 0
