@@ -106,26 +106,38 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
                               children: [
                                 Text(
                                   _channelName,
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? Colors.white
+                                        : AppColors.lightTextPrimary,
                                     fontSize: 24,
                                     fontWeight: FontWeight.w900,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
-                                const Text(
+                                Text(
                                   'Morning Glory Service',
                                   style: TextStyle(
-                                    color: Colors.white60,
+                                    color:
+                                        Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? Colors.white60
+                                        : AppColors.lightTextSecondary,
                                     fontSize: 16,
                                   ),
                                 ),
                               ],
                             ),
                             IconButton(
-                              icon: const Icon(
+                              icon: Icon(
                                 Icons.share_outlined,
-                                color: Colors.white70,
+                                color:
+                                    Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.white70
+                                    : AppColors.lightTextSecondary,
                               ),
                               onPressed: () {},
                             ),
@@ -149,10 +161,12 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
 
                     const SizedBox(height: 12),
 
-                    const Text(
+                    Text(
                       'Join us for a powerful morning session of worship and word. Today\'s service focuses on the theme of "Higher Vision, Higher Life" as we explore deep spiritual truths for the modern day.',
                       style: TextStyle(
-                        color: Colors.white70,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white70
+                            : AppColors.lightTextSecondary,
                         fontSize: 15,
                         height: 1.6,
                       ),
@@ -193,17 +207,28 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+          border: Border.all(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white.withValues(alpha: 0.1)
+                : Colors.black.withValues(alpha: 0.1),
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: Colors.white),
+            Icon(
+              icon,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : AppColors.lightTextPrimary,
+            ),
             const SizedBox(width: 8),
             Text(
               label,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : AppColors.lightTextPrimary,
                 fontWeight: FontWeight.bold,
               ),
             ),

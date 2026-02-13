@@ -18,7 +18,14 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Image.asset('assets/images/logo.png', height: 40),
+        title: const Text(
+          'Gospel Vision',
+          style: TextStyle(
+            fontWeight: FontWeight.w900,
+            letterSpacing: 1.5,
+            fontSize: 22,
+          ),
+        ),
         actions: [
           IconButton(icon: const Icon(Icons.search_rounded), onPressed: () {}),
           IconButton(
@@ -266,8 +273,10 @@ class _ContentRow extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(20, 32, 20, 16),
           child: Text(
             title,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : AppColors.lightTextPrimary,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -361,7 +370,8 @@ class _NetflixCard extends StatelessWidget {
                     child: Text(
                       item.title,
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: Colors
+                            .white, // Keep white for text on dark card gradient
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                       ),

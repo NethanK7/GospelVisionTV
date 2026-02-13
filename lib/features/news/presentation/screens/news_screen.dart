@@ -33,16 +33,25 @@ class NewsScreen extends StatelessWidget {
           }
 
           if (snapshot.hasError) {
-            return const Center(child: Text('Error loading news'));
+            return Center(
+              child: Text(
+                'Error loading news',
+                style: TextStyle(
+                  color: isDark ? Colors.white : AppColors.lightTextPrimary,
+                ),
+              ),
+            );
           }
 
           final newsItems = snapshot.data?.docs ?? [];
 
           if (newsItems.isEmpty) {
-            return const Center(
+            return Center(
               child: Text(
                 'No news available yet.',
-                style: TextStyle(color: Colors.white54),
+                style: TextStyle(
+                  color: isDark ? Colors.white54 : AppColors.lightTextSecondary,
+                ),
               ),
             );
           }

@@ -117,7 +117,12 @@ class AdminDashboard extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           'Manage your cinematic experience from here.',
-          style: TextStyle(color: Colors.white54, fontSize: 14),
+          style: TextStyle(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white54
+                : AppColors.lightTextSecondary,
+            fontSize: 14,
+          ),
         ),
       ],
     ).animate().fadeIn().slideX(begin: -0.1);
@@ -136,9 +141,15 @@ class AdminDashboard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.03),
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.white.withValues(alpha: 0.03)
+              : Colors.black.withValues(alpha: 0.03),
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+          border: Border.all(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white.withValues(alpha: 0.05)
+                : Colors.black.withValues(alpha: 0.05),
+          ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -169,13 +180,22 @@ class AdminDashboard extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            Colors.white.withValues(alpha: 0.02),
-            Colors.white.withValues(alpha: 0.05),
-          ],
+          colors: Theme.of(context).brightness == Brightness.dark
+              ? [
+                  Colors.white.withValues(alpha: 0.02),
+                  Colors.white.withValues(alpha: 0.05),
+                ]
+              : [
+                  Colors.black.withValues(alpha: 0.02),
+                  Colors.black.withValues(alpha: 0.05),
+                ],
         ),
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+        border: Border.all(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.white.withValues(alpha: 0.05)
+              : Colors.black.withValues(alpha: 0.05),
+        ),
       ),
       child: Row(
         children: [
@@ -191,7 +211,12 @@ class AdminDashboard extends StatelessWidget {
                 ),
                 Text(
                   'Connected to gospelvisiontv-5f3eb',
-                  style: TextStyle(color: Colors.white54, fontSize: 12),
+                  style: TextStyle(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white54
+                        : AppColors.lightTextSecondary,
+                    fontSize: 12,
+                  ),
                 ),
               ],
             ),

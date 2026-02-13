@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gv_tv/core/theme/app_colors.dart';
+import 'package:gv_tv/core/common_widgets/gradient_background.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -26,113 +27,122 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Background Gradient Glow
-          Positioned(
-            top: -100,
-            right: -100,
-            child: Container(
-              width: 300,
-              height: 300,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.brandOrange.withValues(alpha: 0.1),
-              ),
-            ).animate().fadeIn(duration: 2000.ms),
-          ),
-          Positioned(
-            bottom: -50,
-            left: -50,
-            child: Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.premiumGold.withValues(alpha: 0.05),
-              ),
-            ).animate().fadeIn(duration: 2000.ms),
-          ),
+      body: GradientBackground(
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            // Background Gradient Glow
+            Positioned(
+              top: -100,
+              right: -100,
+              child: Container(
+                width: 300,
+                height: 300,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.brandOrange.withValues(alpha: 0.1),
+                ),
+              ).animate().fadeIn(duration: 2000.ms),
+            ),
+            Positioned(
+              bottom: -50,
+              left: -50,
+              child: Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.premiumGold.withValues(alpha: 0.05),
+                ),
+              ).animate().fadeIn(duration: 2000.ms),
+            ),
 
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Cinematic Logo Entrance
-                Hero(
-                      tag: 'logo',
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.03),
-                          borderRadius: BorderRadius.circular(32),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Cinematic Logo Entrance
+                  Hero(
+                        tag: 'logo',
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? Colors.white.withValues(alpha: 0.03)
+                                : Colors.black.withValues(alpha: 0.03),
+                            borderRadius: BorderRadius.circular(32),
+                          ),
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            width: 220,
+                          ),
                         ),
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          width: 220,
-                        ),
+                      )
+                      .animate()
+                      .fadeIn(duration: 1500.ms, curve: Curves.easeOut)
+                      .scale(
+                        begin: const Offset(0.7, 0.7),
+                        end: const Offset(1.0, 1.0),
+                        duration: 1500.ms,
+                        curve: Curves.elasticOut,
+                      )
+                      .shimmer(
+                        delay: 1000.ms,
+                        duration: 2500.ms,
+                        color: AppColors.premiumGold.withValues(alpha: 0.2),
                       ),
-                    )
-                    .animate()
-                    .fadeIn(duration: 1500.ms, curve: Curves.easeOut)
-                    .scale(
-                      begin: const Offset(0.7, 0.7),
-                      end: const Offset(1.0, 1.0),
-                      duration: 1500.ms,
-                      curve: Curves.elasticOut,
-                    )
-                    .shimmer(
-                      delay: 1000.ms,
-                      duration: 2500.ms,
-                      color: AppColors.premiumGold.withValues(alpha: 0.2),
-                    ),
 
-                const SizedBox(height: 40),
+                  const SizedBox(height: 40),
 
-                // Progressive Loading Indicator
-                SizedBox(
-                  width: 140,
-                  child: Column(
-                    children: [
-                      Container(
-                            height: 3,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: LinearProgressIndicator(
-                                backgroundColor: Colors.transparent,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  AppColors.brandOrange,
+                  // Progressive Loading Indicator
+                  SizedBox(
+                    width: 140,
+                    child: Column(
+                      children: [
+                        Container(
+                              height: 3,
+                              decoration: BoxDecoration(
+                                color: isDark
+                                    ? Colors.white.withValues(alpha: 0.1)
+                                    : Colors.black.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: LinearProgressIndicator(
+                                  backgroundColor: Colors.transparent,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    AppColors.brandOrange,
+                                  ),
                                 ),
                               ),
-                            ),
-                          )
-                          .animate()
-                          .fadeIn(delay: 500.ms)
-                          .scaleX(begin: 0, end: 1, duration: 2500.ms),
-                      const SizedBox(height: 12),
-                      const Text(
-                        'POWERED BY FAITH',
-                        style: TextStyle(
-                          color: Colors.white38,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 4,
-                        ),
-                      ).animate().fadeIn(delay: 800.ms),
-                    ],
+                            )
+                            .animate()
+                            .fadeIn(delay: 500.ms)
+                            .scaleX(begin: 0, end: 1, duration: 2500.ms),
+                        const SizedBox(height: 12),
+                        Text(
+                          'POWERED BY FAITH',
+                          style: TextStyle(
+                            color: isDark
+                                ? Colors.white38
+                                : AppColors.lightTextSecondary,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 4,
+                          ),
+                        ).animate().fadeIn(delay: 800.ms),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

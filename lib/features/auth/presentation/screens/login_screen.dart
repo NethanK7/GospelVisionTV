@@ -49,7 +49,9 @@ class LoginScreen extends ConsumerWidget {
                 Text(
                   'GOSPEL VISION',
                   style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                    color: Colors.white,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : AppColors.lightTextPrimary,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 4,
                   ),
@@ -107,9 +109,14 @@ class LoginScreen extends ConsumerWidget {
                         size: 16,
                         color: Colors.white38,
                       ),
-                      label: const Text(
+                      label: Text(
                         'DEV SKIP',
-                        style: TextStyle(color: Colors.white38, fontSize: 11),
+                        style: TextStyle(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white38
+                              : AppColors.lightTextSecondary,
+                          fontSize: 11,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -120,9 +127,14 @@ class LoginScreen extends ConsumerWidget {
                         size: 16,
                         color: Colors.white38,
                       ),
-                      label: const Text(
+                      label: Text(
                         'ADMIN SKIP',
-                        style: TextStyle(color: Colors.white38, fontSize: 11),
+                        style: TextStyle(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white38
+                              : AppColors.lightTextSecondary,
+                          fontSize: 11,
+                        ),
                       ),
                     ),
                   ],
@@ -134,7 +146,9 @@ class LoginScreen extends ConsumerWidget {
                   'By continuing, you agree to our Terms & Privacy Policy',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.5),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white.withValues(alpha: 0.5)
+                        : AppColors.lightTextSecondary,
                     fontSize: 12,
                   ),
                 ).animate().fadeIn(delay: 1200.ms),
@@ -168,7 +182,11 @@ class LoginScreen extends ConsumerWidget {
         color: isPrimary ? null : Colors.white.withValues(alpha: 0.05),
         border: isPrimary
             ? null
-            : Border.all(color: Colors.white.withValues(alpha: 0.1)),
+            : Border.all(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white.withValues(alpha: 0.1)
+                    : Colors.black.withValues(alpha: 0.1),
+              ),
         boxShadow: isPrimary
             ? [
                 BoxShadow(
@@ -189,12 +207,24 @@ class LoginScreen extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(icon, color: Colors.white, size: 28),
+                Icon(
+                  icon,
+                  color: isPrimary
+                      ? Colors.white
+                      : (Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : AppColors.lightTextPrimary),
+                  size: 28,
+                ),
                 const SizedBox(width: 12),
                 Text(
                   label,
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: isPrimary
+                        ? Colors.white
+                        : (Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : AppColors.lightTextPrimary),
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),

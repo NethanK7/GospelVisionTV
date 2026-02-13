@@ -143,8 +143,10 @@ class ContentCard extends StatelessWidget {
               title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : AppColors.lightTextPrimary,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.3,

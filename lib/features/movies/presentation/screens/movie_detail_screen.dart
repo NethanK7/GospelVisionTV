@@ -26,6 +26,8 @@ class MovieDetailScreen extends StatelessWidget {
         description ??
         'A visually stunning exploration of faith in the modern digital age. Experience the intersection of spirituality and technology in this groundbreaking cinematic production.';
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: GradientBackground(
@@ -36,7 +38,7 @@ class MovieDetailScreen extends StatelessWidget {
               expandedHeight: 450,
               pinned: true,
               stretch: true,
-              backgroundColor: Colors.black,
+              backgroundColor: isDark ? Colors.black : Colors.white,
               flexibleSpace: FlexibleSpaceBar(
                 stretchModes: const [
                   StretchMode.zoomBackground,
@@ -100,17 +102,24 @@ class MovieDetailScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 12),
-                        const Text(
+                        Text(
                           '2024 • 2h 15m',
-                          style: TextStyle(color: Colors.white54, fontSize: 13),
+                          style: TextStyle(
+                            color: isDark
+                                ? Colors.white54
+                                : AppColors.lightTextSecondary,
+                            fontSize: 13,
+                          ),
                         ),
                       ],
                     ).animate().fadeIn(delay: 200.ms),
                     const SizedBox(height: 20),
                     Text(
                           displayedTitle,
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: isDark
+                                ? Colors.white
+                                : AppColors.lightTextPrimary,
                             fontSize: 32,
                             fontWeight: FontWeight.w900,
                             height: 1.1,
@@ -144,21 +153,27 @@ class MovieDetailScreen extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.1),
+                            color: isDark
+                                ? Colors.white.withValues(alpha: 0.1)
+                                : Colors.black.withValues(alpha: 0.05),
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.add_rounded,
-                            color: Colors.white,
+                            color: isDark
+                                ? Colors.white
+                                : AppColors.lightTextPrimary,
                           ),
                         ),
                       ],
                     ).animate().fadeIn(delay: 400.ms),
                     const SizedBox(height: 32),
-                    const Text(
+                    Text(
                       'STORYLINE',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: isDark
+                            ? Colors.white
+                            : AppColors.lightTextPrimary,
                         fontSize: 14,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.5,
@@ -167,8 +182,10 @@ class MovieDetailScreen extends StatelessWidget {
                     const SizedBox(height: 12),
                     Text(
                       displayedDesc,
-                      style: const TextStyle(
-                        color: Colors.white70,
+                      style: TextStyle(
+                        color: isDark
+                            ? Colors.white70
+                            : AppColors.lightTextSecondary,
                         fontSize: 16,
                         height: 1.6,
                       ),

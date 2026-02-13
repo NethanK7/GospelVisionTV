@@ -31,10 +31,14 @@ class MoviesScreen extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return const Center(
+            return Center(
               child: Text(
                 'Error loading movies',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : AppColors.lightTextPrimary,
+                ),
               ),
             );
           }
@@ -48,12 +52,16 @@ class MoviesScreen extends StatelessWidget {
           final movies = snapshot.data!.docs;
 
           if (movies.isEmpty) {
-            return const Center(
+            return Center(
               child: Padding(
-                padding: EdgeInsets.all(40.0),
+                padding: const EdgeInsets.all(40.0),
                 child: Text(
                   'No movies available yet.',
-                  style: TextStyle(color: Colors.white54),
+                  style: TextStyle(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white54
+                        : AppColors.lightTextSecondary,
+                  ),
                 ),
               ),
             );
