@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Bypasses the "Woah! You are root" warning
 export BOT=true
@@ -25,12 +26,19 @@ if [ "$1" == "build" ]; then
   # Build web
   flutter build web --release --base-href /
   
-  # Ensure .env is in the build output for the app to find it
+  # Prepare Vercel output in the 'public' folder
+  # We use 'public' instead of 'build/web' to avoid .gitignore issues
+  echo "Organizing files for Vercel..."
+  rm -rf public
+  mkdir -p public
+  cp -rv build/web/* public/
+  
+  # Ensure the .env file is available in the web build if it exists
   if [ -f ".env" ]; then
-    cp .env build/web/
+    cp .env public/
   fi
   
-  echo "Build complete. Deployment starting..."
+  echo "Build complete. Files in /public ready for deployment."
   exit 0
 fi
 
