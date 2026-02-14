@@ -1,44 +1,26 @@
 #!/bin/bash
 set -e
-
-# Bypasses the "Woah! You are root" warning
 export BOT=true
-export FLUTTER_SUPPRESS_ANALYTICS=true
 
-# Setup logic
+# Setup phase: Download Flutter
 if [ "$1" == "setup" ]; then
-  echo "Setting up Flutter SDK..."
+  echo "Setting up Flutter..."
   if [ ! -d "flutter" ]; then
     git clone https://github.com/flutter/flutter.git -b stable --depth 1
   fi
   exit 0
 fi
 
-# Build logic
+# Build phase: Compile Web
 if [ "$1" == "build" ]; then
-  echo "Building Gospel Vision TV for Production..."
+  echo "Building Production Web App..."
   export PATH="$PATH:`pwd`/flutter/bin"
-  
-  # Initialize
   flutter config --no-analytics
   flutter precache --web
-  
-  # Build web
   flutter build web --release --base-href /
   
-  # Prepare Vercel output in the 'public' folder
-  # We use 'public' instead of 'build/web' to avoid .gitignore issues
-  echo "Organizing files for Vercel..."
-  rm -rf public
-  mkdir -p public
-  cp -rv build/web/* public/
-  
-  # Ensure the .env file is available in the web build if it exists
-  if [ -f ".env" ]; then
-    cp .env public/
-  fi
-  
-  echo "Build complete. Files in /public ready for deployment."
+  # Ensure manifest.json is in the right place (it should be in build/web)
+  ls -F build/web/
   exit 0
 fi
 

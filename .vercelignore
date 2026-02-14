@@ -1,0 +1,15 @@
+# Ignore everything during upload to keep it fast
+# The build happens on Vercel's server anyway
+android/
+ios/
+macos/
+windows/
+linux/
+.dart_tool/
+.pub/
+.pub-cache/
+
+# Re-include the build directory specifically for the output
+# (Though build.sh creates it, Vercel needs to know it's okay)
+!build/web/
+!build/web/**
