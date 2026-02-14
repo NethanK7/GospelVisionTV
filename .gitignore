@@ -50,6 +50,7 @@ app.*.map.json
 # Build and SDK
 /build/
 /flutter/
+/flutter_sdk/
 
 
 

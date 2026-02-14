@@ -1,83 +1,75 @@
 #!/bin/bash
+set -e
 
-# Ensure we are in the project root
-cd "$(dirname "$0")"
-
-# Bypasses the "Woah! You are root" warning
+# Fast setup
+echo "Starting Gospel Vision TV Build..."
 export BOT=true
 export FLUTTER_SUPPRESS_ANALYTICS=true
 
-# Function to setup Flutter
+# Use current directory for Flutter SDK to ensure it's in the build context
+FLUTTER_SDK_DIR="$(pwd)/flutter_sdk"
+
 setup_flutter() {
     echo "--- SETUP PHASE ---"
+    if [ ! -d "$FLUTTER_SDK_DIR" ]; then
+        echo "Installing Flutter SDK..."
+        git clone https://github.com/flutter/flutter.git -b stable --depth 1 "$FLUTTER_SDK_DIR"
+    else
+        echo "Flutter SDK already exists."
+    fi
     
-    # In Vercel, we need to ensure Flutter is installed
+    export PATH="$PATH:$FLUTTER_SDK_DIR/bin"
+    
+    echo "Configuring Flutter..."
+    flutter config --no-analytics
+    flutter precache --web
+    
+    echo "Getting dependencies..."
+    flutter pub get
+}
+
+build_app() {
+    echo "--- BUILD PHASE ---"
+    export PATH="$PATH:$FLUTTER_SDK_DIR/bin"
+    
     if ! command -v flutter &> /dev/null; then
-        if [ -d "$HOME/flutter" ]; then
-            export PATH="$PATH:$HOME/flutter/bin"
-        elif [ -d "$(pwd)/flutter" ]; then
-            export PATH="$PATH:$(pwd)/flutter/bin"
-        else
-            echo "Installing Flutter..."
-            git clone https://github.com/flutter/flutter.git -b stable --depth 1 $HOME/flutter
-            export PATH="$PATH:$HOME/flutter/bin"
-        fi
+        echo "Flutter not found in PATH. Re-running setup..."
+        setup_flutter
     fi
 
-    # Handle .env for Vercel (Injecting Environment Variables)
+    # Handle .env for Vercel
     if [ ! -f .env ]; then
-        echo "Creating .env file from environment variables..."
+        echo "Creating .env from system environment..."
         touch .env
-        
-        # List of variables to inject if they exist in the environment
-        # These match what gv-tv uses
         vars=("STRIPE_KEY" "OPENAI_API_KEY" "CLIENT_ID_WEB" "CLIENT_ID_IOS" "REVERSED_CLIENT_ID")
-        
         for var in "${vars[@]}"; do
             if [ ! -z "${!var}" ]; then
                 echo "$var=${!var}" >> .env
             fi
         done
-        echo ".env file created for build."
-    else
-        echo ".env file already exists."
-    fi
-
-    flutter --version
-    flutter config --no-analytics
-    flutter precache --web
-    flutter pub get
-}
-
-# Function to build
-build_app() {
-    echo "--- BUILD PHASE ---"
-    
-    # Re-verify path for build phase
-    if [ -d "$HOME/flutter" ]; then
-        export PATH="$PATH:$HOME/flutter/bin"
-    fi
-
-    # Check if flutter is available
-    if ! command -v flutter &> /dev/null; then
-        echo "Error: Flutter not found. Attempting emergency setup..."
-        setup_flutter
     fi
 
     echo "Building Flutter Web..."
-    # Match the flag-set from Legendary Motors
     flutter build web --release --base-href / --pwa-strategy offline-first --no-wasm-dry-run
-    
-    if [ $? -eq 0 ]; then
-        echo "Build successful."
-        # Copy .env to assets for flutter_dotenv to find on web if it was created
+
+    if [ -f "build/web/index.html" ]; then
+        echo "Build successful. Finalizing artifacts..."
+        
+        # Ensure .env is in assets for the web app to find
+        mkdir -p build/web/assets
         if [ -f .env ]; then
-            mkdir -p build/web/assets
             cp .env build/web/assets/.env
-            echo "Copied .env to build output assets."
+            echo "Environment file copied to assets."
         fi
+        
+        # Add a debug info file
+        echo "Build Timestamp: $(date)" > build/web/build_info.txt
+        echo "Commit: $(git rev-parse HEAD 2>/dev/null || echo 'unknown')" >> build/web/build_info.txt
+        
+        echo "Final build contents:"
+        ls -la build/web/assets
     else
-        echo "Build failed."
+        echo "Error: Build failed to produce index.html"
         exit 1
     fi
 }
