@@ -66,10 +66,16 @@ build_app() {
 
     echo "Building Flutter Web..."
     # Match the flag-set from Legendary Motors
-    flutter build web --release --base-href / --pwa-strategy offline-first -O4 --no-wasm-dry-run
+    flutter build web --release --base-href / --pwa-strategy offline-first --no-wasm-dry-run
     
     if [ $? -eq 0 ]; then
         echo "Build successful."
+        # Copy .env to assets for flutter_dotenv to find on web if it was created
+        if [ -f .env ]; then
+            mkdir -p build/web/assets
+            cp .env build/web/assets/.env
+            echo "Copied .env to build output assets."
+        fi
     else
         echo "Build failed."
         exit 1

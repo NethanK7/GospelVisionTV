@@ -18,6 +18,7 @@ import 'package:gv_tv/features/admin/views/screens/user_management_screen.dart';
 import 'package:gv_tv/features/movies/presentation/screens/movie_detail_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/foundation.dart';
 import 'firebase_options.dart';
 
 void main() async {

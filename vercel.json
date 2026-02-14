@@ -5,7 +5,7 @@
     "outputDirectory": "build/web",
     "rewrites": [
         {
-            "source": "/((?!api/.*).*)",
+            "source": "/((?!api/|assets/|canvaskit/|icons/|favicon.png|manifest.json|main.dart.js|flutter.js|flutter_bootstrap.js|flutter_service_worker.js|version.json).*)$",
             "destination": "/index.html"
         }
     ],
