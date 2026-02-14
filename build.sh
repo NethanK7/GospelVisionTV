@@ -1,41 +1,27 @@
 #!/bin/bash
 set -e
-
-# Fast setup
-echo "Starting Gospel Vision TV Build..."
 export BOT=true
 export FLUTTER_SUPPRESS_ANALYTICS=true
 
-# 1. Setup Flutter
+# 1. Setup Phase
 if [ "$1" == "setup" ]; then
-  echo "Setting up Flutter SDK..."
+  echo "Setting up Flutter..."
   if [ ! -d "flutter" ]; then
     git clone https://github.com/flutter/flutter.git -b stable --depth 1
   fi
   exit 0
 fi
 
-# 2. Build App
+# 2. Build Phase
 if [ "$1" == "build" ]; then
-  echo "Building Flutter Web..."
+  echo "Building App..."
   export PATH="$PATH:`pwd`/flutter/bin"
   flutter config --no-analytics
   flutter precache --web
   
-  # Build
-  flutter build web --release --base-href /
+  # Build web
+  flutter build web --release --base-href / --no-wasm-dry-run
   
-  # 3. Prepare 'dist' folder for Vercel
-  echo "Organizing files for Vercel..."
-  rm -rf dist
-  mkdir -p dist
-  cp -rv build/web/* dist/
-  
-  # Add a debug file we can check in the browser
-  echo "Build Version: $(date)" > dist/build_info.txt
-  
-  echo "Build finished successfully."
-  ls -la dist/index.html
   exit 0
 fi
 
