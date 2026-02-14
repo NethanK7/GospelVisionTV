@@ -2,7 +2,7 @@
     "version": 2,
     "installCommand": "chmod +x build.sh && ./build.sh setup",
     "buildCommand": "./build.sh build",
-    "outputDirectory": "build/web",
+    "outputDirectory": "public",
     "rewrites": [
         {
             "source": "/((?!api/|assets/|canvaskit/|icons/|favicon.png|manifest.json|main.dart.js|flutter.js|flutter_bootstrap.js|flutter_service_worker.js|version.json|build_info.txt).*)$",
@@ -33,15 +33,6 @@
                 {
                     "key": "Cache-Control",
                     "value": "public, max-age=31536000, immutable"
-                }
-            ]
-        },
-        {
-            "source": "/(index.html|flutter_bootstrap.js|flutter.js|version.json|manifest.json)",
-            "headers": [
-                {
-                    "key": "Cache-Control",
-                    "value": "no-cache, no-store, must-revalidate"
                 }
             ]
         }

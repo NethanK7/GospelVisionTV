@@ -2,87 +2,73 @@
 set -e
 
 # Fast setup
-echo "Starting Gospel Vision TV Build..."
+echo "--- GOSPEL VISION TV BUILD SCRIPT ---"
 export BOT=true
 export FLUTTER_SUPPRESS_ANALYTICS=true
 
-# Use current directory for Flutter SDK to ensure it's in the build context
+# Local SDK
 FLUTTER_SDK_DIR="$(pwd)/flutter_sdk"
 
-setup_flutter() {
-    echo "--- SETUP PHASE ---"
-    if [ ! -d "$FLUTTER_SDK_DIR" ]; then
-        echo "Installing Flutter SDK..."
-        git clone https://github.com/flutter/flutter.git -b stable --depth 1 "$FLUTTER_SDK_DIR"
-    else
-        echo "Flutter SDK already exists."
+# 1. Setup
+if [ ! -d "$FLUTTER_SDK_DIR" ]; then
+    echo "Cloning Flutter SDK..."
+    git clone https://github.com/flutter/flutter.git -b stable --depth 1 "$FLUTTER_SDK_DIR"
+fi
+export PATH="$PATH:$FLUTTER_SDK_DIR/bin"
+flutter --version
+flutter config --no-analytics
+flutter precache --web
+
+# 2. Dependencies
+flutter pub get
+
+# 3. Build
+echo "Building Flutter Web..."
+flutter build web --release --base-href / --pwa-strategy offline-first --no-wasm-dry-run --web-renderer canvaskit
+
+# 4. Finalize for Vercel
+echo "Finalizing build structure in 'public/' directory..."
+rm -rf public
+mkdir -p public
+cp -rv build/web/* public/
+
+# Ensure critical files are in assets/ (where Flutter looks) AND root (where Vercel might put them)
+mkdir -p public/assets
+for f in FontManifest.json AssetManifest.json AssetManifest.bin AssetManifest.bin.json version.json; do
+    if [ -f "public/$f" ]; then
+        cp "public/$f" "public/assets/$f"
+        echo "Copied $f to assets/"
+    elif [ -f "public/assets/$f" ]; then
+        cp "public/assets/$f" "public/$f"
+        echo "Copied assets/$f to root"
     fi
-    
-    export PATH="$PATH:$FLUTTER_SDK_DIR/bin"
-    
-    echo "Configuring Flutter..."
-    flutter config --no-analytics
-    flutter precache --web
-    
-    echo "Getting dependencies..."
-    flutter pub get
-}
+done
 
-build_app() {
-    echo "--- BUILD PHASE ---"
-    export PATH="$PATH:$FLUTTER_SDK_DIR/bin"
-    
-    if ! command -v flutter &> /dev/null; then
-        echo "Flutter not found in PATH. Re-running setup..."
-        setup_flutter
-    fi
-
-    # Handle .env for Vercel
-    if [ ! -f .env ]; then
-        echo "Creating .env from system environment..."
-        touch .env
-        vars=("STRIPE_KEY" "OPENAI_API_KEY" "CLIENT_ID_WEB" "CLIENT_ID_IOS" "REVERSED_CLIENT_ID")
-        for var in "${vars[@]}"; do
-            if [ ! -z "${!var}" ]; then
-                echo "$var=${!var}" >> .env
-            fi
-        done
-    fi
-
-    echo "Building Flutter Web..."
-    flutter build web --release --base-href / --pwa-strategy offline-first --no-wasm-dry-run
-
-    if [ -f "build/web/index.html" ]; then
-        echo "Build successful. Finalizing artifacts..."
-        
-        # Ensure .env is in assets for the web app to find
-        mkdir -p build/web/assets
-        if [ -f .env ]; then
-            cp .env build/web/assets/.env
-            echo "Environment file copied to assets."
+# Handle .env
+if [ ! -f .env ]; then
+    echo "Creating .env from system environment..."
+    touch .env
+    vars=("STRIPE_KEY" "OPENAI_API_KEY" "CLIENT_ID_WEB" "CLIENT_ID_IOS" "REVERSED_CLIENT_ID")
+    for var in "${vars[@]}"; do
+        if [ ! -z "${!var}" ]; then
+            echo "$var=${!var}" >> .env
         fi
-        
-        # Add a debug info file
-        echo "Build Timestamp: $(date)" > build/web/build_info.txt
-        echo "Commit: $(git rev-parse HEAD 2>/dev/null || echo 'unknown')" >> build/web/build_info.txt
-        
-        echo "Final build contents:"
-        ls -la build/web/assets
-    else
-        echo "Error: Build failed to produce index.html"
-        exit 1
-    fi
-}
+    done
+fi
 
-case "$1" in
-    "setup")
-        setup_flutter
-        ;;
-    "build")
-        build_app
-        ;;
-    *)
-        setup_flutter
-        build_app
-        ;;
-esac
+if [ -f .env ]; then
+    cp .env public/assets/.env
+    cp .env public/.env
+    echo ".env file copied to both root and assets/"
+fi
+
+# Add debug info
+TIMESTAMP=$(date)
+echo "Build Timestamp: $TIMESTAMP" > public/build_info.txt
+echo "Commit: $(git rev-parse HEAD 2>/dev/null || echo 'unknown')" >> public/build_info.txt
+cp public/build_info.txt public/assets/build_info.txt
+
+echo "Verify public/assets/ structure:"
+ls -la public/assets/
+
+echo "Build successful."

@@ -19,5 +19,5 @@ windows/
 linux/
 
 # Keep only web build
-!build/web/
-!build/web/**
+!public/
+!public/**
