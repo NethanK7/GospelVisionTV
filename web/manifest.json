@@ -1,13 +1,18 @@
 {
+    "id": "/",
     "name": "Gospel Vision TV",
     "short_name": "GV TV",
-    "start_url": ".",
+    "description": "Pure Gospel. Cinematic Experience.",
+    "start_url": "/",
+    "scope": "/",
     "display": "standalone",
+    "display_override": ["standalone", "minimal-ui"],
     "background_color": "#0D0D0D",
     "theme_color": "#FF6B00",
-    "description": "Pure Gospel. Cinematic Experience.",
-    "orientation": "portrait-primary",
+    "orientation": "any",
+    "lang": "en",
     "prefer_related_applications": false,
+    "categories": ["entertainment", "lifestyle"],
     "icons": [
         {
             "src": "icons/Icon-192.png",
