@@ -34,9 +34,11 @@ void main() async {
   // 1. Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // 2. Initialize Isar (Local Database)
-  final dir = await getApplicationDocumentsDirectory();
-  await Isar.open([UserProfileSchema], directory: dir.path);
+  // 2. Initialize Isar (Local Database) - not supported on web
+  if (!kIsWeb) {
+    final dir = await getApplicationDocumentsDirectory();
+    await Isar.open([UserProfileSchema], directory: dir.path);
+  }
 
   // 3. Seed initial data if needed
   // await DatabaseSeeder.seedInitialData(); // User wants it blank

@@ -1,29 +1,90 @@
 #!/bin/bash
-set -e
+
+# Ensure we are in the project root
+cd "$(dirname "$0")"
+
+# Bypasses the "Woah! You are root" warning
 export BOT=true
 export FLUTTER_SUPPRESS_ANALYTICS=true
 
-# 1. Setup Phase
-if [ "$1" == "setup" ]; then
-  echo "Setting up Flutter..."
-  if [ ! -d "flutter" ]; then
-    git clone https://github.com/flutter/flutter.git -b stable --depth 1
-  fi
-  exit 0
-fi
+# Function to setup Flutter
+setup_flutter() {
+    echo "--- SETUP PHASE ---"
+    
+    # In Vercel, we need to ensure Flutter is installed
+    if ! command -v flutter &> /dev/null; then
+        if [ -d "$HOME/flutter" ]; then
+            export PATH="$PATH:$HOME/flutter/bin"
+        elif [ -d "$(pwd)/flutter" ]; then
+            export PATH="$PATH:$(pwd)/flutter/bin"
+        else
+            echo "Installing Flutter..."
+            git clone https://github.com/flutter/flutter.git -b stable --depth 1 $HOME/flutter
+            export PATH="$PATH:$HOME/flutter/bin"
+        fi
+    fi
 
-# 2. Build Phase
-if [ "$1" == "build" ]; then
-  echo "Building App..."
-  export PATH="$PATH:`pwd`/flutter/bin"
-  flutter config --no-analytics
-  flutter precache --web
-  
-  # Build web
-  flutter build web --release --base-href / --no-wasm-dry-run
-  
-  exit 0
-fi
+    # Handle .env for Vercel (Injecting Environment Variables)
+    if [ ! -f .env ]; then
+        echo "Creating .env file from environment variables..."
+        touch .env
+        
+        # List of variables to inject if they exist in the environment
+        # These match what gv-tv uses
+        vars=("STRIPE_KEY" "OPENAI_API_KEY" "CLIENT_ID_WEB" "CLIENT_ID_IOS" "REVERSED_CLIENT_ID")
+        
+        for var in "${vars[@]}"; do
+            if [ ! -z "${!var}" ]; then
+                echo "$var=${!var}" >> .env
+            fi
+        done
+        echo ".env file created for build."
+    else
+        echo ".env file already exists."
+    fi
 
-echo "Usage: ./build.sh [setup|build]"
-exit 1
+    flutter --version
+    flutter config --no-analytics
+    flutter precache --web
+    flutter pub get
+}
+
+# Function to build
+build_app() {
+    echo "--- BUILD PHASE ---"
+    
+    # Re-verify path for build phase
+    if [ -d "$HOME/flutter" ]; then
+        export PATH="$PATH:$HOME/flutter/bin"
+    fi
+
+    # Check if flutter is available
+    if ! command -v flutter &> /dev/null; then
+        echo "Error: Flutter not found. Attempting emergency setup..."
+        setup_flutter
+    fi
+
+    echo "Building Flutter Web..."
+    # Match the flag-set from Legendary Motors
+    flutter build web --release --base-href / --pwa-strategy offline-first -O4 --no-wasm-dry-run
+    
+    if [ $? -eq 0 ]; then
+        echo "Build successful."
+    else
+        echo "Build failed."
+        exit 1
+    fi
+}
+
+case "$1" in
+    "setup")
+        setup_flutter
+        ;;
+    "build")
+        build_app
+        ;;
+    *)
+        setup_flutter
+        build_app
+        ;;
+esac
