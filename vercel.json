@@ -1,11 +1,13 @@
 {
     "version": 2,
-    "installCommand": "bash build.sh setup",
-    "buildCommand": "bash build.sh build",
-    "outputDirectory": "build/web",
+    "installCommand": "chmod +x build.sh && ./build.sh setup",
+    "buildCommand": "./build.sh build",
+    "outputDirectory": "dist",
+    "cleanUrls": true,
+    "trailingSlash": false,
     "rewrites": [
         {
-            "source": "/(.*)",
+            "source": "/((?!assets/|canvaskit/|icons/|favicon.png|manifest.json|main.dart.js|flutter.js|flutter_bootstrap.js|flutter_service_worker.js|version.json|build_info.txt).*)",
             "destination": "/index.html"
         }
     ],

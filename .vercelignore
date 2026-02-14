@@ -1,5 +1,4 @@
-# Ignore everything during upload to keep it fast
-# The build happens on Vercel's server anyway
+# Ignore heavy folders during upload
 android/
 ios/
 macos/
@@ -9,7 +8,6 @@ linux/
 .pub/
 .pub-cache/
 
-# Re-include the build directory specifically for the output
-# (Though build.sh creates it, Vercel needs to know it's okay)
-!build/web/
-!build/web/**
+# Ensure 'dist' is not ignored
+!dist/
+!dist/**
