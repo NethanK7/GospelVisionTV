@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import '../../theme/app_theme.dart';
 
@@ -46,20 +47,27 @@ class _MobileBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 16, right: 16, bottom: 24),
+      margin: const EdgeInsets.only(left: 20, right: 20, bottom: 32),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(36),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
           child: Container(
-            height: 64,
+            height: 70,
             decoration: BoxDecoration(
-              color: const Color(0xFF1A1A1A).withValues(alpha: 0.85),
-              borderRadius: BorderRadius.circular(24),
+              color: const Color(0xFF1A1A1A).withValues(alpha: 0.65),
+              borderRadius: BorderRadius.circular(36),
               border: Border.all(
-                color: Colors.white.withValues(alpha: 0.08),
-                width: 1,
+                color: Colors.white.withValues(alpha: 0.15),
+                width: 1.2,
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: AppTheme.primaryOrange.withValues(alpha: 0.10),
+                  blurRadius: 20,
+                  spreadRadius: 0,
+                ),
+              ],
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -74,25 +82,25 @@ class _MobileBottomNav extends StatelessWidget {
                 ),
                 _NavItem(
                   index: 1,
-                  icon: Icons.search,
-                  activeIcon: Icons.search,
-                  label: 'Search',
+                  icon: Icons.live_tv_outlined,
+                  activeIcon: Icons.live_tv,
+                  label: 'Live TV',
                   isSelected: currentIndex == 1,
                   onTap: onTap,
                 ),
                 _NavItem(
                   index: 2,
-                  icon: Icons.play_circle_outline,
-                  activeIcon: Icons.play_circle_filled,
-                  label: 'New & Hot',
+                  icon: Icons.movie_outlined,
+                  activeIcon: Icons.movie,
+                  label: 'Movies',
                   isSelected: currentIndex == 2,
                   onTap: onTap,
                 ),
                 _NavItem(
                   index: 3,
-                  icon: Icons.live_tv_outlined,
-                  activeIcon: Icons.live_tv,
-                  label: 'Live TV',
+                  icon: Icons.article_outlined,
+                  activeIcon: Icons.article,
+                  label: 'News',
                   isSelected: currentIndex == 3,
                   onTap: onTap,
                 ),
@@ -100,7 +108,7 @@ class _MobileBottomNav extends StatelessWidget {
                   index: 4,
                   icon: Icons.person_outline,
                   activeIcon: Icons.person,
-                  label: 'My GV',
+                  label: 'Account',
                   isSelected: currentIndex == 4,
                   onTap: onTap,
                   isProfile: true,
@@ -136,7 +144,10 @@ class _NavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onTap(index),
+      onTap: () {
+        HapticFeedback.lightImpact();
+        onTap(index);
+      },
       behavior: HitTestBehavior.opaque,
       child: SizedBox(
         width: 60,
@@ -166,6 +177,13 @@ class _NavItem extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(color: Colors.white, width: 1.5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppTheme.primaryOrange.withValues(alpha: 0.6),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
                 child: const Icon(Icons.person, size: 14, color: Colors.white),
               )
@@ -173,9 +191,17 @@ class _NavItem extends StatelessWidget {
               Icon(
                 isSelected ? activeIcon : icon,
                 color: isSelected
-                    ? Colors.white
+                    ? AppTheme.primaryOrange
                     : Colors.white.withValues(alpha: 0.45),
                 size: 22,
+                shadows: isSelected
+                    ? [
+                        Shadow(
+                          color: AppTheme.primaryOrange.withValues(alpha: 0.8),
+                          blurRadius: 10,
+                        ),
+                      ]
+                    : null,
               ),
             const SizedBox(height: 3),
             // Label

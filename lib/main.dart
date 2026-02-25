@@ -13,11 +13,11 @@ import 'views/splash/splash_screen.dart';
 import 'views/profile/profile_selection_screen.dart';
 import 'views/navigation/main_navigation.dart';
 import 'views/home/home_screen.dart';
-import 'views/search/search_screen.dart';
 import 'views/news/news_screen.dart';
 import 'views/live_tv/live_tv_screen.dart';
 import 'views/settings/settings_screen.dart';
 import 'views/detail/content_detail_screen.dart';
+import 'views/movies/movie_screen.dart';
 
 void main() {
   runApp(
@@ -40,10 +40,7 @@ final GoRouter _router = GoRouter(
   navigatorKey: _rootNavigatorKey,
   routes: [
     // Splash Screen
-    GoRoute(
-      path: '/splash',
-      builder: (context, state) => const SplashScreen(),
-    ),
+    GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
 
     // Profile Selection
     GoRoute(
@@ -76,30 +73,30 @@ final GoRouter _router = GoRouter(
             ),
           ],
         ),
-        // Branch 1: Search
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/search',
-              builder: (context, state) => const SearchScreen(),
-            ),
-          ],
-        ),
-        // Branch 2: New & Hot
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/news',
-              builder: (context, state) => const NewsScreen(),
-            ),
-          ],
-        ),
-        // Branch 3: Live TV
+        // Branch 1: Live TV
         StatefulShellBranch(
           routes: [
             GoRoute(
               path: '/livetv',
               builder: (context, state) => const LiveTvScreen(),
+            ),
+          ],
+        ),
+        // Branch 2: Movies
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/movies',
+              builder: (context, state) => const MovieScreen(),
+            ),
+          ],
+        ),
+        // Branch 3: News
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/news',
+              builder: (context, state) => const NewsScreen(),
             ),
           ],
         ),

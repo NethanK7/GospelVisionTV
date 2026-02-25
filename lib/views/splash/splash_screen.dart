@@ -47,9 +47,10 @@ class _SplashScreenState extends State<SplashScreen>
     _textSlide = Tween<double>(begin: 30.0, end: 0.0).animate(
       CurvedAnimation(parent: _textController, curve: Curves.easeOutCubic),
     );
-    _textOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _textController, curve: Curves.easeIn),
-    );
+    _textOpacity = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _textController, curve: Curves.easeIn));
 
     // Glow animation
     _glowController = AnimationController(
@@ -98,31 +99,35 @@ class _SplashScreenState extends State<SplashScreen>
                 return Stack(
                   alignment: Alignment.center,
                   children: [
-                    // Glow effect behind cross
+                    // Glow effect behind logo
                     Container(
-                      width: 120,
-                      height: 120,
+                      width: 200,
+                      height: 200,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: AppTheme.primaryOrange
-                                .withValues(alpha: _glowOpacity.value),
-                            blurRadius: 60,
-                            spreadRadius: 20,
+                            color: AppTheme.primaryOrange.withValues(
+                              alpha: _glowOpacity.value,
+                            ),
+                            blurRadius: 80,
+                            spreadRadius: 40,
                           ),
                         ],
                       ),
                     ),
-                    // Cross icon
+                    // Main GV Logo Asset
                     Opacity(
                       opacity: _crossOpacity.value,
                       child: Transform.scale(
                         scale: _crossScale.value,
-                        child: const Icon(
-                          Icons.add,
-                          size: 80,
-                          color: AppTheme.primaryOrange,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.asset(
+                            'assets/images/gv_logo.png',
+                            width: 200,
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
                     ),
@@ -131,9 +136,9 @@ class _SplashScreenState extends State<SplashScreen>
               },
             ),
 
-            const SizedBox(height: 30),
+            const SizedBox(height: 50),
 
-            // Animated Text
+            // Animated Text (Slight subtitle)
             AnimatedBuilder(
               animation: _textController,
               builder: (context, child) {
@@ -143,23 +148,13 @@ class _SplashScreenState extends State<SplashScreen>
                     offset: Offset(0, _textSlide.value),
                     child: Column(
                       children: [
-                        const Text(
-                          'GOSPELVISION',
-                          style: TextStyle(
-                            color: AppTheme.primaryOrange,
-                            fontSize: 36,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 4,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
                         Text(
                           'STREAMING WITH PURPOSE',
                           style: TextStyle(
                             color: Colors.white.withValues(alpha: 0.6),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 6,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 8,
                           ),
                         ),
                       ],

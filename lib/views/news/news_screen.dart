@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../../controllers/home_controller.dart';
 import '../../models/content_model.dart';
 import '../../theme/app_theme.dart';
@@ -36,88 +37,99 @@ class _NewsScreenState extends State<NewsScreen>
     final isDesktop = MediaQuery.of(context).size.width >= 800;
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppTheme.deepObsidian,
       extendBodyBehindAppBar: true,
       appBar: NetflixNavbar(
         scrollController: _scrollController,
         isDesktop: isDesktop,
       ),
-      body: NestedScrollView(
-        controller: _scrollController,
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height:
-                      MediaQuery.of(context).padding.top +
-                      (isDesktop ? 100 : 80),
-                ),
-                // Header
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isDesktop ? 60 : 16,
-                    vertical: 12,
+      body: Container(
+        decoration: AppTheme.radialBackground,
+        child: NestedScrollView(
+          controller: _scrollController,
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height:
+                        MediaQuery.of(context).padding.top +
+                        (isDesktop ? 100 : 80),
                   ),
-                  child: const Text(
-                    'New & Popular',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32, // Netflix style large header
-                      fontWeight: FontWeight.w900,
+                  // Header
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isDesktop ? 60 : 16,
+                      vertical: 12,
+                    ),
+                    child: AppTheme.shimmeringText(
+                      const Text(
+                        'New & Popular',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 32, // Netflix style large header
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-        ],
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Tab bar
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: isDesktop ? 44 : 12),
-              child: TabBar(
-                controller: _tabController,
-                isScrollable: true,
-                tabAlignment: TabAlignment.start,
-                indicatorColor: AppTheme.primaryOrange,
-                indicatorWeight: 3,
-                indicatorSize: TabBarIndicatorSize.label,
-                labelColor: Colors.white,
-                unselectedLabelColor: AppTheme.textGrey,
-                labelStyle: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
-                ),
-                unselectedLabelStyle: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),
-                dividerColor: Colors.transparent,
-                tabs: const [
-                  Tab(text: 'Coming Soon'),
-                  Tab(text: "Everyone's Watching"),
-                  Tab(text: 'Top 10'),
-                ],
-              ),
-            ),
-            const SizedBox(height: 8),
-
-            // Tab content
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  _ComingSoonTab(isDesktop: isDesktop),
-                  _EveryoneWatchingTab(isDesktop: isDesktop),
-                  _Top10Tab(isDesktop: isDesktop),
                 ],
               ),
             ),
           ],
+          body:
+              Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Tab bar
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isDesktop ? 44 : 12,
+                        ),
+                        child: TabBar(
+                          controller: _tabController,
+                          isScrollable: true,
+                          tabAlignment: TabAlignment.start,
+                          indicatorColor: AppTheme.primaryOrange,
+                          indicatorWeight: 3,
+                          indicatorSize: TabBarIndicatorSize.label,
+                          labelColor: Colors.white,
+                          unselectedLabelColor: AppTheme.textGrey,
+                          labelStyle: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14,
+                          ),
+                          unselectedLabelStyle: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                          ),
+                          dividerColor: Colors.transparent,
+                          tabs: const [
+                            Tab(text: 'Coming Soon'),
+                            Tab(text: "Everyone's Watching"),
+                            Tab(text: 'Top 10'),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+
+                      // Tab content
+                      Expanded(
+                        child: TabBarView(
+                          controller: _tabController,
+                          children: [
+                            _ComingSoonTab(isDesktop: isDesktop),
+                            _EveryoneWatchingTab(isDesktop: isDesktop),
+                            _Top10Tab(isDesktop: isDesktop),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                  .animate()
+                  .fadeIn(duration: 600.ms)
+                  .slideY(begin: 0.1, end: 0, curve: Curves.easeOutQuart),
         ),
       ),
     );

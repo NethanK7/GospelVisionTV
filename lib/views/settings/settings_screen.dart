@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../../controllers/home_controller.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/netflix_navbar.dart';
@@ -35,290 +36,339 @@ class _SettingsScreenState extends State<SettingsScreen> {
         : null;
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppTheme.deepObsidian,
       extendBodyBehindAppBar: true,
       appBar: NetflixNavbar(
         scrollController: _scrollController,
         isDesktop: isDesktop,
       ),
-      body: SingleChildScrollView(
-        controller: _scrollController,
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: isDesktop ? 60 : 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height:
-                    MediaQuery.of(context).padding.top + (isDesktop ? 100 : 80),
-              ),
-              // Header
-              Row(
-                children: [
-                  const Text(
-                    'My Profile',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.cast_outlined,
-                      color: Colors.white,
-                      size: 22,
-                    ),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-
-              // Profile card
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      const Color(0xFF1E1E1E),
-                      const Color(0xFF2A1A0E).withValues(alpha: 0.5),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.06),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    // Avatar
-                    Container(
-                      width: 64,
-                      height: 64,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            profile?.color ?? AppTheme.primaryOrange,
-                            (profile?.color ?? AppTheme.primaryOrange)
-                                .withValues(alpha: 0.7),
+      body: Container(
+        decoration: AppTheme.radialBackground,
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          physics: const BouncingScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: isDesktop ? 60 : 16),
+            child:
+                Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height:
+                              MediaQuery.of(context).padding.top +
+                              (isDesktop ? 100 : 80),
+                        ),
+                        // Header
+                        Row(
+                          children: [
+                            const Text(
+                              'My Profile',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 32,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                            const Spacer(),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.cast_outlined,
+                                color: Colors.white,
+                                size: 22,
+                              ),
+                              onPressed: () {},
+                            ),
                           ],
                         ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Icon(
-                        profile?.icon ?? Icons.person,
-                        size: 34,
-                        color: Colors.white.withValues(alpha: 0.9),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    // Info
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            profile?.name ?? 'Guest',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
+                        const SizedBox(height: 20),
+
+                        // Profile card
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                const Color(0xFF1E1E1E),
+                                const Color(0xFF2A1A0E).withValues(alpha: 0.5),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.06),
                             ),
                           ),
-                          const SizedBox(height: 4),
-                          Row(
+                          child: Row(
                             children: [
+                              // Avatar
                               Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 2,
-                                ),
+                                width: 64,
+                                height: 64,
                                 decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
+                                  gradient: LinearGradient(
                                     colors: [
-                                      AppTheme.primaryOrange,
-                                      Color(0xFFE85D04),
+                                      profile?.color ?? AppTheme.primaryOrange,
+                                      (profile?.color ?? AppTheme.primaryOrange)
+                                          .withValues(alpha: 0.7),
                                     ],
                                   ),
-                                  borderRadius: BorderRadius.circular(3),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: const Text(
-                                  'PREMIUM',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: 1,
-                                  ),
+                                child: Icon(
+                                  profile?.icon ?? Icons.person,
+                                  size: 34,
+                                  color: Colors.white.withValues(alpha: 0.9),
                                 ),
                               ),
-                              const SizedBox(width: 8),
-                              const Text(
-                                'Member since 2024',
-                                style: TextStyle(
-                                  color: AppTheme.textGrey,
-                                  fontSize: 12,
+                              const SizedBox(width: 16),
+                              // Info
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      profile?.name ?? 'Guest',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                            vertical: 2,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            gradient: const LinearGradient(
+                                              colors: [
+                                                AppTheme.primaryOrange,
+                                                Color(0xFFE85D04),
+                                              ],
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              3,
+                                            ),
+                                          ),
+                                          child: const Text(
+                                            'PREMIUM',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 9,
+                                              fontWeight: FontWeight.w800,
+                                              letterSpacing: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        const Text(
+                                          'Member since 2024',
+                                          style: TextStyle(
+                                            color: AppTheme.textGrey,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // Edit button
+                              IconButton(
+                                onPressed: () {},
+                                icon: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withValues(alpha: 0.1),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: const Icon(
+                                    Icons.edit,
+                                    color: Colors.white,
+                                    size: 18,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ),
-                    // Edit button
-                    IconButton(
-                      onPressed: () {},
-                      icon: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Icon(
-                          Icons.edit,
-                          color: Colors.white,
-                          size: 18,
+                        const SizedBox(height: 12),
+
+                        // Switch Profile button
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton(
+                            onPressed: () => context.go('/profiles'),
+                            style: OutlinedButton.styleFrom(
+                              side: BorderSide(
+                                color: Colors.white.withValues(alpha: 0.2),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: const Text(
+                              'Switch Profile',
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 12),
+                        const SizedBox(height: 28),
 
-              // Switch Profile button
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () => context.go('/profiles'),
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(
-                      color: Colors.white.withValues(alpha: 0.2),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text(
-                    'Switch Profile',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 28),
+                        // Quick Action Grid
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _quickAction(
+                                Icons.notifications_outlined,
+                                'Notifications',
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: _quickAction(
+                                Icons.download_outlined,
+                                'Downloads',
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _quickAction(
+                                Icons.bookmark_outline,
+                                'My List',
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: _quickAction(
+                                Icons.history,
+                                'Watch History',
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 28),
 
-              // Quick Action Grid
-              Row(
-                children: [
-                  Expanded(
-                    child: _quickAction(
-                      Icons.notifications_outlined,
-                      'Notifications',
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _quickAction(Icons.download_outlined, 'Downloads'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: _quickAction(Icons.bookmark_outline, 'My List'),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(child: _quickAction(Icons.history, 'Watch History')),
-                ],
-              ),
-              const SizedBox(height: 28),
+                        // Settings Groups
+                        _settingsSection('Account', [
+                          _settingsTile(
+                            Icons.person_outline,
+                            'Account Details',
+                          ),
+                          _settingsTile(
+                            Icons.credit_card,
+                            'Subscription & Billing',
+                          ),
+                          _settingsTile(Icons.devices, 'Manage Devices'),
+                          _settingsTile(
+                            Icons.family_restroom,
+                            'Manage Profiles',
+                          ),
+                        ]),
+                        const SizedBox(height: 20),
 
-              // Settings Groups
-              _settingsSection('Account', [
-                _settingsTile(Icons.person_outline, 'Account Details'),
-                _settingsTile(Icons.credit_card, 'Subscription & Billing'),
-                _settingsTile(Icons.devices, 'Manage Devices'),
-                _settingsTile(Icons.family_restroom, 'Manage Profiles'),
-              ]),
-              const SizedBox(height: 20),
+                        _settingsSection('Settings', [
+                          _settingsTile(
+                            Icons.high_quality,
+                            'Video Quality',
+                            subtitle: 'Auto',
+                          ),
+                          _settingsTile(
+                            Icons.download_outlined,
+                            'Download Settings',
+                            subtitle: 'Wi-Fi Only',
+                          ),
+                          _settingsTile(
+                            Icons.language,
+                            'Language',
+                            subtitle: 'English',
+                          ),
+                          _settingsTile(
+                            Icons.subtitles,
+                            'Subtitles',
+                            subtitle: 'On',
+                          ),
+                          _settingsTile(
+                            Icons.notifications_outlined,
+                            'Notifications',
+                            subtitle: 'Enabled',
+                          ),
+                        ]),
+                        const SizedBox(height: 20),
 
-              _settingsSection('Settings', [
-                _settingsTile(
-                  Icons.high_quality,
-                  'Video Quality',
-                  subtitle: 'Auto',
-                ),
-                _settingsTile(
-                  Icons.download_outlined,
-                  'Download Settings',
-                  subtitle: 'Wi-Fi Only',
-                ),
-                _settingsTile(Icons.language, 'Language', subtitle: 'English'),
-                _settingsTile(Icons.subtitles, 'Subtitles', subtitle: 'On'),
-                _settingsTile(
-                  Icons.notifications_outlined,
-                  'Notifications',
-                  subtitle: 'Enabled',
-                ),
-              ]),
-              const SizedBox(height: 20),
+                        _settingsSection('Help & More', [
+                          _settingsTile(Icons.help_outline, 'Help Center'),
+                          _settingsTile(
+                            Icons.privacy_tip_outlined,
+                            'Privacy Policy',
+                          ),
+                          _settingsTile(
+                            Icons.description_outlined,
+                            'Terms of Service',
+                          ),
+                          _settingsTile(
+                            Icons.info_outline,
+                            'About GospelVision',
+                          ),
+                        ]),
+                        const SizedBox(height: 28),
 
-              _settingsSection('Help & More', [
-                _settingsTile(Icons.help_outline, 'Help Center'),
-                _settingsTile(Icons.privacy_tip_outlined, 'Privacy Policy'),
-                _settingsTile(Icons.description_outlined, 'Terms of Service'),
-                _settingsTile(Icons.info_outline, 'About GospelVision'),
-              ]),
-              const SizedBox(height: 28),
+                        // Sign Out button
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white.withValues(
+                                alpha: 0.08,
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: const Text(
+                              'Sign Out',
+                              style: TextStyle(
+                                color: AppTheme.primaryOrange,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
 
-              // Sign Out button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white.withValues(alpha: 0.08),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: const Text(
-                    'Sign Out',
-                    style: TextStyle(
-                      color: AppTheme.primaryOrange,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 12),
-
-              // Version
-              Center(
-                child: Text(
-                  'GospelVisionTV v1.0.0',
-                  style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    fontSize: 12,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 100),
-            ],
+                        // Version
+                        Center(
+                          child: Text(
+                            'GospelVisionTV v1.0.0',
+                            style: TextStyle(
+                              color: Colors.white.withValues(alpha: 0.2),
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 100),
+                      ],
+                    )
+                    .animate()
+                    .fadeIn(duration: 600.ms)
+                    .slideY(begin: 0.1, end: 0, curve: Curves.easeOutQuart),
           ),
         ),
       ),
