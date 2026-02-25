@@ -10,6 +10,7 @@ import 'controllers/search_controller.dart';
 
 // Views
 import 'views/splash/splash_screen.dart';
+import 'views/auth/login_screen.dart';
 import 'views/profile/profile_selection_screen.dart';
 import 'views/navigation/main_navigation.dart';
 import 'views/home/home_screen.dart';
@@ -41,6 +42,9 @@ final GoRouter _router = GoRouter(
   routes: [
     // Splash Screen
     GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
+
+    // Login Screen
+    GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
 
     // Profile Selection
     GoRoute(

@@ -49,33 +49,27 @@ class _MagneticNavItemState extends State<MagneticNavItem> {
             _isHovered ? ((_mousePosition.dy - 20) * 0.15) : 0,
             0,
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             color: _isHovered
-                ? Colors.white.withValues(alpha: 0.1)
+                ? Colors.white.withValues(alpha: 0.08)
                 : Colors.transparent,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: _isHovered
-                ? [
-                    BoxShadow(
-                      color: AppTheme.primaryOrange.withValues(alpha: 0.2),
-                      blurRadius: 10,
-                      spreadRadius: 2,
-                    ),
-                  ]
-                : [],
+            borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
             widget.label,
             style: TextStyle(
-              color: widget.isActive ? Colors.white : AppTheme.textGrey,
-              fontWeight: widget.isActive ? FontWeight.bold : FontWeight.w600,
-              fontSize: 15,
-              shadows: _isHovered
+              color: widget.isActive
+                  ? Colors.white
+                  : Colors.white.withValues(alpha: 0.7),
+              fontWeight: widget.isActive ? FontWeight.w800 : FontWeight.w500,
+              fontSize: 14,
+              letterSpacing: 0.5,
+              shadows: widget.isActive
                   ? [
                       Shadow(
-                        color: AppTheme.primaryGold.withValues(alpha: 0.5),
-                        blurRadius: 8,
+                        color: AppTheme.primaryOrange.withValues(alpha: 0.4),
+                        blurRadius: 10,
                       ),
                     ]
                   : [],

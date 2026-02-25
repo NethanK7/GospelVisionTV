@@ -330,7 +330,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () => context.go('/login'),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white.withValues(
                                 alpha: 0.08,

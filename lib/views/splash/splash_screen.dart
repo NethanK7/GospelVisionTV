@@ -72,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen>
     _glowController.forward();
     await Future.delayed(const Duration(milliseconds: 2000));
     if (mounted) {
-      context.go('/profiles');
+      context.go('/login');
     }
   }
 

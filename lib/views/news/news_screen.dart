@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+
 import 'package:flutter_animate/flutter_animate.dart';
-import '../../controllers/home_controller.dart';
-import '../../models/content_model.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/netflix_navbar.dart';
 
@@ -55,25 +52,44 @@ class _NewsScreenState extends State<NewsScreen>
                   SizedBox(
                     height:
                         MediaQuery.of(context).padding.top +
-                        (isDesktop ? 100 : 80),
+                        (isDesktop ? 120 : 100),
                   ),
                   // Header
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: isDesktop ? 60 : 16,
-                      vertical: 12,
                     ),
-                    child: AppTheme.shimmeringText(
-                      const Text(
-                        'New & Popular',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32, // Netflix style large header
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    ),
+                    child:
+                        AppTheme.shimmeringText(
+                              const Text(
+                                'Christian News\n& Devotionals',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.w900,
+                                  height: 1.1,
+                                  letterSpacing: -1,
+                                ),
+                              ),
+                            )
+                            .animate()
+                            .fadeIn(duration: 600.ms)
+                            .slideY(begin: -0.1, end: 0),
                   ),
+                  const SizedBox(height: 12),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isDesktop ? 60 : 16,
+                    ),
+                    child: Text(
+                      'Stay updated with global ministry events, latest testimonies, and daily word.',
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.6),
+                        fontSize: 16,
+                      ),
+                    ).animate().fadeIn(duration: 800.ms),
+                  ),
+                  const SizedBox(height: 30),
                 ],
               ),
             ),
@@ -82,7 +98,7 @@ class _NewsScreenState extends State<NewsScreen>
               Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Tab bar
+                      // Premium Tab Bar
                       Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: isDesktop ? 44 : 12,
@@ -92,36 +108,35 @@ class _NewsScreenState extends State<NewsScreen>
                           isScrollable: true,
                           tabAlignment: TabAlignment.start,
                           indicatorColor: AppTheme.primaryOrange,
-                          indicatorWeight: 3,
+                          indicatorWeight: 4,
                           indicatorSize: TabBarIndicatorSize.label,
                           labelColor: Colors.white,
                           unselectedLabelColor: AppTheme.textGrey,
                           labelStyle: const TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 16,
                           ),
                           unselectedLabelStyle: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
                           ),
                           dividerColor: Colors.transparent,
                           tabs: const [
-                            Tab(text: 'Coming Soon'),
-                            Tab(text: "Everyone's Watching"),
-                            Tab(text: 'Top 10'),
+                            Tab(text: 'Latest News'),
+                            Tab(text: 'Daily Devotionals'),
+                            Tab(text: 'Ministry Events'),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 8),
-
+                      const SizedBox(height: 24),
                       // Tab content
                       Expanded(
                         child: TabBarView(
                           controller: _tabController,
                           children: [
-                            _ComingSoonTab(isDesktop: isDesktop),
-                            _EveryoneWatchingTab(isDesktop: isDesktop),
-                            _Top10Tab(isDesktop: isDesktop),
+                            _NewsList(isDesktop: isDesktop),
+                            _DevotionalsList(isDesktop: isDesktop),
+                            _EventsList(isDesktop: isDesktop),
                           ],
                         ),
                       ),
@@ -137,207 +152,174 @@ class _NewsScreenState extends State<NewsScreen>
 }
 
 // ============================================================
-// COMING SOON TAB
+// LATEST NEWS TAB
 // ============================================================
-class _ComingSoonTab extends StatelessWidget {
+class _NewsList extends StatelessWidget {
   final bool isDesktop;
 
-  const _ComingSoonTab({required this.isDesktop});
+  const _NewsList({required this.isDesktop});
+
+  final List<Map<String, String>> mockNews = const [
+    {
+      'title': 'Global Worship Conference 2026 Set to Open in London',
+      'category': 'GLOBAL EVENT',
+      'date': 'Oct 24',
+      'desc':
+          'Thousands are expected to gather as GospelVision hosts its annual worship summit featuring top global leaders.',
+      'image':
+          'https://images.unsplash.com/photo-1438283173091-5dbf5c5a3206?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    },
+    {
+      'title': 'New Documentary: The Revival in East Africa',
+      'category': 'NEW RELEASE',
+      'date': 'Oct 22',
+      'desc':
+          'An exclusive behind-the-scenes look at the sweeping revival movements currently transforming communities.',
+      'image':
+          'https://images.unsplash.com/photo-1544427920-c49ccbf8bfb2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    },
+    {
+      'title': 'GospelVision App Reaches Top 10 in Faith Category',
+      'category': 'TECH / PLATFORM',
+      'date': 'Oct 15',
+      'desc':
+          'The newly redesigned GospelVision app has seen record downloads this week after the latest UI overhaul.',
+      'image':
+          'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final controller = Provider.of<HomeController>(context);
-    final items = controller.newReleases;
-
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
-      padding: EdgeInsets.symmetric(horizontal: isDesktop ? 48 : 0),
-      itemCount: items.length,
+      padding: EdgeInsets.symmetric(
+        horizontal: isDesktop ? 60 : 16,
+        vertical: 10,
+      ),
+      itemCount: mockNews.length,
       itemBuilder: (context, index) {
-        return _ComingSoonItem(item: items[index], isDesktop: isDesktop);
+        final item = mockNews[index];
+        return _NewsCard(
+          item: item,
+          isDesktop: isDesktop,
+        ).animate().fadeIn(delay: (100 * index).ms).slideY(begin: 0.1, end: 0);
       },
     );
   }
 }
 
-class _ComingSoonItem extends StatelessWidget {
-  final ContentModel item;
+class _NewsCard extends StatelessWidget {
+  final Map<String, String> item;
   final bool isDesktop;
 
-  const _ComingSoonItem({required this.item, required this.isDesktop});
+  const _NewsCard({required this.item, required this.isDesktop});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => context.push('/detail/${item.id}'),
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 28),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Image with play overlay
-            Stack(
+    return Container(
+      margin: const EdgeInsets.only(bottom: 32),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.03),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+      ),
+      child: isDesktop
+          ? Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: isDesktop ? 300 : 200,
-                  width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: isDesktop ? 0 : 0),
-                  decoration: BoxDecoration(
-                    borderRadius: isDesktop
-                        ? BorderRadius.circular(8)
-                        : BorderRadius.zero,
-                    image: DecorationImage(
-                      image: NetworkImage(item.imageUrl),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 16,
-                  bottom: 12,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.6),
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white38),
-                    ),
-                    child: const Icon(
-                      Icons.play_arrow,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                  ),
-                ),
-                // Volume/mute button
-                Positioned(
-                  left: 16,
-                  bottom: 12,
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.6),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.volume_off,
-                      color: Colors.white,
-                      size: 18,
-                    ),
+                _buildImage(width: 300, height: 200),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: _buildContent(),
                   ),
                 ),
               ],
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildImage(width: double.infinity, height: 200),
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: _buildContent(),
+                ),
+              ],
             ),
-            const SizedBox(height: 14),
+    );
+  }
 
-            // Content info
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Date column
-                  SizedBox(
-                    width: 50,
-                    child: Column(
-                      children: [
-                        Text(
-                          _getMonth(),
-                          style: const TextStyle(
-                            color: AppTheme.textGrey,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Text(
-                          _getDay(),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 28,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-
-                  // Details
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                item.title,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ),
-                            _actionIcon(
-                              Icons.notifications_outlined,
-                              'Remind Me',
-                            ),
-                            const SizedBox(width: 20),
-                            _actionIcon(Icons.info_outline, 'Info'),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          item.description,
-                          style: const TextStyle(
-                            color: AppTheme.textGrey,
-                            fontSize: 13,
-                            height: 1.4,
-                          ),
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          item.genres.join(' \u2022 '),
-                          style: const TextStyle(
-                            color: AppTheme.primaryOrange,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+  Widget _buildImage({required double width, required double height}) {
+    return ClipRRect(
+      borderRadius: isDesktop
+          ? const BorderRadius.horizontal(left: Radius.circular(16))
+          : const BorderRadius.vertical(top: Radius.circular(16)),
+      child: Image.network(
+        item['image']!,
+        width: width,
+        height: height,
+        fit: BoxFit.cover,
       ),
     );
   }
 
-  String _getMonth() {
-    final months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN'];
-    final idx = item.id.hashCode.abs() % months.length;
-    return months[idx];
-  }
-
-  String _getDay() {
-    return '${(item.id.hashCode.abs() % 28) + 1}';
-  }
-
-  Widget _actionIcon(IconData icon, String label) {
+  Widget _buildContent() {
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, color: Colors.white, size: 22),
-        const SizedBox(height: 4),
+        Row(
+          children: [
+            Text(
+              item['category']!,
+              style: const TextStyle(
+                color: AppTheme.primaryOrange,
+                fontSize: 12,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 1.5,
+              ),
+            ),
+            const Spacer(),
+            Text(
+              item['date']!,
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.5),
+                fontSize: 13,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
         Text(
-          label,
-          style: const TextStyle(color: AppTheme.textGrey, fontSize: 9),
+          item['title']!,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            height: 1.2,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          item['desc']!,
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: 0.6),
+            fontSize: 15,
+            height: 1.5,
+          ),
+        ),
+        const SizedBox(height: 16),
+        MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: Text(
+            'READ FULL ARTICLE →',
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.9),
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1,
+            ),
+          ),
         ),
       ],
     );
@@ -345,203 +327,142 @@ class _ComingSoonItem extends StatelessWidget {
 }
 
 // ============================================================
-// EVERYONE'S WATCHING TAB
+// DAILY DEVOTIONALS TAB
 // ============================================================
-class _EveryoneWatchingTab extends StatelessWidget {
+class _DevotionalsList extends StatelessWidget {
   final bool isDesktop;
 
-  const _EveryoneWatchingTab({required this.isDesktop});
+  const _DevotionalsList({required this.isDesktop});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Provider.of<HomeController>(context);
-    final items = controller.trending;
-
-    return ListView.builder(
+    return GridView.builder(
       physics: const BouncingScrollPhysics(),
-      padding: EdgeInsets.symmetric(horizontal: isDesktop ? 48 : 0),
-      itemCount: items.length,
+      padding: EdgeInsets.symmetric(
+        horizontal: isDesktop ? 60 : 16,
+        vertical: 10,
+      ),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: isDesktop ? 3 : 1,
+        childAspectRatio: isDesktop ? 0.9 : 1.2,
+        mainAxisSpacing: 24,
+        crossAxisSpacing: 24,
+      ),
+      itemCount: 4,
       itemBuilder: (context, index) {
-        final item = items[index];
-        return InkWell(
-          onTap: () => context.push('/detail/${item.id}'),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Image
-                Container(
-                  height: isDesktop ? 280 : 190,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: isDesktop
-                        ? BorderRadius.circular(8)
-                        : BorderRadius.zero,
-                    image: DecorationImage(
-                      image: NetworkImage(item.imageUrl),
-                      fit: BoxFit.cover,
+        return Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    const Color(0xFF1E1E1E),
+                    const Color(0xFF2A1A0E).withValues(alpha: 0.5),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: AppTheme.primaryOrange.withValues(alpha: 0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.menu_book,
+                      color: AppTheme.primaryOrange,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          if (item.isOriginal)
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 5,
-                                  vertical: 2,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppTheme.primaryOrange,
-                                  borderRadius: BorderRadius.circular(2),
-                                ),
-                                child: const Text(
-                                  'GV ORIGINAL',
-                                  style: TextStyle(
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.w800,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          Expanded(
-                            child: Text(
-                              item.title,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        item.description,
-                        style: const TextStyle(
-                          color: AppTheme.textGrey,
-                          fontSize: 13,
-                          height: 1.4,
-                        ),
-                        maxLines: 2,
-                      ),
-                    ],
+                  const SizedBox(height: 20),
+                  Text(
+                    'Day ${index + 1}: Finding Peace in Chaos',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-        );
+                  const SizedBox(height: 12),
+                  Expanded(
+                    child: Text(
+                      'In today’s fast-paced world, Jesus provides a stillness that transcends all understanding. Read today’s passage in John 14...',
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.7),
+                        fontSize: 15,
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.primaryOrange,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      minimumSize: const Size(double.infinity, 48),
+                    ),
+                    child: const Text(
+                      'Read Today\'s Word',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+            )
+            .animate()
+            .fadeIn(delay: (100 * index).ms)
+            .scaleXY(begin: 0.9, end: 1.0, curve: Curves.easeOut);
       },
     );
   }
 }
 
 // ============================================================
-// TOP 10 TAB
+// MINISTRY EVENTS TAB
 // ============================================================
-class _Top10Tab extends StatelessWidget {
+class _EventsList extends StatelessWidget {
   final bool isDesktop;
 
-  const _Top10Tab({required this.isDesktop});
+  const _EventsList({required this.isDesktop});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Provider.of<HomeController>(context);
-    final items = controller.top10;
-
-    return ListView.builder(
-      physics: const BouncingScrollPhysics(),
-      padding: EdgeInsets.symmetric(
-        horizontal: isDesktop ? 48 : 16,
-        vertical: 8,
-      ),
-      itemCount: items.take(10).length,
-      itemBuilder: (context, index) {
-        final item = items[index];
-        return InkWell(
-          onTap: () => context.push('/detail/${item.id}'),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Row(
-              children: [
-                // Rank number
-                SizedBox(
-                  width: 40,
-                  child: Text(
-                    '${index + 1}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: index < 3 ? AppTheme.primaryOrange : Colors.white,
-                      fontSize: 28,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                // Thumbnail
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: Image.network(
-                    item.imageUrl,
-                    width: 100,
-                    height: 56,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) => Container(
-                      width: 100,
-                      height: 56,
-                      color: Colors.grey[900],
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                // Info
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        item.title,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        item.genres.take(2).join(' \u2022 '),
-                        style: const TextStyle(
-                          color: AppTheme.textGrey,
-                          fontSize: 11,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // Arrow/play
-                Icon(
-                  Icons.play_circle_outline,
-                  color: Colors.white.withValues(alpha: 0.5),
-                  size: 28,
-                ),
-              ],
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.event_available,
+            size: 80,
+            color: Colors.white.withValues(alpha: 0.2),
+          ),
+          const SizedBox(height: 20),
+          const Text(
+            'Upcoming Events',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
             ),
           ),
-        );
-      },
+          const SizedBox(height: 12),
+          Text(
+            'Check back soon for new global ministry schedules.',
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.5),
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ).animate().fadeIn(),
     );
   }
 }
