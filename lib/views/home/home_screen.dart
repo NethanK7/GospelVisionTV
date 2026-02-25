@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../controllers/home_controller.dart';
 import '../../models/content_model.dart';
 import '../../theme/app_theme.dart';
@@ -82,10 +83,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 controller: _scrollController,
                 physics: const BouncingScrollPhysics(),
                 slivers: [
-                  // LIVING HERO
+                  // LIVING HERO / CAROUSEL
                   SliverToBoxAdapter(
                     child: controller.featuredContent.isNotEmpty
-                        ? LivingHero(content: controller.featuredContent.first)
+                        ? LivingHero(
+                            featuredContent: controller.featuredContent,
+                          )
                         : const SizedBox(),
                   ),
 
@@ -137,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 // CONTENT ROW (Horizontal Scroll)
 // ============================================================
-class _ContentRow extends StatelessWidget {
+class _ContentRow extends StatefulWidget {
   final String title;
   final List<ContentModel> items;
   final bool isDesktop;
@@ -153,26 +156,53 @@ class _ContentRow extends StatelessWidget {
   });
 
   @override
+  State<_ContentRow> createState() => _ContentRowState();
+}
+
+class _ContentRowState extends State<_ContentRow> {
+  final ScrollController _scrollController = ScrollController();
+  bool _isHovered = false;
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollBy(double offset) {
+    if (!_scrollController.hasClients) return;
+    final newOffset = (_scrollController.offset + offset).clamp(
+      0.0,
+      _scrollController.position.maxScrollExtent,
+    );
+    _scrollController.animateTo(
+      newOffset,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeOutQuart,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final cardWidth = isTallPoster
-        ? (isDesktop ? 200.0 : 130.0)
-        : (isDesktop ? 240.0 : 140.0);
-    final cardHeight = isTallPoster ? cardWidth * 1.5 : cardWidth * 0.56;
+    final cardWidth = widget.isTallPoster
+        ? (widget.isDesktop ? 200.0 : 130.0)
+        : (widget.isDesktop ? 240.0 : 140.0);
+    final cardHeight = widget.isTallPoster ? cardWidth * 1.5 : cardWidth * 0.56;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: isDesktop ? 48 : 16,
+            horizontal: widget.isDesktop ? 48 : 16,
             vertical: 8,
           ),
           child: Row(
             children: [
               Text(
-                title,
+                widget.title,
                 style: TextStyle(
-                  fontSize: isDesktop ? 20 : 16,
+                  fontSize: widget.isDesktop ? 20 : 16,
                   fontWeight: FontWeight.w800,
                   color: AppTheme.offWhite,
                 ),
@@ -181,36 +211,65 @@ class _ContentRow extends StatelessWidget {
               Icon(
                 Icons.chevron_right,
                 color: AppTheme.primaryOrange,
-                size: isDesktop ? 22 : 18,
+                size: widget.isDesktop ? 22 : 18,
               ),
             ],
           ),
         ),
         SizedBox(
-          height: cardHeight + (isDesktop ? 60 : 20),
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            padding: EdgeInsets.symmetric(
-              horizontal: isDesktop ? 44 : 12,
-              vertical: 6,
-            ),
-            clipBehavior: Clip.none,
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: AuraContentCard(
-                      content: items[index],
-                      width: cardWidth,
-                      height: cardHeight,
-                      isLarge: isTallPoster,
+          height: cardHeight + (widget.isDesktop ? 60 : 30),
+          child: MouseRegion(
+            onEnter: (_) => setState(() => _isHovered = true),
+            onExit: (_) => setState(() => _isHovered = false),
+            child: Stack(
+              children: [
+                ListView.builder(
+                  controller: _scrollController,
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: widget.isDesktop ? 44 : 12,
+                    vertical: 6,
+                  ),
+                  clipBehavior: Clip.none,
+                  itemCount: widget.items.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: AuraContentCard(
+                            content: widget.items[index],
+                            width: cardWidth,
+                            height: cardHeight,
+                            isLarge: widget.isTallPoster,
+                          ),
+                        )
+                        .animate()
+                        .fadeIn(duration: 400.ms)
+                        .slideX(begin: 0.05, end: 0, duration: 400.ms);
+                  },
+                ),
+
+                // Desktop Scroll Arrows (Prime Style)
+                if (widget.isDesktop)
+                  AnimatedOpacity(
+                    opacity: _isHovered ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 200),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _HoverScrollButton(
+                          icon: Icons.arrow_back_ios_new,
+                          onPressed: () => _scrollBy(-cardWidth * 3),
+                        ),
+                        _HoverScrollButton(
+                          icon: Icons.arrow_forward_ios,
+                          onPressed: () => _scrollBy(cardWidth * 3),
+                        ),
+                      ],
                     ),
-                  )
-                  .animate()
-                  .fadeIn(duration: 400.ms)
-                  .slideX(begin: 0.05, end: 0, duration: 400.ms);
-            },
+                  ),
+              ],
+            ),
           ),
         ),
       ],
@@ -218,17 +277,65 @@ class _ContentRow extends StatelessWidget {
   }
 }
 
+class _HoverScrollButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  const _HoverScrollButton({required this.icon, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 44,
+      height: double.infinity,
+      alignment: Alignment.center,
+      color: Colors.black.withValues(alpha: 0.6),
+      child: IconButton(
+        icon: Icon(icon, color: Colors.white, size: 30),
+        onPressed: onPressed,
+      ),
+    );
+  }
+}
+
 // TOP 10 ROW
 // ============================================================
-class _Top10Row extends StatelessWidget {
+class _Top10Row extends StatefulWidget {
   final List<ContentModel> items;
   final bool isDesktop;
 
   const _Top10Row({required this.items, required this.isDesktop});
 
   @override
+  State<_Top10Row> createState() => _Top10RowState();
+}
+
+class _Top10RowState extends State<_Top10Row> {
+  final ScrollController _scrollController = ScrollController();
+  bool _isHovered = false;
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollBy(double offset) {
+    if (!_scrollController.hasClients) return;
+    final newOffset = (_scrollController.offset + offset).clamp(
+      0.0,
+      _scrollController.position.maxScrollExtent,
+    );
+    _scrollController.animateTo(
+      newOffset,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeOutQuart,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final cardWidth = isDesktop ? 160.0 : 110.0;
+    final cardWidth = widget.isDesktop ? 160.0 : 110.0;
     final cardHeight = cardWidth * 1.5;
 
     return Column(
@@ -236,7 +343,7 @@ class _Top10Row extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: isDesktop ? 48 : 16,
+            horizontal: widget.isDesktop ? 48 : 16,
             vertical: 8,
           ),
           child: Row(
@@ -250,7 +357,7 @@ class _Top10Row extends StatelessWidget {
                 child: Text(
                   'TOP 10',
                   style: TextStyle(
-                    fontSize: isDesktop ? 12 : 10,
+                    fontSize: widget.isDesktop ? 12 : 10,
                     fontWeight: FontWeight.w900,
                     color: Colors.white,
                     letterSpacing: 1,
@@ -261,7 +368,7 @@ class _Top10Row extends StatelessWidget {
               Text(
                 'in Your Country Today',
                 style: TextStyle(
-                  fontSize: isDesktop ? 20 : 16,
+                  fontSize: widget.isDesktop ? 20 : 16,
                   fontWeight: FontWeight.w800,
                   color: AppTheme.offWhite,
                 ),
@@ -271,30 +378,61 @@ class _Top10Row extends StatelessWidget {
         ),
         SizedBox(
           height: cardHeight + 30,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            padding: EdgeInsets.symmetric(
-              horizontal: isDesktop ? 44 : 12,
-              vertical: 6,
+          child: MouseRegion(
+            onEnter: (_) => setState(() => _isHovered = true),
+            onExit: (_) => setState(() => _isHovered = false),
+            child: Stack(
+              children: [
+                ListView.builder(
+                  controller: _scrollController,
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: widget.isDesktop ? 44 : 12,
+                    vertical: 6,
+                  ),
+                  clipBehavior: Clip.none,
+                  itemCount: widget.items.take(10).length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        right: 4,
+                        left: index == 0 ? 0 : 24,
+                      ),
+                      child:
+                          _Top10Card(
+                                item: widget.items[index],
+                                rank: index + 1,
+                                width: cardWidth,
+                                height: cardHeight,
+                              )
+                              .animate()
+                              .fadeIn(duration: 400.ms)
+                              .slideX(begin: 0.05, end: 0, duration: 400.ms),
+                    );
+                  },
+                ),
+
+                if (widget.isDesktop)
+                  AnimatedOpacity(
+                    opacity: _isHovered ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 200),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _HoverScrollButton(
+                          icon: Icons.arrow_back_ios_new,
+                          onPressed: () => _scrollBy(-cardWidth * 3),
+                        ),
+                        _HoverScrollButton(
+                          icon: Icons.arrow_forward_ios,
+                          onPressed: () => _scrollBy(cardWidth * 3),
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
             ),
-            clipBehavior: Clip.none,
-            itemCount: items.take(10).length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.only(right: 4, left: index == 0 ? 0 : 24),
-                child:
-                    _Top10Card(
-                          item: items[index],
-                          rank: index + 1,
-                          width: cardWidth,
-                          height: cardHeight,
-                        )
-                        .animate()
-                        .fadeIn(duration: 400.ms)
-                        .slideX(begin: 0.05, end: 0, duration: 400.ms),
-              );
-            },
           ),
         ),
       ],
@@ -364,15 +502,19 @@ class _Top10Card extends StatelessWidget {
             Positioned(
               right: 0,
               top: 0,
-              child: Container(
-                width: width,
-                height: height,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  image: DecorationImage(
-                    image: NetworkImage(item.imageUrl),
-                    fit: BoxFit.cover,
-                  ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: CachedNetworkImage(
+                  imageUrl: item.imageUrl,
+                  width: width,
+                  height: height,
+                  fit: BoxFit.cover,
+                  memCacheWidth: width.isFinite
+                      ? (width * MediaQuery.devicePixelRatioOf(context)).round()
+                      : null,
+                  placeholder: (context, url) =>
+                      Container(color: AppTheme.surfaceDark),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
             ),
