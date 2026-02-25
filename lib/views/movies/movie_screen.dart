@@ -206,9 +206,12 @@ class _MovieScreenState extends State<MovieScreen> {
                             index,
                           ) {
                             final movie = filteredMovies[index];
+                            final cardWidth = isDesktop ? 200.0 : 130.0;
+                            final cardHeight = cardWidth * 1.5;
                             return AuraContentCard(
                                   content: movie,
-                                  // Enforce tall poster aspect via scale logic inside card or just set flags to null properties
+                                  width: cardWidth,
+                                  height: cardHeight,
                                   isLarge: true,
                                 )
                                 .animate()
