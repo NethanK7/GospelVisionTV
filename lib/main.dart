@@ -6,13 +6,18 @@ import 'package:provider/provider.dart';
 import 'theme/app_theme.dart';
 import 'controllers/home_controller.dart';
 import 'controllers/live_tv_controller.dart';
+import 'controllers/search_controller.dart';
 
 // Views
+import 'views/splash/splash_screen.dart';
+import 'views/profile/profile_selection_screen.dart';
 import 'views/navigation/main_navigation.dart';
 import 'views/home/home_screen.dart';
+import 'views/search/search_screen.dart';
 import 'views/news/news_screen.dart';
 import 'views/live_tv/live_tv_screen.dart';
 import 'views/settings/settings_screen.dart';
+import 'views/detail/content_detail_screen.dart';
 
 void main() {
   runApp(
@@ -20,6 +25,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => HomeController()),
         ChangeNotifierProvider(create: (_) => LiveTvController()),
+        ChangeNotifierProvider(create: (_) => ContentSearchController()),
       ],
       child: const GospelVisionApp(),
     ),
@@ -30,9 +36,32 @@ void main() {
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final GoRouter _router = GoRouter(
-  initialLocation: '/home',
+  initialLocation: '/splash',
   navigatorKey: _rootNavigatorKey,
   routes: [
+    // Splash Screen
+    GoRoute(
+      path: '/splash',
+      builder: (context, state) => const SplashScreen(),
+    ),
+
+    // Profile Selection
+    GoRoute(
+      path: '/profiles',
+      builder: (context, state) => const ProfileSelectionScreen(),
+    ),
+
+    // Content Detail (full-screen overlay)
+    GoRoute(
+      path: '/detail/:id',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (context, state) {
+        final id = state.pathParameters['id'] ?? '';
+        return ContentDetailScreen(contentId: id);
+      },
+    ),
+
+    // Main App Shell (tabbed navigation)
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return MainNavigationScreen(navigationShell: navigationShell);
@@ -47,7 +76,16 @@ final GoRouter _router = GoRouter(
             ),
           ],
         ),
-        // Branch 1: News
+        // Branch 1: Search
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/search',
+              builder: (context, state) => const SearchScreen(),
+            ),
+          ],
+        ),
+        // Branch 2: New & Hot
         StatefulShellBranch(
           routes: [
             GoRoute(
@@ -56,7 +94,7 @@ final GoRouter _router = GoRouter(
             ),
           ],
         ),
-        // Branch 2: Live TV
+        // Branch 3: Live TV
         StatefulShellBranch(
           routes: [
             GoRoute(
@@ -65,7 +103,7 @@ final GoRouter _router = GoRouter(
             ),
           ],
         ),
-        // Branch 3: Settings
+        // Branch 4: Settings / My GospelVision
         StatefulShellBranch(
           routes: [
             GoRoute(
