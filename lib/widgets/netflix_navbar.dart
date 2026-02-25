@@ -3,27 +3,67 @@ import 'package:go_router/go_router.dart';
 import '../theme/app_theme.dart';
 
 /// # 1-to-1 Netflix Navbar
-class NetflixNavbar extends StatelessWidget implements PreferredSizeWidget {
-  final double scrollOffset;
+class NetflixNavbar extends StatefulWidget implements PreferredSizeWidget {
+  final ScrollController scrollController;
   final bool isDesktop;
 
   const NetflixNavbar({
     super.key,
-    required this.scrollOffset,
+    required this.scrollController,
     required this.isDesktop,
   });
 
   @override
+  Size get preferredSize => const Size.fromHeight(80);
+
+  @override
+  State<NetflixNavbar> createState() => _NetflixNavbarState();
+}
+
+class _NetflixNavbarState extends State<NetflixNavbar> {
+  double _backgroundOpacity = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void didUpdateWidget(NetflixNavbar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.scrollController != widget.scrollController) {
+      oldWidget.scrollController.removeListener(_onScroll);
+      widget.scrollController.addListener(_onScroll);
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.scrollController.removeListener(_onScroll);
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (!widget.scrollController.hasClients) return;
+    final offset = widget.scrollController.offset;
+    final newOpacity = (offset / 100).clamp(0.0, 1.0);
+    if (newOpacity != _backgroundOpacity) {
+      setState(() {
+        _backgroundOpacity = newOpacity;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Opacity based on scroll distance. Reaches 1.0 around 100px down.
-    final double backgroundOpacity = (scrollOffset / 100).clamp(0.0, 1.0);
     // Get current route to highlight the active tab
     final String currentRoute = GoRouterState.of(context).uri.path;
 
     return Container(
-      color: Colors.black.withOpacity(backgroundOpacity),
+      color: Colors.black.withOpacity(_backgroundOpacity),
       padding: EdgeInsets.symmetric(
-        horizontal: isDesktop
+        horizontal: widget.isDesktop
             ? 60
             : 20, // Netflix uses a lot of horizontal padding
       ).copyWith(top: MediaQuery.of(context).padding.top + 10, bottom: 15),
@@ -33,6 +73,7 @@ class NetflixNavbar extends StatelessWidget implements PreferredSizeWidget {
           MouseRegion(
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
               onTap: () => context.go('/home'),
               child: const Text(
                 'GOSPELVISION',
@@ -46,7 +87,7 @@ class NetflixNavbar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
 
-          if (isDesktop) ...[
+          if (widget.isDesktop) ...[
             const SizedBox(width: 40),
             _buildDesktopNavLink(context, 'Home', '/home', currentRoute),
             _buildDesktopNavLink(
@@ -79,7 +120,7 @@ class NetflixNavbar extends StatelessWidget implements PreferredSizeWidget {
           const Spacer(),
 
           // RIGHT SIDE ICONS
-          if (isDesktop) ...[
+          if (widget.isDesktop) ...[
             IconButton(
               icon: const Icon(Icons.search, size: 26),
               color: Colors.white,
@@ -104,6 +145,7 @@ class NetflixNavbar extends StatelessWidget implements PreferredSizeWidget {
           MouseRegion(
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
               onTap: () => context.go('/settings'),
               child: Container(
                 width: 32,
@@ -122,7 +164,7 @@ class NetflixNavbar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
 
-          if (isDesktop) ...[
+          if (widget.isDesktop) ...[
             const SizedBox(width: 10),
             const Icon(Icons.arrow_drop_down, color: Colors.white),
           ],
@@ -137,18 +179,22 @@ class NetflixNavbar extends StatelessWidget implements PreferredSizeWidget {
     String routePath,
     String currentPath,
   ) {
-    final bool isActive = currentPath.startsWith(routePath);
+    // Exact match for 'Home' since other mock tabs also use '/home'
+    final bool isActive = title == 'Home'
+        ? currentPath == routePath
+        : currentPath.startsWith(routePath);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: GestureDetector(
-          onTap: () {
-            if (!isActive) {
-              context.go(routePath);
-            }
-          },
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          if (!isActive) {
+            context.go(routePath);
+          }
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           child: Text(
             title,
             style: TextStyle(
@@ -161,7 +207,4 @@ class NetflixNavbar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(80);
 }

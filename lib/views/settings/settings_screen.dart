@@ -14,16 +14,10 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final ScrollController _scrollController = ScrollController();
-  double _scrollOffset = 0.0;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(() {
-      setState(() {
-        _scrollOffset = _scrollController.offset;
-      });
-    });
   }
 
   @override
@@ -43,7 +37,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       extendBodyBehindAppBar: true,
-      appBar: NetflixNavbar(scrollOffset: _scrollOffset, isDesktop: isDesktop),
+      appBar: NetflixNavbar(
+        scrollController: _scrollController,
+        isDesktop: isDesktop,
+      ),
       body: SingleChildScrollView(
         controller: _scrollController,
         physics: const BouncingScrollPhysics(),

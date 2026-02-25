@@ -17,17 +17,11 @@ class _NewsScreenState extends State<NewsScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final ScrollController _scrollController = ScrollController();
-  double _scrollOffset = 0.0;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    _scrollController.addListener(() {
-      setState(() {
-        _scrollOffset = _scrollController.offset;
-      });
-    });
   }
 
   @override
@@ -44,7 +38,10 @@ class _NewsScreenState extends State<NewsScreen>
     return Scaffold(
       backgroundColor: Colors.black,
       extendBodyBehindAppBar: true,
-      appBar: NetflixNavbar(scrollOffset: _scrollOffset, isDesktop: isDesktop),
+      appBar: NetflixNavbar(
+        scrollController: _scrollController,
+        isDesktop: isDesktop,
+      ),
       body: NestedScrollView(
         controller: _scrollController,
         headerSliverBuilder: (context, innerBoxIsScrolled) => [

@@ -15,7 +15,6 @@ class LiveTvScreen extends StatefulWidget {
 class _LiveTvScreenState extends State<LiveTvScreen> {
   VideoPlayerController? _videoPlayerController;
   final ScrollController _scrollController = ScrollController();
-  double _scrollOffset = 0.0;
   bool _isInit = false;
   bool _hasError = false;
   bool _showControls = true;
@@ -52,11 +51,6 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
   void initState() {
     super.initState();
     _initializePlayer();
-    _scrollController.addListener(() {
-      setState(() {
-        _scrollOffset = _scrollController.offset;
-      });
-    });
   }
 
   Future<void> _initializePlayer() async {
@@ -99,7 +93,10 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       extendBodyBehindAppBar: true,
-      appBar: NetflixNavbar(scrollOffset: _scrollOffset, isDesktop: isDesktop),
+      appBar: NetflixNavbar(
+        scrollController: _scrollController,
+        isDesktop: isDesktop,
+      ),
       body: SingleChildScrollView(
         controller: _scrollController,
         child: Column(

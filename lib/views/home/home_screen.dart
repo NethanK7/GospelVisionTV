@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../controllers/home_controller.dart';
 import '../../models/content_model.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/netflix_navbar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,14 +16,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
-  double _scrollOffset = 0.0;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(() {
-      setState(() => _scrollOffset = _scrollController.offset);
-    });
   }
 
   @override
@@ -38,7 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       extendBodyBehindAppBar: true,
-      appBar: _GospelNavbar(scrollOffset: _scrollOffset, isDesktop: isDesktop),
+      appBar: NetflixNavbar(
+        scrollController: _scrollController,
+        isDesktop: isDesktop,
+      ),
       body: Consumer<HomeController>(
         builder: (context, controller, child) {
           if (controller.isLoading) {
@@ -179,8 +179,9 @@ class _GospelNavbar extends StatelessWidget implements PreferredSizeWidget {
 
     return Container(
       color: Colors.black.withValues(alpha: bgOpacity),
-      padding: EdgeInsets.symmetric(horizontal: isDesktop ? 48 : 16)
-          .copyWith(top: MediaQuery.of(context).padding.top + 8, bottom: 8),
+      padding: EdgeInsets.symmetric(
+        horizontal: isDesktop ? 48 : 16,
+      ).copyWith(top: MediaQuery.of(context).padding.top + 8, bottom: 8),
       child: Row(
         children: [
           // Logo
@@ -310,8 +311,9 @@ class _HeroCarouselState extends State<_HeroCarousel> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final heroHeight =
-        widget.isDesktop ? size.height * 0.9 : size.height * 0.62;
+    final heroHeight = widget.isDesktop
+        ? size.height * 0.9
+        : size.height * 0.62;
 
     return SizedBox(
       height: heroHeight,
@@ -324,10 +326,7 @@ class _HeroCarouselState extends State<_HeroCarousel> {
             onPageChanged: (i) => setState(() => _currentPage = i),
             itemBuilder: (context, index) {
               final item = widget.items[index];
-              return _HeroSlide(
-                item: item,
-                isDesktop: widget.isDesktop,
-              );
+              return _HeroSlide(item: item, isDesktop: widget.isDesktop);
             },
           ),
 
@@ -416,8 +415,9 @@ class _HeroSlide extends StatelessWidget {
           bottom: isDesktop ? 170 : 90,
           width: isDesktop ? screenWidth * 0.4 : screenWidth - 40,
           child: Column(
-            crossAxisAlignment:
-                isDesktop ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+            crossAxisAlignment: isDesktop
+                ? CrossAxisAlignment.start
+                : CrossAxisAlignment.center,
             children: [
               // Original badge
               if (item.isOriginal)
@@ -887,17 +887,29 @@ class _ContentCardState extends State<_ContentCard> {
                                 // Action buttons
                                 Row(
                                   children: [
-                                    _circleBtn(Icons.play_arrow, Colors.white,
-                                        Colors.black),
+                                    _circleBtn(
+                                      Icons.play_arrow,
+                                      Colors.white,
+                                      Colors.black,
+                                    ),
                                     const SizedBox(width: 6),
                                     _circleBtn(
-                                        Icons.add, Colors.transparent, Colors.white),
+                                      Icons.add,
+                                      Colors.transparent,
+                                      Colors.white,
+                                    ),
                                     const SizedBox(width: 6),
-                                    _circleBtn(Icons.thumb_up_alt_outlined,
-                                        Colors.transparent, Colors.white),
+                                    _circleBtn(
+                                      Icons.thumb_up_alt_outlined,
+                                      Colors.transparent,
+                                      Colors.white,
+                                    ),
                                     const Spacer(),
-                                    _circleBtn(Icons.keyboard_arrow_down,
-                                        Colors.transparent, Colors.white),
+                                    _circleBtn(
+                                      Icons.keyboard_arrow_down,
+                                      Colors.transparent,
+                                      Colors.white,
+                                    ),
                                   ],
                                 ),
                                 const SizedBox(height: 12),
@@ -915,15 +927,21 @@ class _ContentCardState extends State<_ContentCard> {
                                     const SizedBox(width: 8),
                                     Container(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 4, vertical: 1),
+                                        horizontal: 4,
+                                        vertical: 1,
+                                      ),
                                       decoration: BoxDecoration(
                                         border: Border.all(
-                                            color: Colors.white54, width: 0.5),
+                                          color: Colors.white54,
+                                          width: 0.5,
+                                        ),
                                       ),
                                       child: Text(
                                         widget.item.maturityRating,
                                         style: const TextStyle(
-                                            color: Colors.white, fontSize: 10),
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(width: 8),
@@ -933,7 +951,9 @@ class _ContentCardState extends State<_ContentCard> {
                                               ? '${widget.item.seasons} Seasons'
                                               : ''),
                                       style: const TextStyle(
-                                          color: Colors.white, fontSize: 11),
+                                        color: Colors.white,
+                                        fontSize: 11,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1040,10 +1060,7 @@ class _Top10Row extends StatelessWidget {
             itemCount: items.take(10).length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: EdgeInsets.only(
-                  right: 4,
-                  left: index == 0 ? 0 : 24,
-                ),
+                padding: EdgeInsets.only(right: 4, left: index == 0 ? 0 : 24),
                 child: _Top10Card(
                   item: items[index],
                   rank: index + 1,
