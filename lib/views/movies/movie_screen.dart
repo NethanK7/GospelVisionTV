@@ -117,10 +117,12 @@ class _MovieScreenState extends State<MovieScreen> {
                                   height: 56,
                                   width: isDesktop ? 400 : double.infinity,
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.05),
+                                    color: Colors.white.withValues(alpha: 0.05),
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(
-                                      color: Colors.white.withOpacity(0.1),
+                                      color: Colors.white.withValues(
+                                        alpha: 0.1,
+                                      ),
                                     ),
                                   ),
                                   child: TextField(
@@ -134,11 +136,15 @@ class _MovieScreenState extends State<MovieScreen> {
                                     decoration: InputDecoration(
                                       hintText: 'Search movies, genres...',
                                       hintStyle: TextStyle(
-                                        color: Colors.white.withOpacity(0.3),
+                                        color: Colors.white.withValues(
+                                          alpha: 0.3,
+                                        ),
                                       ),
                                       prefixIcon: Icon(
                                         Icons.search,
-                                        color: Colors.white.withOpacity(0.5),
+                                        color: Colors.white.withValues(
+                                          alpha: 0.5,
+                                        ),
                                       ),
                                       suffixIcon: _searchQuery.isNotEmpty
                                           ? IconButton(
