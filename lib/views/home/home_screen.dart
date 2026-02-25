@@ -208,8 +208,8 @@ class _ContentRow extends StatelessWidget {
                     ),
                   )
                   .animate()
-                  .fadeIn(delay: (20 * (index % 10)).ms)
-                  .slideX(begin: 0.1, end: 0, delay: (20 * (index % 10)).ms);
+                  .fadeIn(duration: 400.ms)
+                  .slideX(begin: 0.05, end: 0, duration: 400.ms);
             },
           ),
         ),
@@ -291,12 +291,8 @@ class _Top10Row extends StatelessWidget {
                           height: cardHeight,
                         )
                         .animate()
-                        .fadeIn(delay: (20 * (index % 10)).ms)
-                        .slideX(
-                          begin: 0.1,
-                          end: 0,
-                          delay: (20 * (index % 10)).ms,
-                        ),
+                        .fadeIn(duration: 400.ms)
+                        .slideX(begin: 0.05, end: 0, duration: 400.ms),
               );
             },
           ),

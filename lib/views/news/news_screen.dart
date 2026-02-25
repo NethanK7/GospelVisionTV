@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/netflix_navbar.dart';
 
@@ -228,7 +229,7 @@ class _NewsCard extends StatelessWidget {
           ? Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildImage(width: 300, height: 200),
+                _buildImage(context: context, width: 300, height: 200),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(24),
@@ -240,7 +241,11 @@ class _NewsCard extends StatelessWidget {
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildImage(width: double.infinity, height: 200),
+                _buildImage(
+                  context: context,
+                  width: double.infinity,
+                  height: 200,
+                ),
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: _buildContent(),
@@ -250,16 +255,25 @@ class _NewsCard extends StatelessWidget {
     );
   }
 
-  Widget _buildImage({required double width, required double height}) {
+  Widget _buildImage({
+    required BuildContext context,
+    required double width,
+    required double height,
+  }) {
     return ClipRRect(
       borderRadius: isDesktop
           ? const BorderRadius.horizontal(left: Radius.circular(16))
           : const BorderRadius.vertical(top: Radius.circular(16)),
-      child: Image.network(
-        item['image']!,
+      child: CachedNetworkImage(
+        imageUrl: item['image']!,
         width: width,
         height: height,
         fit: BoxFit.cover,
+        memCacheWidth: width.isFinite
+            ? (width * MediaQuery.devicePixelRatioOf(context)).round()
+            : null,
+        placeholder: (context, url) =>
+            Container(color: Colors.black.withValues(alpha: 0.2)),
       ),
     );
   }

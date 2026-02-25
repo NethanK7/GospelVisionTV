@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../models/content_model.dart';
 import '../../theme/app_theme.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -20,12 +21,20 @@ class LivingHero extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          // Background Image
-          Image.network(
-            content.backdropUrl ?? content.imageUrl,
-            fit: BoxFit.cover,
-            alignment: Alignment.topCenter,
-          ).animate().fadeIn(duration: 800.ms),
+          // Background Image with CachedNetworkImage and slow cinematic zoom
+          CachedNetworkImage(
+                imageUrl: content.backdropUrl ?? content.imageUrl,
+                fit: BoxFit.cover,
+                alignment: Alignment.topCenter,
+              )
+              .animate()
+              .fadeIn(duration: 800.ms)
+              .scaleXY(
+                begin: 1.0,
+                end: 1.05,
+                duration: 15.seconds,
+                curve: Curves.easeOut,
+              ),
 
           // Dynamic Vignette (Curved Gradient to Deep Obsidian)
           Positioned.fill(
