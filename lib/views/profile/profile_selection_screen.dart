@@ -83,9 +83,7 @@ class _ProfileSelectionScreenState extends State<ProfileSelectionScreen>
               OutlinedButton(
                 onPressed: () {},
                 style: OutlinedButton.styleFrom(
-                  side: BorderSide(
-                    color: Colors.white.withValues(alpha: 0.5),
-                  ),
+                  side: BorderSide(color: Colors.white.withValues(alpha: 0.5)),
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,
                     vertical: 10,
@@ -115,7 +113,14 @@ class _ProfileSelectionScreenState extends State<ProfileSelectionScreen>
       onExit: (_) => setState(() => _hoveredIndex = null),
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
-        onTap: () => context.go('/home'),
+        onTap: () {
+          final controller = Provider.of<HomeController>(
+            context,
+            listen: false,
+          );
+          controller.setActiveProfile(profile);
+          context.go('/subscription');
+        },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           child: Column(

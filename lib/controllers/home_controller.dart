@@ -235,7 +235,8 @@ class HomeController extends ChangeNotifier {
     ContentModel(
       id: 'top8',
       title: 'I Can Only Imagine',
-      description: 'The story behind the best-selling Christian song of all time.',
+      description:
+          'The story behind the best-selling Christian song of all time.',
       imageUrl:
           'https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=400&q=80',
       category: 'Drama',
@@ -299,7 +300,8 @@ class HomeController extends ChangeNotifier {
     ContentModel(
       id: 'o2',
       title: 'Redeemed',
-      description: 'A prodigal son returns home to face his past and find grace.',
+      description:
+          'A prodigal son returns home to face his past and find grace.',
       imageUrl:
           'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?w=400&q=80',
       category: 'Drama',
@@ -330,7 +332,8 @@ class HomeController extends ChangeNotifier {
     ContentModel(
       id: 'o4',
       title: 'Missionaries',
-      description: 'Follow five families risking everything to spread the Gospel.',
+      description:
+          'Follow five families risking everything to spread the Gospel.',
       imageUrl:
           'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=400&q=80',
       category: 'Documentary',
@@ -730,52 +733,62 @@ class HomeController extends ChangeNotifier {
     CategoryModel(
       id: 'cat1',
       name: 'Christian Movies',
-      imageUrl: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&q=80',
     ),
     CategoryModel(
       id: 'cat2',
       name: 'Sermons & Preaching',
-      imageUrl: 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=400&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=400&q=80',
     ),
     CategoryModel(
       id: 'cat3',
       name: 'Worship & Music',
-      imageUrl: 'https://images.unsplash.com/photo-1510590337019-5ef8d3d32116?w=400&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1510590337019-5ef8d3d32116?w=400&q=80',
     ),
     CategoryModel(
       id: 'cat4',
       name: 'Bible Documentaries',
-      imageUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&q=80',
     ),
     CategoryModel(
       id: 'cat5',
       name: 'Kids & Family',
-      imageUrl: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=400&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=400&q=80',
     ),
     CategoryModel(
       id: 'cat6',
       name: 'Testimonies',
-      imageUrl: 'https://images.unsplash.com/photo-1473679408190-0693dd22fe6a?w=400&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1473679408190-0693dd22fe6a?w=400&q=80',
     ),
     CategoryModel(
       id: 'cat7',
       name: 'Live Events',
-      imageUrl: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&q=80',
     ),
     CategoryModel(
       id: 'cat8',
       name: 'Bible Studies',
-      imageUrl: 'https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=400&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=400&q=80',
     ),
     CategoryModel(
       id: 'cat9',
       name: 'Christian Podcasts',
-      imageUrl: 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&q=80',
     ),
     CategoryModel(
       id: 'cat10',
       name: 'Animated Classics',
-      imageUrl: 'https://images.unsplash.com/photo-1535930749574-1399327ce78f?w=400&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1535930749574-1399327ce78f?w=400&q=80',
     ),
   ];
 
@@ -808,6 +821,20 @@ class HomeController extends ChangeNotifier {
     ),
   ];
 
+  // --- ACTIVE PROFILE STATE ---
+  ProfileModel? _activeProfile;
+  ProfileModel? get activeProfile => _activeProfile;
+
+  void setActiveProfile(ProfileModel profile) {
+    _activeProfile = profile;
+    notifyListeners();
+  }
+
+  void logout() {
+    _activeProfile = null;
+    notifyListeners();
+  }
+
   HomeController() {
     _loadData();
   }
@@ -826,17 +853,17 @@ class HomeController extends ChangeNotifier {
 
   // Get all content for search
   List<ContentModel> get allContent => [
-        ...continueWatching,
-        ...top10,
-        ...originals,
-        ...sermons,
-        ...worship,
-        ...documentaries,
-        ...kidsContent,
-        ...trending,
-        ...newReleases,
-        ...featuredContent,
-      ];
+    ...continueWatching,
+    ...top10,
+    ...originals,
+    ...sermons,
+    ...worship,
+    ...documentaries,
+    ...kidsContent,
+    ...trending,
+    ...newReleases,
+    ...featuredContent,
+  ];
 
   ContentModel? getContentById(String id) {
     try {

@@ -9,10 +9,12 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Read the controller
     final controller = Provider.of<HomeController>(context);
-    final profile = controller.profiles.isNotEmpty
-        ? controller.profiles.first
-        : null;
+    // Use the active profile, fallback to the first profile
+    final profile =
+        controller.activeProfile ??
+        (controller.profiles.isNotEmpty ? controller.profiles.first : null);
 
     return Scaffold(
       backgroundColor: AppTheme.deepObsidian,
@@ -83,6 +85,30 @@ class SettingsScreen extends StatelessWidget {
                 style: TextStyle(color: AppTheme.textGrey, fontSize: 14),
               ),
 
+              // Settings Options List
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  children: [
+                    _buildSettingsRow(
+                      icon: Icons.credit_card,
+                      title: 'Current Plan',
+                      subtitle: 'Premium 4K (\\\$14.99/mo)',
+                      onTap: () => context.push('/subscription'),
+                    ),
+                    const SizedBox(height: 12),
+                    _buildSettingsRow(
+                      icon: Icons.group_outlined,
+                      title: 'Manage Profiles',
+                      subtitle: 'Add or edit viewing profiles',
+                      onTap: () => context.push(
+                        '/profiles',
+                      ), // Send back to profile selector to manage
+                    ),
+                  ],
+                ),
+              ),
+
               const Spacer(),
 
               // Sign Out Button
@@ -96,6 +122,7 @@ class SettingsScreen extends StatelessWidget {
                   height: 56,
                   child: ElevatedButton(
                     onPressed: () {
+                      controller.logout();
                       context.go('/login');
                     },
                     style: ElevatedButton.styleFrom(
@@ -122,6 +149,52 @@ class SettingsScreen extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSettingsRow({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.03),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: AppTheme.textGrey, size: 28),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: TextStyle(color: AppTheme.textGrey, fontSize: 13),
+                  ),
+                ],
+              ),
+            ),
+            const Icon(Icons.chevron_right, color: AppTheme.textGrey),
+          ],
         ),
       ),
     );

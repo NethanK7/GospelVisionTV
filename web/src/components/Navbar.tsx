@@ -86,7 +86,7 @@ export function Navbar() {
                         <button className="hover:text-amber-500 transition-colors">
                             <Bell className="w-5 h-5" />
                         </button>
-                        <Link href="/login">
+                        <Link href="/subscription">
                             <div className="w-8 h-8 rounded bg-gradient-to-tr from-orange-600 to-amber-500 cursor-pointer overflow-hidden border border-neutral-700 hover:border-amber-400 transition-colors"></div>
                         </Link>
                     </div>
@@ -124,7 +124,7 @@ export function Navbar() {
                         <div className="pt-4 border-t border-neutral-800 w-full flex justify-center space-x-6">
                             <Search className="w-6 h-6 text-white" />
                             <Bell className="w-6 h-6 text-white" />
-                            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                            <Link href="/subscription" onClick={() => setIsMobileMenuOpen(false)}>
                                 <div className="w-8 h-8 rounded bg-gradient-to-tr from-orange-600 to-amber-500 cursor-pointer"></div>
                             </Link>
                         </div>

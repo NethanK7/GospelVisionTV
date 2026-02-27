@@ -19,6 +19,7 @@ import 'views/live_tv/live_tv_screen.dart';
 import 'views/settings/settings_screen.dart';
 import 'views/detail/content_detail_screen.dart';
 import 'views/movies/movie_screen.dart';
+import 'views/subscription/subscription_screen.dart';
 
 void main() {
   runApp(
@@ -50,6 +51,12 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/profiles',
       builder: (context, state) => const ProfileSelectionScreen(),
+    ),
+
+    // Subscription & Payment Gate
+    GoRoute(
+      path: '/subscription',
+      builder: (context, state) => const SubscriptionScreen(),
     ),
 
     // Content Detail (full-screen overlay)

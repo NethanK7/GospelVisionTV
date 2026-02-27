@@ -19,7 +19,7 @@ export default function Login() {
         setError("");
         // Simulate Login token storage
         localStorage.setItem("token", "dummy-jwt-token-123");
-        router.push("/");
+        router.push("/subscription");
     };
 
     return (
