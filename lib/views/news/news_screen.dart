@@ -92,57 +92,51 @@ class _NewsScreenState extends State<NewsScreen>
               ),
             ),
           ],
-          body:
-              Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Premium Tab Bar
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: isTablet ? 44 : 12,
-                        ),
-                        child: TabBar(
-                          controller: _tabController,
-                          isScrollable: true,
-                          tabAlignment: TabAlignment.start,
-                          indicatorColor: AppTheme.primaryOrange,
-                          indicatorWeight: 4,
-                          indicatorSize: TabBarIndicatorSize.label,
-                          labelColor: Colors.white,
-                          unselectedLabelColor: AppTheme.textGrey,
-                          labelStyle: const TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 16,
-                          ),
-                          unselectedLabelStyle: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                          ),
-                          dividerColor: Colors.transparent,
-                          tabs: const [
-                            Tab(text: 'Latest News'),
-                            Tab(text: 'Daily Devotionals'),
-                            Tab(text: 'Ministry Events'),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      // Tab content
-                      Expanded(
-                        child: TabBarView(
-                          controller: _tabController,
-                          children: [
-                            _NewsList(isTablet: isTablet),
-                            _DevotionalsList(isTablet: isTablet),
-                            _EventsList(isTablet: isTablet),
-                          ],
-                        ),
-                      ),
-                    ],
-                  )
-                  .animate()
-                  .fadeIn(duration: 600.ms)
-                  .slideY(begin: 0.1, end: 0, curve: Curves.easeOutQuart),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Premium Tab Bar
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: isTablet ? 44 : 12),
+                child: TabBar(
+                  controller: _tabController,
+                  isScrollable: true,
+                  tabAlignment: TabAlignment.start,
+                  indicatorColor: AppTheme.primaryOrange,
+                  indicatorWeight: 4,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  labelColor: Colors.white,
+                  unselectedLabelColor: AppTheme.textGrey,
+                  labelStyle: const TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 16,
+                  ),
+                  unselectedLabelStyle: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                  ),
+                  dividerColor: Colors.transparent,
+                  tabs: const [
+                    Tab(text: 'Latest News'),
+                    Tab(text: 'Daily Devotionals'),
+                    Tab(text: 'Ministry Events'),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+              // Tab content
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    _NewsList(isTablet: isTablet),
+                    _DevotionalsList(isTablet: isTablet),
+                    _EventsList(isTablet: isTablet),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -240,7 +234,7 @@ class _NewsCard extends StatelessWidget {
               children: [
                 _buildImage(
                   context: context,
-                  width: double.infinity,
+                  width: MediaQuery.of(context).size.width,
                   height: 200,
                 ),
                 Padding(
@@ -257,6 +251,9 @@ class _NewsCard extends StatelessWidget {
     required double width,
     required double height,
   }) {
+    // Explicitly clamp memory cache to prevent Out Of Memory crashes
+    final int cacheWidth = (width > 0 ? width : 400).toInt();
+
     return ClipRRect(
       borderRadius: isTablet
           ? const BorderRadius.horizontal(left: Radius.circular(16))
@@ -266,9 +263,7 @@ class _NewsCard extends StatelessWidget {
         width: width,
         height: height,
         fit: BoxFit.cover,
-        memCacheWidth: width.isFinite
-            ? (width * MediaQuery.devicePixelRatioOf(context)).round()
-            : null,
+        memCacheWidth: cacheWidth,
         placeholder: (context, url) =>
             Container(color: Colors.black.withValues(alpha: 0.2)),
       ),
