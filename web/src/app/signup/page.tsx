@@ -20,7 +20,7 @@ export default function Signup() {
         setError("");
         // Simulate Signup token storage
         localStorage.setItem("token", "dummy-jwt-token-789");
-        router.push("/");
+        router.push("/subscription");
     };
 
     return (
