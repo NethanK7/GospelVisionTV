@@ -27,12 +27,26 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
     _initializePlayer();
   }
 
-  Future<void> _initializePlayer() async {
+  void _videoListener() {
+    if (!mounted || _videoPlayerController == null) return;
     final liveTvController = Provider.of<LiveTvController>(
       context,
       listen: false,
     );
+    final isPlaying = _videoPlayerController!.value.isPlaying;
+    final isBuffering = _videoPlayerController!.value.isBuffering;
+    liveTvController.setBuffering(isBuffering);
+    if (liveTvController.isPlaying != isPlaying) {
+      liveTvController.togglePlay(isPlaying);
+    }
+  }
+
+  Future<void> _initializePlayer() async {
     try {
+      final liveTvController = Provider.of<LiveTvController>(
+        context,
+        listen: false,
+      );
       _videoPlayerController = VideoPlayerController.networkUrl(
         Uri.parse(liveTvController.streamUrl),
       );
@@ -40,15 +54,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
       if (!mounted) return;
       setState(() => _isInit = true);
 
-      _videoPlayerController!.addListener(() {
-        if (!mounted || _videoPlayerController == null) return;
-        final isPlaying = _videoPlayerController!.value.isPlaying;
-        final isBuffering = _videoPlayerController!.value.isBuffering;
-        liveTvController.setBuffering(isBuffering);
-        if (liveTvController.isPlaying != isPlaying) {
-          liveTvController.togglePlay(isPlaying);
-        }
-      });
+      _videoPlayerController!.addListener(_videoListener);
     } catch (e) {
       if (mounted) setState(() => _hasError = true);
     }
@@ -56,6 +62,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
 
   @override
   void dispose() {
+    _videoPlayerController?.removeListener(_videoListener);
     _videoPlayerController?.dispose();
     _scrollController.dispose();
     super.dispose();
