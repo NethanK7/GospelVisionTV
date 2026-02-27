@@ -1,0 +1,293 @@
+[  +45 ms] executing: sysctl hw.optional.arm64
+[   +5 ms] Exit code 0 from: sysctl hw.optional.arm64
+[        ] hw.optional.arm64: 1
+[   +3 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
+[        ] Artifact Instance of 'GradleWrapper' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterSdk' is not required, skipping update.
+[        ] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FontSubsetArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'PubDependencies' is not required, skipping update.
+[        ] executing: [/Users/nethank/Documents/flutter/] git -c log.showSignature=false log HEAD -n 1 --pretty=format:%ad --date=iso
+[  +19 ms] Exit code 0 from: git -c log.showSignature=false log HEAD -n 1 --pretty=format:%ad --date=iso
+[        ] 2025-12-11 11:50:07 -0500
+[   +6 ms] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterEngineStamp' is not required, skipping update.
+[        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[        ] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[  +17 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
+[        ] Artifact Instance of 'GradleWrapper' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterEngineStamp' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterSdk' is not required, skipping update.
+[        ] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[   +6 ms] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FontSubsetArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'PubDependencies' is not required, skipping update.
+[   +6 ms] Skipping pub get: version match.
+[  +45 ms] Found plugin video_player at /Users/nethank/.pub-cache/hosted/pub.dev/video_player-2.11.0/
+[   +2 ms] Found plugin video_player_web at /Users/nethank/.pub-cache/hosted/pub.dev/video_player_web-2.4.0/
+[   +4 ms] Found plugin video_player_avfoundation at /Users/nethank/.pub-cache/hosted/pub.dev/video_player_avfoundation-2.9.3/
+[   +1 ms] Found plugin video_player_android at /Users/nethank/.pub-cache/hosted/pub.dev/video_player_android-2.9.4/
+[   +3 ms] Found plugin url_launcher at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher-6.3.2/
+[   +1 ms] Found plugin url_launcher_windows at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.5/
+[   +2 ms] Found plugin url_launcher_web at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_web-2.4.2/
+[        ] Found plugin url_launcher_macos at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_macos-3.2.5/
+[        ] Found plugin url_launcher_linux at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_linux-3.2.2/
+[   +1 ms] Found plugin url_launcher_ios at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_ios-6.4.1/
+[   +1 ms] Found plugin url_launcher_android at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.28/
+[   +4 ms] Found plugin path_provider at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider-2.1.5/
+[        ] Found plugin path_provider_windows at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider_windows-2.3.0/
+[   +2 ms] Found plugin path_provider_linux at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.1/
+[   +1 ms] Found plugin path_provider_foundation at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider_foundation-2.6.0/
+[   +9 ms] Found plugin path_provider_android at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider_android-2.2.22/
+[   +8 ms] Found plugin sqflite at /Users/nethank/.pub-cache/hosted/pub.dev/sqflite-2.4.2/
+[   +2 ms] Found plugin sqflite_darwin at /Users/nethank/.pub-cache/hosted/pub.dev/sqflite_darwin-2.4.2/
+[        ] Found plugin sqflite_android at /Users/nethank/.pub-cache/hosted/pub.dev/sqflite_android-2.4.2+2/
+[  +18 ms] Found plugin video_player at /Users/nethank/.pub-cache/hosted/pub.dev/video_player-2.11.0/
+[        ] Found plugin video_player_web at /Users/nethank/.pub-cache/hosted/pub.dev/video_player_web-2.4.0/
+[   +1 ms] Found plugin video_player_avfoundation at /Users/nethank/.pub-cache/hosted/pub.dev/video_player_avfoundation-2.9.3/
+[        ] Found plugin video_player_android at /Users/nethank/.pub-cache/hosted/pub.dev/video_player_android-2.9.4/
+[        ] Found plugin url_launcher at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher-6.3.2/
+[        ] Found plugin url_launcher_windows at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.5/
+[        ] Found plugin url_launcher_web at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_web-2.4.2/
+[        ] Found plugin url_launcher_macos at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_macos-3.2.5/
+[        ] Found plugin url_launcher_linux at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_linux-3.2.2/
+[        ] Found plugin url_launcher_ios at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_ios-6.4.1/
+[        ] Found plugin url_launcher_android at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.28/
+[   +1 ms] Found plugin path_provider at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider-2.1.5/
+[        ] Found plugin path_provider_windows at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider_windows-2.3.0/
+[   +1 ms] Found plugin path_provider_linux at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.1/
+[        ] Found plugin path_provider_foundation at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider_foundation-2.6.0/
+[   +3 ms] Found plugin path_provider_android at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider_android-2.2.22/
+[   +3 ms] Found plugin sqflite at /Users/nethank/.pub-cache/hosted/pub.dev/sqflite-2.4.2/
+[   +1 ms] Found plugin sqflite_darwin at /Users/nethank/.pub-cache/hosted/pub.dev/sqflite_darwin-2.4.2/
+[        ] Found plugin sqflite_android at /Users/nethank/.pub-cache/hosted/pub.dev/sqflite_android-2.4.2+2/
+[   +5 ms] Skipping generating web_plugin_registrant.dart because it is up-to-date.
+[   +8 ms] Found plugin video_player at /Users/nethank/.pub-cache/hosted/pub.dev/video_player-2.11.0/
+[        ] Found plugin video_player_web at /Users/nethank/.pub-cache/hosted/pub.dev/video_player_web-2.4.0/
+[        ] Found plugin video_player_avfoundation at /Users/nethank/.pub-cache/hosted/pub.dev/video_player_avfoundation-2.9.3/
+[        ] Found plugin video_player_android at /Users/nethank/.pub-cache/hosted/pub.dev/video_player_android-2.9.4/
+[        ] Found plugin url_launcher at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher-6.3.2/
+[        ] Found plugin url_launcher_windows at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.5/
+[        ] Found plugin url_launcher_web at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_web-2.4.2/
+[        ] Found plugin url_launcher_macos at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_macos-3.2.5/
+[        ] Found plugin url_launcher_linux at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_linux-3.2.2/
+[        ] Found plugin url_launcher_ios at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_ios-6.4.1/
+[        ] Found plugin url_launcher_android at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.28/
+[        ] Found plugin path_provider at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider-2.1.5/
+[        ] Found plugin path_provider_windows at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider_windows-2.3.0/
+[        ] Found plugin path_provider_linux at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.1/
+[        ] Found plugin path_provider_foundation at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider_foundation-2.6.0/
+[   +2 ms] Found plugin path_provider_android at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider_android-2.2.22/
+[   +2 ms] Found plugin sqflite at /Users/nethank/.pub-cache/hosted/pub.dev/sqflite-2.4.2/
+[   +1 ms] Found plugin sqflite_darwin at /Users/nethank/.pub-cache/hosted/pub.dev/sqflite_darwin-2.4.2/
+[        ] Found plugin sqflite_android at /Users/nethank/.pub-cache/hosted/pub.dev/sqflite_android-2.4.2+2/
+[   +3 ms] Generating /Users/nethank/Desktop/GospelVisonTV/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java
+[        ] Skipping generating GeneratedPluginRegistrant.java because it is up-to-date.
+[   +2 ms] Skipping generating generated_plugin_registrant.h because it is up-to-date.
+[        ] Skipping generating generated_plugin_registrant.cc because it is up-to-date.
+[        ] Skipping generating generated_plugins.cmake because it is up-to-date.
+[        ] Skipping generating generated_plugin_registrant.h because it is up-to-date.
+[        ] Skipping generating generated_plugin_registrant.cc because it is up-to-date.
+[        ] Skipping generating generated_plugins.cmake because it is up-to-date.
+[        ] Skipping generating GeneratedPluginRegistrant.h because it is up-to-date.
+[        ] Skipping generating GeneratedPluginRegistrant.m because it is up-to-date.
+[        ] Skipping generating GeneratedPluginRegistrant.swift because it is up-to-date.
+[   +6 ms] executing: sysctl hw.optional.arm64
+[   +3 ms] Exit code 0 from: sysctl hw.optional.arm64
+[        ] hw.optional.arm64: 1
+[        ] executing: /usr/bin/arch -arm64e xcrun xcodebuild -version
+[ +215 ms] Exit code 0 from: /usr/bin/arch -arm64e xcrun xcodebuild -version
+[        ] Xcode 26.0
+           Build version 17A324
+[  +58 ms] Found plugin video_player at /Users/nethank/.pub-cache/hosted/pub.dev/video_player-2.11.0/
+[        ] Found plugin video_player_web at /Users/nethank/.pub-cache/hosted/pub.dev/video_player_web-2.4.0/
+[   +1 ms] Found plugin video_player_avfoundation at /Users/nethank/.pub-cache/hosted/pub.dev/video_player_avfoundation-2.9.3/
+[        ] Found plugin video_player_android at /Users/nethank/.pub-cache/hosted/pub.dev/video_player_android-2.9.4/
+[   +1 ms] Found plugin url_launcher at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher-6.3.2/
+[        ] Found plugin url_launcher_windows at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.5/
+[   +1 ms] Found plugin url_launcher_web at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_web-2.4.2/
+[        ] Found plugin url_launcher_macos at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_macos-3.2.5/
+[        ] Found plugin url_launcher_linux at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_linux-3.2.2/
+[        ] Found plugin url_launcher_ios at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_ios-6.4.1/
+[        ] Found plugin url_launcher_android at /Users/nethank/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.28/
+[   +1 ms] Found plugin path_provider at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider-2.1.5/
+[        ] Found plugin path_provider_windows at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider_windows-2.3.0/
+[        ] Found plugin path_provider_linux at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.1/
+[        ] Found plugin path_provider_foundation at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider_foundation-2.6.0/
+[   +2 ms] Found plugin path_provider_android at /Users/nethank/.pub-cache/hosted/pub.dev/path_provider_android-2.2.22/
+[   +2 ms] Found plugin sqflite at /Users/nethank/.pub-cache/hosted/pub.dev/sqflite-2.4.2/
+[        ] Found plugin sqflite_darwin at /Users/nethank/.pub-cache/hosted/pub.dev/sqflite_darwin-2.4.2/
+[        ] Found plugin sqflite_android at /Users/nethank/.pub-cache/hosted/pub.dev/sqflite_android-2.4.2+2/
+[   +1 ms] generated_plugin_registrant.dart not found. Skipping.
+[        ] Compiling lib/main.dart for the Web...
+[   +2 ms] Initializing file store
+[        ] Done initializing file store
+[  +15 ms] Skipping target: web_entrypoint
+[        ] invalidated build due to missing files: /Users/nethank/Desktop/GospelVisonTV/web/*/index.html, /Users/nethank/Desktop/GospelVisonTV/web/flutter_bootstrap.js
+[   +1 ms] Skipping target: dart_build
+[        ] Skipping target: gen_localizations
+[        ] web_templated_files: Starting due to {InvalidatedReasonKind.outputMissing: The following outputs were missing: /Users/nethank/Desktop/GospelVisonTV/build/web/*/index.html, InvalidatedReasonKind.inputMissing: The following inputs were missing: /Users/nethank/Desktop/GospelVisonTV/web/*/index.html,/Users/nethank/Desktop/GospelVisonTV/web/flutter_bootstrap.js}
+[        ] web_static_assets: Starting due to {InvalidatedReasonKind.outputMissing: The following outputs were missing: /Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/flutter.js,/Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/canvaskit/skwasm.js,/Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/canvaskit/skwasm_heavy.js,/Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/canvaskit/skwasm.js.symbols,/Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/canvaskit/canvaskit.js.symbols,/Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/canvaskit/skwasm_heavy.js.symbols,/Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/canvaskit/skwasm.wasm,/Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/canvaskit/chromium/canvaskit.js.symbols,/Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/canvaskit/chromium/canvaskit.js,/Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/canvaskit/chromium/canvaskit.wasm,/Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/canvaskit/canvaskit.js,/Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/canvaskit/canvaskit.wasm,/Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/canvaskit/skwasm_heavy.wasm}
+[  +30 ms] web_static_assets: Complete
+[   +1 ms] dart2js: Starting due to {}
+[   +2 ms] executing: /Users/nethank/Documents/flutter/bin/cache/dart-sdk/bin/dart compile js --platform-binaries=/Users/nethank/Documents/flutter/bin/cache/flutter_web_sdk/kernel --invoker=flutter_tool -Ddart.vm.product=true -DFLUTTER_VERSION=3.38.5 -DFLUTTER_CHANNEL=stable -DFLUTTER_GIT_URL=https://github.com/flutter/flutter.git -DFLUTTER_FRAMEWORK_REVISION=f6ff1529fd -DFLUTTER_ENGINE_REVISION=1527ae0ec5 -DFLUTTER_DART_VERSION=3.10.4 -DFLUTTER_WEB_USE_SKIA=true -DFLUTTER_WEB_USE_SKWASM=false -DFLUTTER_WEB_CANVASKIT_URL=https://www.gstatic.com/flutter-canvaskit/1527ae0ec577a4ef50e65f6fefcfc1326707d9bf/ --native-null-assertions --no-source-maps -O4 --minify -o /Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/app.dill --packages=/Users/nethank/Desktop/GospelVisonTV/.dart_tool/package_config.json --cfe-only /Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/main.dart
+[        ] dart2wasm: Starting due to {}
+[        ] executing: /Users/nethank/Documents/flutter/bin/cache/dart-sdk/bin/dart compile wasm --packages=/Users/nethank/Desktop/GospelVisonTV/.dart_tool/package_config.json --extra-compiler-option=--platform=/Users/nethank/Documents/flutter/bin/cache/flutter_web_sdk/kernel/dart2wasm_platform.dill -Ddart.vm.profile=false -Ddart.vm.product=true --extra-compiler-option=--delete-tostring-package-uri=dart:ui --extra-compiler-option=--delete-tostring-package-uri=package:flutter --extra-compiler-option=--import-shared-memory --extra-compiler-option=--shared-memory-max-pages=32768 -DFLUTTER_VERSION=3.38.5 -DFLUTTER_CHANNEL=stable -DFLUTTER_GIT_URL=https://github.com/flutter/flutter.git -DFLUTTER_FRAMEWORK_REVISION=f6ff1529fd -DFLUTTER_ENGINE_REVISION=1527ae0ec5 -DFLUTTER_DART_VERSION=3.10.4 -DFLUTTER_WEB_USE_SKIA=false -DFLUTTER_WEB_USE_SKWASM=true -DFLUTTER_WEB_CANVASKIT_URL=https://www.gstatic.com/flutter-canvaskit/1527ae0ec577a4ef50e65f6fefcfc1326707d9bf/ --extra-compiler-option=--depfile=/Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/dart2wasm.d -O2 --strip-wasm --no-source-maps --minify --extra-compiler-option=--dry-run -o /Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/main.dart.wasm /Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/main.dart
+[  +13 ms] web_templated_files: Complete
+[+5946 ms] ../../.pub-cache/hosted/pub.dev/carousel_slider-4.2.1/lib/carousel_slider.dart:9:1:
+           Error: 'CarouselController' is imported from both 'package:carousel_slider/carousel_controller.dart' and 'package:flutter/src/material/carousel.dart'.
+           import 'carousel_controller.dart';
+           ^^^^^^^^^^^^^^^^^^
+           ../../.pub-cache/hosted/pub.dev/carousel_slider-4.2.1/lib/carousel_slider.dart:48:15:
+           Error: 'CarouselController' is imported from both 'package:carousel_slider/carousel_controller.dart' and 'package:flutter/src/material/carousel.dart'.
+                       : CarouselController() as CarouselControllerImpl,
+                         ^^^^^^^^^^^^^^^^^^
+           ../../.pub-cache/hosted/pub.dev/carousel_slider-4.2.1/lib/carousel_slider.dart:62:15:
+           Error: 'CarouselController' is imported from both 'package:carousel_slider/carousel_controller.dart' and 'package:flutter/src/material/carousel.dart'.
+                       : CarouselController() as CarouselControllerImpl,
+                         ^^^^^^^^^^^^^^^^^^
+           Error: Compilation failed.
+[+17288 ms] Wasm dry run succeeded. Consider building and testing your application with the `--wasm` flag. See docs for more info: https://docs.flutter.dev/platform-integration/web/wasm
+[   +2 ms] Use --no-wasm-dry-run to disable these warnings.
+[  +23 ms] dart2wasm: Complete
+[   +1 ms] Persisting file store
+[   +1 ms] Done persisting file store
+[   +1 ms] Target dart2js failed: ProcessException: Process exited abnormally with exit code 1:
+           ../../.pub-cache/hosted/pub.dev/carousel_slider-4.2.1/lib/carousel_slider.dart:9:1:
+           Error: 'CarouselController' is imported from both 'package:carousel_slider/carousel_controller.dart' and 'package:flutter/src/material/carousel.dart'.
+           import 'carousel_controller.dart';
+           ^^^^^^^^^^^^^^^^^^
+           ../../.pub-cache/hosted/pub.dev/carousel_slider-4.2.1/lib/carousel_slider.dart:48:15:
+           Error: 'CarouselController' is imported from both 'package:carousel_slider/carousel_controller.dart' and 'package:flutter/src/material/carousel.dart'.
+                       : CarouselController() as CarouselControllerImpl,
+                         ^^^^^^^^^^^^^^^^^^
+           ../../.pub-cache/hosted/pub.dev/carousel_slider-4.2.1/lib/carousel_slider.dart:62:15:
+           Error: 'CarouselController' is imported from both 'package:carousel_slider/carousel_controller.dart' and 'package:flutter/src/material/carousel.dart'.
+                       : CarouselController() as CarouselControllerImpl,
+                         ^^^^^^^^^^^^^^^^^^
+           Error: Compilation failed.
+             Command: /Users/nethank/Documents/flutter/bin/cache/dart-sdk/bin/dart compile js --platform-binaries=/Users/nethank/Documents/flutter/bin/cache/flutter_web_sdk/kernel --invoker=flutter_tool -Ddart.vm.product=true -DFLUTTER_VERSION=3.38.5 -DFLUTTER_CHANNEL=stable -DFLUTTER_GIT_URL=https://github.com/flutter/flutter.git -DFLUTTER_FRAMEWORK_REVISION=f6ff1529fd -DFLUTTER_ENGINE_REVISION=1527ae0ec5 -DFLUTTER_DART_VERSION=3.10.4 -DFLUTTER_WEB_USE_SKIA=true -DFLUTTER_WEB_USE_SKWASM=false -DFLUTTER_WEB_CANVASKIT_URL=https://www.gstatic.com/flutter-canvaskit/1527ae0ec577a4ef50e65f6fefcfc1326707d9bf/ --native-null-assertions --no-source-maps -O4 --minify -o /Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/app.dill --packages=/Users/nethank/Desktop/GospelVisonTV/.dart_tool/package_config.json --cfe-only /Users/nethank/Desktop/GospelVisonTV/.dart_tool/flutter_build/9a4187b3ae18b27d49e28bdda2170637/main.dart
+           #0      RunResult.throwException (package:flutter_tools/src/base/process.dart:153:5)
+           #1      _DefaultProcessUtils.run (package:flutter_tools/src/base/process.dart:379:19)
+           <asynchronous suspension>
+           #2      Dart2JSTarget.build (package:flutter_tools/src/build_system/targets/web.dart:207:5)
+           <asynchronous suspension>
+           #3      _BuildInstance._invokeInternal (package:flutter_tools/src/build_system/build_system.dart:895:9)
+           <asynchronous suspension>
+           #4      Future.wait.<anonymous closure> (dart:async/future.dart:546:21)
+           <asynchronous suspension>
+           #5      _BuildInstance.invokeTarget (package:flutter_tools/src/build_system/build_system.dart:833:32)
+           <asynchronous suspension>
+           #6      Future.wait.<anonymous closure> (dart:async/future.dart:546:21)
+           <asynchronous suspension>
+           #7      _BuildInstance.invokeTarget (package:flutter_tools/src/build_system/build_system.dart:833:32)
+           <asynchronous suspension>
+           #8      FlutterBuildSystem.build (package:flutter_tools/src/build_system/build_system.dart:653:16)
+           <asynchronous suspension>
+           #9      WebBuilder.buildWeb (package:flutter_tools/src/web/compile.dart:94:34)
+           <asynchronous suspension>
+           #10     BuildWebCommand.runCommand (package:flutter_tools/src/commands/build_web.dart:296:5)
+           <asynchronous suspension>
+           #11     FlutterCommand.run.<anonymous closure> (package:flutter_tools/src/runner/flutter_command.dart:1559:27)
+           <asynchronous suspension>
+           #12     AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+           <asynchronous suspension>
+           #13     CommandRunner.runCommand (package:args/command_runner.dart:212:13)
+           <asynchronous suspension>
+           #14     FlutterCommandRunner.runCommand.<anonymous closure> (package:flutter_tools/src/runner/flutter_command_runner.dart:487:9)
+           <asynchronous suspension>
+           #15     AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+           <asynchronous suspension>
+           #16     FlutterCommandRunner.runCommand (package:flutter_tools/src/runner/flutter_command_runner.dart:422:5)
+           <asynchronous suspension>
+           #17     run.<anonymous closure>.<anonymous closure> (package:flutter_tools/runner.dart:104:11)
+           <asynchronous suspension>
+           #18     AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+           <asynchronous suspension>
+           #19     main (package:flutter_tools/executable.dart:103:3)
+           <asynchronous suspension>
+
+[   +1 ms] Compiling lib/main.dart for the Web... (completed in 23.3s)
+[        ] "flutter web" took 23,848ms.
+[   +3 ms] executing: sw_vers -productName
+[  +14 ms] Exit code 0 from: sw_vers -productName
+[        ] macOS
+[        ] executing: sw_vers -productVersion
+[  +11 ms] Exit code 0 from: sw_vers -productVersion
+[        ] 26.2
+[        ] executing: sw_vers -buildVersion
+[   +8 ms] Exit code 0 from: sw_vers -buildVersion
+[        ] 25C56
+[        ] executing: uname -m
+[   +3 ms] Exit code 0 from: uname -m
+[        ] arm64
+[  +24 ms] Error: Failed to compile application for the Web.
+[        ] 
+           #0      throwToolExit (package:flutter_tools/src/base/common.dart:34:3)
+           #1      WebBuilder.buildWeb (package:flutter_tools/src/web/compile.dart:137:7)
+           <asynchronous suspension>
+           #2      BuildWebCommand.runCommand (package:flutter_tools/src/commands/build_web.dart:296:5)
+           <asynchronous suspension>
+           #3      FlutterCommand.run.<anonymous closure> (package:flutter_tools/src/runner/flutter_command.dart:1559:27)
+           <asynchronous suspension>
+           #4      AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+           <asynchronous suspension>
+           #5      CommandRunner.runCommand (package:args/command_runner.dart:212:13)
+           <asynchronous suspension>
+           #6      FlutterCommandRunner.runCommand.<anonymous closure> (package:flutter_tools/src/runner/flutter_command_runner.dart:487:9)
+           <asynchronous suspension>
+           #7      AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+           <asynchronous suspension>
+           #8      FlutterCommandRunner.runCommand (package:flutter_tools/src/runner/flutter_command_runner.dart:422:5)
+           <asynchronous suspension>
+           #9      run.<anonymous closure>.<anonymous closure> (package:flutter_tools/runner.dart:104:11)
+           <asynchronous suspension>
+           #10     AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+           <asynchronous suspension>
+           #11     main (package:flutter_tools/executable.dart:103:3)
+           <asynchronous suspension>
+
+
+[        ] Running 1 shutdown hook
+[        ] Shutdown hooks complete
+[ +255 ms] exiting with code 1

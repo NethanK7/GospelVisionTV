@@ -29,15 +29,12 @@ class _MovieScreenState extends State<MovieScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDesktop = MediaQuery.of(context).size.width >= 800;
+    final isTablet = MediaQuery.of(context).size.width >= 600;
 
     return Scaffold(
       backgroundColor: AppTheme.deepObsidian,
       extendBodyBehindAppBar: true,
-      appBar: NetflixNavbar(
-        scrollController: _scrollController,
-        isDesktop: isDesktop,
-      ),
+      appBar: NetflixNavbar(scrollController: _scrollController),
       body: Consumer<HomeController>(
         builder: (context, controller, child) {
           if (controller.isLoading) {
@@ -75,8 +72,8 @@ class _MovieScreenState extends State<MovieScreen> {
                     .toList();
 
           // Responsive grid layout values
-          final int crossAxisCount = isDesktop ? 6 : 3;
-          final double childAspectRatio = isDesktop ? 0.65 : 0.6;
+          final int crossAxisCount = isTablet ? 5 : 3;
+          final double childAspectRatio = isTablet ? 0.65 : 0.6;
 
           return Container(
             decoration: AppTheme.radialBackground,
@@ -89,7 +86,7 @@ class _MovieScreenState extends State<MovieScreen> {
                   child: SizedBox(
                     height:
                         MediaQuery.of(context).padding.top +
-                        (isDesktop ? 120 : 100),
+                        (isTablet ? 120 : 100),
                   ),
                 ),
 
@@ -97,7 +94,7 @@ class _MovieScreenState extends State<MovieScreen> {
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: isDesktop ? 60 : 16,
+                      horizontal: isTablet ? 60 : 16,
                     ),
                     child:
                         Column(
@@ -115,7 +112,7 @@ class _MovieScreenState extends State<MovieScreen> {
                                 const SizedBox(height: 20),
                                 Container(
                                   height: 56,
-                                  width: isDesktop ? 400 : double.infinity,
+                                  width: isTablet ? 400 : double.infinity,
                                   decoration: BoxDecoration(
                                     color: Colors.white.withValues(alpha: 0.05),
                                     borderRadius: BorderRadius.circular(12),
@@ -181,7 +178,7 @@ class _MovieScreenState extends State<MovieScreen> {
                 // Massive Movie Grid Table
                 SliverPadding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: isDesktop ? 60 : 16,
+                    horizontal: isTablet ? 60 : 16,
                     vertical: 20,
                   ),
                   sliver: filteredMovies.isEmpty
@@ -204,15 +201,15 @@ class _MovieScreenState extends State<MovieScreen> {
                               SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: crossAxisCount,
                                 childAspectRatio: childAspectRatio,
-                                mainAxisSpacing: isDesktop ? 24 : 12,
-                                crossAxisSpacing: isDesktop ? 24 : 12,
+                                mainAxisSpacing: isTablet ? 24 : 12,
+                                crossAxisSpacing: isTablet ? 24 : 12,
                               ),
                           delegate: SliverChildBuilderDelegate((
                             context,
                             index,
                           ) {
                             final movie = filteredMovies[index];
-                            final cardWidth = isDesktop ? 200.0 : 130.0;
+                            final cardWidth = isTablet ? 200.0 : 130.0;
                             final cardHeight = cardWidth * 1.5;
                             return AuraContentCard(
                                   content: movie,

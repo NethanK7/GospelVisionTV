@@ -32,15 +32,12 @@ class _NewsScreenState extends State<NewsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final isDesktop = MediaQuery.of(context).size.width >= 800;
+    final isTablet = MediaQuery.of(context).size.width >= 800;
 
     return Scaffold(
       backgroundColor: AppTheme.deepObsidian,
       extendBodyBehindAppBar: true,
-      appBar: NetflixNavbar(
-        scrollController: _scrollController,
-        isDesktop: isDesktop,
-      ),
+      appBar: NetflixNavbar(scrollController: _scrollController),
       body: Container(
         decoration: AppTheme.radialBackground,
         child: NestedScrollView(
@@ -53,12 +50,12 @@ class _NewsScreenState extends State<NewsScreen>
                   SizedBox(
                     height:
                         MediaQuery.of(context).padding.top +
-                        (isDesktop ? 120 : 100),
+                        (isTablet ? 120 : 100),
                   ),
                   // Header
                   Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: isDesktop ? 60 : 16,
+                      horizontal: isTablet ? 60 : 16,
                     ),
                     child:
                         AppTheme.shimmeringText(
@@ -80,7 +77,7 @@ class _NewsScreenState extends State<NewsScreen>
                   const SizedBox(height: 12),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: isDesktop ? 60 : 16,
+                      horizontal: isTablet ? 60 : 16,
                     ),
                     child: Text(
                       'Stay updated with global ministry events, latest testimonies, and daily word.',
@@ -102,7 +99,7 @@ class _NewsScreenState extends State<NewsScreen>
                       // Premium Tab Bar
                       Padding(
                         padding: EdgeInsets.symmetric(
-                          horizontal: isDesktop ? 44 : 12,
+                          horizontal: isTablet ? 44 : 12,
                         ),
                         child: TabBar(
                           controller: _tabController,
@@ -135,9 +132,9 @@ class _NewsScreenState extends State<NewsScreen>
                         child: TabBarView(
                           controller: _tabController,
                           children: [
-                            _NewsList(isDesktop: isDesktop),
-                            _DevotionalsList(isDesktop: isDesktop),
-                            _EventsList(isDesktop: isDesktop),
+                            _NewsList(isTablet: isTablet),
+                            _DevotionalsList(isTablet: isTablet),
+                            _EventsList(isTablet: isTablet),
                           ],
                         ),
                       ),
@@ -156,9 +153,9 @@ class _NewsScreenState extends State<NewsScreen>
 // LATEST NEWS TAB
 // ============================================================
 class _NewsList extends StatelessWidget {
-  final bool isDesktop;
+  final bool isTablet;
 
-  const _NewsList({required this.isDesktop});
+  const _NewsList({required this.isTablet});
 
   final List<Map<String, String>> mockNews = const [
     {
@@ -195,7 +192,7 @@ class _NewsList extends StatelessWidget {
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.symmetric(
-        horizontal: isDesktop ? 60 : 16,
+        horizontal: isTablet ? 60 : 16,
         vertical: 10,
       ),
       itemCount: mockNews.length,
@@ -203,7 +200,7 @@ class _NewsList extends StatelessWidget {
         final item = mockNews[index];
         return _NewsCard(
           item: item,
-          isDesktop: isDesktop,
+          isTablet: isTablet,
         ).animate().fadeIn(delay: (100 * index).ms).slideY(begin: 0.1, end: 0);
       },
     );
@@ -212,9 +209,9 @@ class _NewsList extends StatelessWidget {
 
 class _NewsCard extends StatelessWidget {
   final Map<String, String> item;
-  final bool isDesktop;
+  final bool isTablet;
 
-  const _NewsCard({required this.item, required this.isDesktop});
+  const _NewsCard({required this.item, required this.isTablet});
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +222,7 @@ class _NewsCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
       ),
-      child: isDesktop
+      child: isTablet
           ? Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -261,7 +258,7 @@ class _NewsCard extends StatelessWidget {
     required double height,
   }) {
     return ClipRRect(
-      borderRadius: isDesktop
+      borderRadius: isTablet
           ? const BorderRadius.horizontal(left: Radius.circular(16))
           : const BorderRadius.vertical(top: Radius.circular(16)),
       child: CachedNetworkImage(
@@ -344,21 +341,21 @@ class _NewsCard extends StatelessWidget {
 // DAILY DEVOTIONALS TAB
 // ============================================================
 class _DevotionalsList extends StatelessWidget {
-  final bool isDesktop;
+  final bool isTablet;
 
-  const _DevotionalsList({required this.isDesktop});
+  const _DevotionalsList({required this.isTablet});
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.symmetric(
-        horizontal: isDesktop ? 60 : 16,
+        horizontal: isTablet ? 60 : 16,
         vertical: 10,
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: isDesktop ? 3 : 1,
-        childAspectRatio: isDesktop ? 0.9 : 1.2,
+        crossAxisCount: isTablet ? 3 : 1,
+        childAspectRatio: isTablet ? 0.9 : 1.2,
         mainAxisSpacing: 24,
         crossAxisSpacing: 24,
       ),
@@ -443,9 +440,9 @@ class _DevotionalsList extends StatelessWidget {
 // MINISTRY EVENTS TAB
 // ============================================================
 class _EventsList extends StatelessWidget {
-  final bool isDesktop;
+  final bool isTablet;
 
-  const _EventsList({required this.isDesktop});
+  const _EventsList({required this.isTablet});
 
   @override
   Widget build(BuildContext context) {

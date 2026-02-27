@@ -63,15 +63,12 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDesktop = MediaQuery.of(context).size.width >= 800;
+    final isTablet = MediaQuery.of(context).size.width >= 600;
 
     return Scaffold(
       backgroundColor: AppTheme.deepObsidian,
       extendBodyBehindAppBar: true,
-      appBar: NetflixNavbar(
-        scrollController: _scrollController,
-        isDesktop: isDesktop,
-      ),
+      appBar: NetflixNavbar(scrollController: _scrollController),
       body: Container(
         decoration: AppTheme.radialBackground,
         child: SingleChildScrollView(
@@ -82,15 +79,15 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
             children: [
               SizedBox(
                 height:
-                    MediaQuery.of(context).padding.top + (isDesktop ? 100 : 80),
+                    MediaQuery.of(context).padding.top + (isTablet ? 100 : 80),
               ),
 
               // Video Player Header Section
               Center(
                     child: Container(
-                      width: isDesktop ? 1200 : double.infinity,
+                      width: isTablet ? 1200 : double.infinity,
                       margin: EdgeInsets.symmetric(
-                        horizontal: isDesktop ? 60 : 16,
+                        horizontal: isTablet ? 60 : 16,
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(24),
@@ -329,9 +326,9 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
               // Elegant Channel Information Section
               Center(
                     child: Container(
-                      width: isDesktop ? 1200 : double.infinity,
+                      width: isTablet ? 1200 : double.infinity,
                       padding: EdgeInsets.symmetric(
-                        horizontal: isDesktop ? 60 : 24,
+                        horizontal: isTablet ? 60 : 24,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

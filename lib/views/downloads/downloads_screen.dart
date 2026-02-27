@@ -6,7 +6,7 @@ class DownloadsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDesktop = MediaQuery.of(context).size.width >= 800;
+    final isTablet = MediaQuery.of(context).size.width >= 800;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -24,7 +24,7 @@ class DownloadsScreen extends StatelessWidget {
       ),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: isDesktop ? 120 : 40),
+          padding: EdgeInsets.symmetric(horizontal: isTablet ? 120 : 40),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

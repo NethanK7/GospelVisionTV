@@ -113,17 +113,6 @@ class AppTheme {
 
   // Helper for generating the radial background decoration
   static BoxDecoration get radialBackground {
-    return BoxDecoration(
-      color: deepObsidian,
-      gradient: RadialGradient(
-        center: Alignment.topCenter,
-        radius: 1.5,
-        colors: [
-          primaryOrange.withValues(alpha: 0.05), // 5% Soft Glow at top
-          deepObsidian,
-        ],
-        stops: const [0.0, 0.7],
-      ),
-    );
+    return BoxDecoration(color: deepObsidian);
   }
 }

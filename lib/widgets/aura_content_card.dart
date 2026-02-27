@@ -85,18 +85,17 @@ class _AuraContentCardState extends State<AuraContentCard> {
           children: [
             // IMAGE CONTAINER
             AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
+              duration: const Duration(milliseconds: 300),
               curve: Curves.easeOutCubic,
               width: widget.width,
               height: widget.height,
-              transform: Matrix4.diagonal3Values(
-                _isHovered ? 1.05 : 1.0,
-                _isHovered ? 1.05 : 1.0,
-                1.0,
+              transform: Matrix4.translationValues(
+                0.0,
+                _isHovered ? -8.0 : 0.0,
+                0.0,
               ),
-              transformAlignment: Alignment.center,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: _isHovered
                       ? AppTheme.primaryOrange.withValues(alpha: 0.8)
@@ -106,87 +105,112 @@ class _AuraContentCardState extends State<AuraContentCard> {
                 boxShadow: _isHovered
                     ? [
                         BoxShadow(
-                          color: AppTheme.primaryOrange.withValues(alpha: 0.2),
-                          blurRadius: 15,
-                          spreadRadius: 2,
-                          offset: const Offset(0, 8),
+                          color: AppTheme.primaryOrange.withValues(alpha: 0.3),
+                          blurRadius: 25,
+                          spreadRadius: 4,
+                          offset: const Offset(0, 15),
                         ),
                       ]
                     : [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.5),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
+                          blurRadius: 10,
+                          offset: const Offset(0, 5),
                         ),
                       ],
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(
-                  6,
-                ), // Slightly smaller to fit inside border
+                borderRadius: BorderRadius.circular(18),
                 child: Hero(
                   tag: 'hero_${widget.content.id}',
-                  child: CachedNetworkImage(
-                    imageUrl: widget.isLarge
-                        ? widget.content.imageUrl
-                        : (widget.content.backdropUrl ??
-                              widget.content.imageUrl),
-                    fit: BoxFit.cover,
-                    memCacheWidth: widget.width.isFinite
-                        ? (widget.width *
-                                  MediaQuery.devicePixelRatioOf(context))
-                              .round()
-                        : null,
-                    placeholder: (context, url) => Container(
-                      color: AppTheme.deepObsidian,
-                      child: const Center(
-                        child: CircularProgressIndicator(
-                          color: AppTheme.textGrey,
-                          strokeWidth: 2,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      CachedNetworkImage(
+                        imageUrl: widget.isLarge
+                            ? widget.content.imageUrl
+                            : (widget.content.backdropUrl ??
+                                  widget.content.imageUrl),
+                        fit: BoxFit.cover,
+                        memCacheWidth: widget.width.isFinite
+                            ? (widget.width *
+                                      MediaQuery.devicePixelRatioOf(context))
+                                  .round()
+                            : null,
+                        placeholder: (context, url) => Container(
+                          color: AppTheme.deepObsidian,
+                          child: const Center(
+                            child: CircularProgressIndicator(
+                              color: AppTheme.textGrey,
+                              strokeWidth: 2,
+                            ),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          color: AppTheme.deepObsidian,
+                          child: const Icon(
+                            Icons.error,
+                            color: AppTheme.textGrey,
+                          ),
                         ),
                       ),
-                    ),
-                    errorWidget: (context, url, error) => Container(
-                      color: AppTheme.deepObsidian,
-                      child: const Icon(Icons.error, color: AppTheme.textGrey),
-                    ),
-                  ),
-                ),
-              ),
-            ),
 
-            // TITLE BELOW IMAGE (YouTube/Prime Style)
-            const SizedBox(height: 12),
-            SizedBox(
-              width: widget.width,
-              child: AnimatedDefaultTextStyle(
-                duration: const Duration(milliseconds: 200),
-                style: TextStyle(
-                  color: _isHovered ? AppTheme.offWhite : AppTheme.textGrey,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
-                  letterSpacing: -0.3,
-                ),
-                child: Text(
-                  widget.content.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            if (widget.content.isOriginal)
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  'GOSPELVISION ORIGINAL',
-                  style: TextStyle(
-                    color: AppTheme.primaryOrange.withValues(alpha: 0.8),
-                    fontSize: 9,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 1,
+                      // Inner Hover Details (Frosted Glass)
+                      AnimatedOpacity(
+                        duration: const Duration(milliseconds: 300),
+                        opacity: _isHovered ? 1.0 : 0.0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Colors.black.withValues(alpha: 0.9),
+                                Colors.transparent,
+                              ],
+                            ),
+                          ),
+                          alignment: Alignment.bottomLeft,
+                          padding: const EdgeInsets.all(12),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.content.title,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                if (widget.content.isOriginal)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 4),
+                                    child: Text(
+                                      'GOSPELVISION ORIGINAL',
+                                      style: TextStyle(
+                                        color: AppTheme.primaryOrange
+                                            .withValues(alpha: 0.9),
+                                        fontSize: 8,
+                                        fontWeight: FontWeight.w900,
+                                        letterSpacing: 1,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
+            ),
           ],
         ),
       ),

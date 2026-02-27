@@ -29,7 +29,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDesktop = MediaQuery.of(context).size.width >= 800;
+    final isTablet = MediaQuery.of(context).size.width >= 600;
     final controller = Provider.of<HomeController>(context);
     final profile = controller.profiles.isNotEmpty
         ? controller.profiles.first
@@ -38,17 +38,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       backgroundColor: AppTheme.deepObsidian,
       extendBodyBehindAppBar: true,
-      appBar: NetflixNavbar(
-        scrollController: _scrollController,
-        isDesktop: isDesktop,
-      ),
+      appBar: NetflixNavbar(scrollController: _scrollController),
       body: Container(
         decoration: AppTheme.radialBackground,
         child: SingleChildScrollView(
           controller: _scrollController,
           physics: const BouncingScrollPhysics(),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: isDesktop ? 60 : 16),
+            padding: EdgeInsets.symmetric(horizontal: isTablet ? 60 : 16),
             child:
                 Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         SizedBox(
                           height:
                               MediaQuery.of(context).padding.top +
-                              (isDesktop ? 100 : 80),
+                              (isTablet ? 100 : 80),
                         ),
                         // Header
                         Row(
