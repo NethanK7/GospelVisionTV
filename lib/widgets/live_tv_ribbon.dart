@@ -9,7 +9,7 @@ class LiveTvRibbon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.push('/live_tv/l01'), // Match route logically
+      onTap: () => context.go('/livetv'), // Switch to the Live TV tab
       child: Container(
         margin: const EdgeInsets.fromLTRB(20, 0, 20, 40),
         decoration: BoxDecoration(

@@ -138,17 +138,14 @@ class _CinematicBackdrop extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        // Hero Image
-        Hero(
-          tag: 'hero_${content.id}',
-          child: Image.network(
-            content.backdropUrl ?? content.imageUrl,
-            fit: BoxFit.cover,
-            alignment: Alignment.topCenter,
-            errorBuilder: (context, error, stackTrace) =>
-                Container(color: AppTheme.cardDark),
-          ),
-        ),
+        // Hero Image removed to prevent duplicate tag crashes across multiple grids
+        Image.network(
+          content.backdropUrl ?? content.imageUrl,
+          fit: BoxFit.cover,
+          alignment: Alignment.topCenter,
+          errorBuilder: (context, error, stackTrace) =>
+              Container(color: AppTheme.cardDark),
+        ).animate().fadeIn(duration: 800.ms),
 
         // Deep gradient fade-up into Obsidian
         Container(
